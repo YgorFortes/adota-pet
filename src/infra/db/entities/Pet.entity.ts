@@ -1,5 +1,5 @@
-import { PetSize } from '../../../enum/pet-size.enum';
-import { PetStatus } from '../../../enum/pet-status.enum';
+import { PetSize } from '../../../enum/petSize.enum';
+import { PetStatus } from '../../../enum/petStatus.enum';
 import {
   Column,
   Entity,
