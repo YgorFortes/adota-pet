@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   db:
     image: postgres:latest
@@ -21,6 +22,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src:/app/src
+      - /src/node_modules
     ports:
       - "3000:3000"
     environment:
