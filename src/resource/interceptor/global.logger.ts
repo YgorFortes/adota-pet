@@ -5,16 +5,17 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Observable, tap } from 'rxjs';
+import { RequestWithUser } from 'src/common/guards/Authentication.guard';
 
 @Injectable()
 export class GlobalLogger implements NestInterceptor {
   constructor(private logger: ConsoleLogger) {}
-  intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler<unknown>): Observable<unknown> {
     const contextHttp = context.switchToHttp();
 
-    const request = contextHttp.getRequest<Request>();
+    const request = contextHttp.getRequest<RequestWithUser>();
 
     const response = contextHttp.getResponse<Response>();
 
@@ -26,10 +27,9 @@ export class GlobalLogger implements NestInterceptor {
 
     return next.handle().pipe(
       tap(() => {
-        //to do when implements user
-        /*   if ('usuario' in request) { //quando tiver user 
-          this.logger.log(`Rota acessada pelo usuário: ${request.usuario.sub}`);
-        } */
+        if ('user' in request) {
+          this.logger.log(`Rota acessada pelo usuário: ${request.user.sub}`);
+        }
 
         const timeStamp = Date.now() - instantPreController;
 
