@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { roleUser } from '../../../enum/role-user.enum';
+import { UserRole } from '../../../enum/roleUser.enum';
 import { GuardianEntity } from './Guardian.entity';
 import { ShelterEntity } from './Shelter.entity';
 import { MessageEntity } from './Message.entity';
@@ -32,7 +32,7 @@ export class UserEntity {
   password: string;
 
   @Column({ name: 'role', length: 45, nullable: false })
-  role: roleUser;
+  role: UserRole;
 
   @Column({ name: 'photo', length: 255, nullable: true })
   photo: string;

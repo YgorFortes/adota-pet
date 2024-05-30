@@ -7,28 +7,28 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
+import { RequestWithUser } from 'src/common/guards/Authentication.guard';
 
 @Catch()
 export class ExepectionErrror implements ExceptionFilter {
   constructor(
     private adapterHost: HttpAdapterHost,
-    private loggerNativo: ConsoleLogger,
+    private logger: ConsoleLogger,
   ) {}
 
-  catch(exception: unknown, host: ArgumentsHost) {
-    this.loggerNativo.error(exception);
+  catch(exception: unknown, host: ArgumentsHost): void {
+    this.logger.error(exception);
     console.error(exception);
 
     const { httpAdapter } = this.adapterHost;
 
     const context = host.switchToHttp();
-    const request = context.getRequest();
+    const request = context.getRequest<RequestWithUser>();
     const response = context.getResponse();
 
-    // to do when user is implement
-    // if ('usuario' in request) {
-    //   this.loggerNativo.log(`Rota acessada pelo usuário ${request.usuario.sub}`);
-    // }
+    if ('user' in request) {
+      this.logger.log(`Rota acessada pelo usuário: ${request.user.sub}`);
+    }
 
     const { status, body } =
       exception instanceof HttpException
