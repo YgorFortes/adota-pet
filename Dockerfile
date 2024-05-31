@@ -16,12 +16,6 @@ COPY . .
 # Expõe a porta 3000
 EXPOSE 3000
 
-# Define as variáveis de ambiente
-ENV DB_USERNAME=postgres
-ENV DB_PASSWORD=aDfbcPxDyzckdGRj
-ENV DB_NAME=adota_pet
-ENV DB_HOST=localhost
-ENV DB_PORT=5432
 
 # Comando para rodar a aplicação
 CMD ["npm", "run", "start:dev"]
