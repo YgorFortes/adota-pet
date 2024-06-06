@@ -5,7 +5,7 @@ import { CreateUserController } from './controller/CreateUser.controller';
 import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
 import { UserRepository } from 'src/repositories/implementations/User.repository';
 import { CreateUserUseCase } from './CreateUser.useCase';
-import { RepositoryType } from 'src/enum/RepositoryType.enum';
+import { RepositoryType } from 'src/enum/repositoryType.enum';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
