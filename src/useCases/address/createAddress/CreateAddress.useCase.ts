@@ -5,12 +5,13 @@ import { ICreateAddressDto } from './dtos/ICreateAddress.useCase.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Address } from 'src/entities/Address.entity';
 import { IAddressCepFinderProvider } from '../findAddressByCep/interface/IAddressCepFinder.provider';
+import { Provide } from 'src/enum/provider.enum';
 
 @Injectable()
 export class CreateAddressUseCase {
   constructor(
     @Inject(RepositoryType.IAddressRepository) private addressRepository: IAddressRepository,
-    @Inject('IAddressCepFinderProvider')
+    @Inject(Provide.IAddressCepFinderProvider)
     private addressCepFinderProvider: IAddressCepFinderProvider,
   ) {}
 
