@@ -24,8 +24,14 @@ export class AddressEntity {
   @Column({ name: 'state', length: 45, nullable: false })
   state: string;
 
-  @Column({ name: 'square', length: 45, nullable: false })
-  square: string;
+  @Column({ name: 'street', length: 45, nullable: false })
+  street: string;
+
+  @Column({ name: 'complement', length: 45, nullable: true })
+  complement: string;
+
+  @Column({ name: 'neighborhood', length: 45, nullable: false })
+  neighborhood: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
   createdAt: Date;
