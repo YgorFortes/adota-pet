@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreateUserDtoController } from '../dtos/CreateUser.controller.dto';
+import { CreateUserControllerDto } from '../dtos/CreateUser.controller.dto';
 import { CreateUserUseCase } from '../CreateUser.useCase';
 import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
 import { User } from 'src/entities/User.entity';
@@ -10,7 +10,7 @@ export class CreateUserController {
 
   @Post()
   async handle(
-    @Body() userDto: CreateUserDtoController,
+    @Body() userDto: CreateUserControllerDto,
     @Body('password', HashPasswordPipe) hashedPassword: string,
   ): Promise<{ message: string; user: User }> {
     const userSaved = await this.createUserUseCase.execute({
