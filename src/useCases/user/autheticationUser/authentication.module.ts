@@ -6,8 +6,9 @@ import { AuthenticationUserController } from './controller/AuthenticationUser.co
 import { ConfigService } from '@nestjs/config';
 import { AuthenticationUserUseCase } from './AuthenticationUser.useCase';
 import { UserRepository } from 'src/repositories/implementations/User.repository';
-import { FindUserByEmailModule } from '../findEmailByemail/findByEmail.module';
-import { RepositoryType } from 'src/enum/RepositoryType.enum';
+
+import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { FindUserByEmailModule } from '../findEmailByemail/findUserByEmail.module';
 
 @Module({
   imports: [
