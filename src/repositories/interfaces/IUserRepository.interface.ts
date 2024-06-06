@@ -5,4 +5,5 @@ export interface IUserRepository {
   save(data: ICreateUserDTO): Promise<User>;
   findByEmail(email: string): Promise<User>;
   findById(id: string): Promise<User>;
+  findUserGuardianAssociation(id: string): Promise<User>;
 }

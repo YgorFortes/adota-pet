@@ -19,7 +19,7 @@ export class MatchPasswordConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage(): string {
-    return 'As senhas não coincidem';
+    return 'As senhas não coincidem.';
   }
 }
 

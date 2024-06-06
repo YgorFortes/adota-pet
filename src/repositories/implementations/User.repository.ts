@@ -44,4 +44,13 @@ export class UserRepository implements IUserRepository {
 
     return user;
   }
+
+  async findUserGuardianAssociation(id: string): Promise<User> {
+    const userGuadianAssociation = await this.userRepository.findOne({
+      where: { id },
+      relations: ['guardian'],
+    });
+
+    return userGuadianAssociation;
+  }
 }

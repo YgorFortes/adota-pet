@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { IAuthenticationDto } from './dtos/AuthenticationUser.useCase.dto';
+import { IAuthenticationUserDto } from './dtos/IAuthenticationUser.useCase.dto';
 import { FindUserByEmailUseCase } from '../findEmailByemail/FindUserByEmail.useCase';
 
 import * as bcript from 'bcrypt';
@@ -17,7 +17,7 @@ export class AuthenticationUserUseCase {
     private readonly jtwService: JwtService,
   ) {}
 
-  async execute(authenticationDto: IAuthenticationDto): Promise<{ token: string }> {
+  async execute(authenticationDto: IAuthenticationUserDto): Promise<{ token: string }> {
     const user = await this.findUserByEmailUseCase.execute(authenticationDto.email);
 
     const checkPassWord = await bcript.compare(authenticationDto.password, user.password);

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+
 import { UserRepository } from 'src/repositories/implementations/User.repository';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
-import { FindUserByEmailUseCase } from './FindUserByEmail.useCase';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/infra/db/entities/User.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { VerifyUserGuardianUseCase } from './VerifyUserGuardian.useCase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -13,8 +14,9 @@ import { UserEntity } from 'src/infra/db/entities/User.entity';
       provide: RepositoryType.IUserRepository,
       useClass: UserRepository,
     },
-    FindUserByEmailUseCase,
+    VerifyUserGuardianUseCase,
   ],
-  exports: [FindUserByEmailUseCase],
+
+  exports: [VerifyUserGuardianUseCase],
 })
-export class FindUserByEmailModule {}
+export class VerifyUserGuardianModule {}

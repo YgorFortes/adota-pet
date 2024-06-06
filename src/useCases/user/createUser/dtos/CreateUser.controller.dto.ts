@@ -12,10 +12,11 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { MatchPassword } from 'src/helpers/decoratorsValidators/passwordConfirm.decorator';
+import { MatchPassword } from 'src/common/helpers/decoratorsValidators/passwordConfirm.decorator';
+
 import { UserRole } from 'src/enum/roleUser.enum';
 
-export class CreateUserDtoController {
+export class CreateUserControllerDto {
   @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsNotEmpty({ message: 'name não pode ser vazio.' })
   @IsString({ message: 'name deve ser uma string.' })

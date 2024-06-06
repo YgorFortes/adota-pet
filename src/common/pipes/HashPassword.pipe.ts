@@ -1,4 +1,4 @@
-import { Injectable, PipeTransform } from '@nestjs/common';
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 
@@ -14,7 +14,7 @@ export class HashPasswordPipe implements PipeTransform {
 
       return hashedPassword;
     } catch (error) {
-      console.log(error);
+      throw new BadRequestException('Não foi possível criar uma hash do password');
     }
   }
 }
