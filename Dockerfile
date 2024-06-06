@@ -16,5 +16,6 @@ COPY . .
 # Expõe a porta 3000
 EXPOSE 3000
 
+
 # Comando para rodar a aplicação
 CMD ["npm", "run", "start:dev"]
