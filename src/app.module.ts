@@ -11,11 +11,13 @@ import { PostgresConfig } from './infra/config/Db.config';
 import { ConfigModule } from '@nestjs/config';
 import { GuardianModule } from './useCases/guardian/guadian.module';
 import { UserModule } from './useCases/user/user.module';
+import { AddressModule } from './useCases/address/address.module';
 
 @Module({
   imports: [
     GuardianModule,
     UserModule,
+    AddressModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
