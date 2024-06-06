@@ -1,4 +1,4 @@
-import { RepositoryType } from 'src/enum/RepositoryType.enum';
+import { RepositoryType } from 'src/enum/repositoryType.enum';
 import { IAddressRepository } from 'src/repositories/interfaces/IAddressRepository.interface';
 import { ICreateAddressDto } from './dtos/ICreateAddress.useCase.dto';
 
