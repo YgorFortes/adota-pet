@@ -7,24 +7,22 @@ import { IRouteInfo } from '../interfaces/IRouterInfo.interface';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
 
 @Injectable()
-export class RoleUserGuard implements CanActivate {
+export class ShelterPermition implements CanActivate {
   constructor(private findUserById: FindUserByIdUseCase) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<IRequestWithUser>();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [__, routePath] = context.switchToHttp().getRequest<IRouteInfo>().route.path.split('/');
 
-    const allowedRoles: Array<UserRole> = [UserRole.GUARDIAN, UserRole.SHELTER];
-
     if ('user' in request) {
       const userId = request.user.sub;
       const user = await this.findUserById.execute(userId);
-      if (allowedRoles.includes(user.role) && user.role === routePath) {
+      if (user.role === UserRole.SHELTER) {
         return true;
       }
 
       throw new ForbiddenException(
-        `O usuário ${user.name}, id: ${user.id} não tem acesso a rota: ${routePath}`,
+        `O usuário ${user.name}, id: ${user.id} não tem acesso a rota: GET ${routePath}`,
       );
     }
   }
