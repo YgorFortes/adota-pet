@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { Observable, tap } from 'rxjs';
-import { RequestWithUser } from 'src/common/guards/Authentication.guard';
+import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 
 @Injectable()
 export class GlobalLogger implements NestInterceptor {
@@ -15,7 +15,7 @@ export class GlobalLogger implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler<unknown>): Observable<unknown> {
     const contextHttp = context.switchToHttp();
 
-    const request = contextHttp.getRequest<RequestWithUser>();
+    const request = contextHttp.getRequest<IRequestWithUser>();
 
     const response = contextHttp.getResponse<Response>();
 
