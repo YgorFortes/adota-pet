@@ -2,21 +2,17 @@ import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@
 
 import { UserRole } from 'src/enum/roleUser.enum';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
-import { RequestWithUser } from './Authentication.guard';
 
-interface RouteInfo {
-  route: {
-    path: string;
-  };
-}
+import { IRouteInfo } from '../interfaces/IRouterInfo.interface';
+import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
 
 @Injectable()
 export class RoleUserGuard implements CanActivate {
   constructor(private findUserById: FindUserByIdUseCase) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<RequestWithUser>();
+    const request = context.switchToHttp().getRequest<IRequestWithUser>();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [__, routePath] = context.switchToHttp().getRequest<RouteInfo>().route.path.split('/');
+    const [__, routePath] = context.switchToHttp().getRequest<IRouteInfo>().route.path.split('/');
 
     const allowedRoles: Array<UserRole> = [UserRole.GUARDIAN, UserRole.SHELTER];
 
