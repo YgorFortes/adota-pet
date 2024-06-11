@@ -5,9 +5,10 @@ import { FindAllGuardiansController } from './controller/FindAllGuardians.contro
 import { RepositoryType } from 'src/enum/repositoryType.enum';
 import { GuardianRepository } from 'src/repositories/implementations/Guardian.repostory';
 import { FindAllGuardiansUseCase } from './FindAllGuardians.useCase';
+import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([GuardianEntity])],
+  imports: [TypeOrmModule.forFeature([GuardianEntity]), FindUserByIdModule],
   controllers: [FindAllGuardiansController],
   providers: [
     FindAllGuardiansUseCase,
