@@ -7,7 +7,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { RequestWithUser } from 'src/common/guards/Authentication.guard';
+import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 
 @Catch()
 export class ExepectionErrror implements ExceptionFilter {
@@ -23,7 +23,7 @@ export class ExepectionErrror implements ExceptionFilter {
     const { httpAdapter } = this.adapterHost;
 
     const context = host.switchToHttp();
-    const request = context.getRequest<RequestWithUser>();
+    const request = context.getRequest<IRequestWithUser>();
     const response = context.getResponse();
 
     if ('user' in request) {
