@@ -4,10 +4,11 @@ import { FindAllGuardiansControllerDto } from '../dtos/FindAllGuardians.controll
 import { FindAllGuardiansUseCase } from '../FindAllGuardians.useCase';
 import { Guardian } from 'src/entities/Guardian.entity';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
+import { ShelterPermition } from 'src/common/guards/ShelterPermission.guard';
 
 @Controller('guardian')
 //TODO tem que ser shelter para ohar essa rota
-@UseGuards(AuthenticationGuard)
+@UseGuards(AuthenticationGuard, ShelterPermition)
 export class FindAllGuardiansController {
   constructor(private findAllGuardiansUseCase: FindAllGuardiansUseCase) {}
   @Get()
