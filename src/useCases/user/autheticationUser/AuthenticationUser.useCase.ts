@@ -4,11 +4,7 @@ import { IAuthenticationUserDto } from './dtos/IAuthenticationUser.useCase.dto';
 import { FindUserByEmailUseCase } from '../findEmailByemail/FindUserByEmail.useCase';
 
 import * as bcript from 'bcrypt';
-
-export interface IPayLoad {
-  sub: string;
-  nameUser: string;
-}
+import { IPayLoad } from 'src/common/interfaces/IPayLoad.interface';
 
 @Injectable()
 export class AuthenticationUserUseCase {
