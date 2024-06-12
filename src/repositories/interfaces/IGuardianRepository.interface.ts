@@ -5,4 +5,5 @@ import { IFindAllGuardiansUseCaseDto } from 'src/useCases/guardian/findAllGuardi
 export interface IGuardianRepository {
   save(data: Guardian): Promise<Guardian>;
   findAllGuardians(pagination: IFindAllGuardiansUseCaseDto): Promise<IPagination<Guardian>>;
+  findGuardianById(id: string): Promise<Guardian>;
 }
