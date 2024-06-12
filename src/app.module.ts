@@ -12,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GuardianModule } from './useCases/guardian/guadian.module';
 import { UserModule } from './useCases/user/user.module';
 import { AddressModule } from './useCases/address/address.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AddressModule } from './useCases/address/address.module';
       useClass: PostgresConfig,
       inject: [PostgresConfig],
     }),
+    CacheModule.register({ isGlobal: true, ttl: 10000 }),
   ],
   controllers: [AppController],
   providers: [
