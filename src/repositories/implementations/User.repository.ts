@@ -4,7 +4,8 @@ import { User } from 'src/entities/User.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/infra/db/entities/User.entity';
 import { Repository } from 'typeorm';
-import { ICreateUserDTO } from 'src/useCases/user/createUser/dtos/ICreateUser.useCase.dto';
+import { ICreateUserUseCaseDTO } from 'src/useCases/user/createUser/dtos/ICreateUser.useCase.dto';
+import { IUpdateUserUseCaseDto } from 'src/useCases/user/updateUser/dtos/IUpdateUser.useCase.dto';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -22,17 +23,6 @@ export class UserRepository implements IUserRepository {
     return user;
   }
 
-  async save(dataUser: ICreateUserDTO): Promise<User> {
-    const savedUser = await this.userRepository.save(dataUser);
-
-    const user = new User({ ...savedUser });
-
-    const userNew = { ...user };
-
-    delete userNew.password;
-    return userNew;
-  }
-
   async findByEmail(email: string): Promise<User | null> {
     const userFound = await this.userRepository.findOne({ where: { email } });
 
@@ -45,12 +35,38 @@ export class UserRepository implements IUserRepository {
     return user;
   }
 
-  async findUserGuardianAssociation(id: string): Promise<User> {
+  async verifyIfEmailIsUnique(email: string): Promise<boolean> {
+    const emailIsUnique = await this.userRepository.findOne({ where: { email } });
+
+    return !emailIsUnique;
+  }
+
+  async save(dataUser: ICreateUserUseCaseDTO): Promise<User> {
+    const savedUser = await this.userRepository.save(dataUser);
+
+    const user = new User({ ...savedUser });
+
+    const userNew = { ...user };
+
+    delete userNew.password;
+    return userNew;
+  }
+
+  async findUserGuardianAndAddressAssociation(id: string): Promise<User> {
     const userGuadianAssociation = await this.userRepository.findOne({
       where: { id },
-      relations: ['guardian'],
+      relations: ['guardian', 'guardian.address'],
     });
 
     return userGuadianAssociation;
+  }
+
+  async updateUser(id: string, updateUserDto: IUpdateUserUseCaseDto): Promise<User> {
+    const result = await this.userRepository.update({ id }, { ...updateUserDto });
+
+    if (result.affected > 0) {
+      const user = await this.userRepository.findOne({ where: { id } });
+      return user;
+    }
   }
 }
