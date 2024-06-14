@@ -8,13 +8,13 @@ import { CreateGuadianController } from './controller/CreateGuardian.controller'
 import { RepositoryType } from 'src/enum/repositoryType.enum';
 
 import { CreateAddressModule } from 'src/useCases/address/createAddress/createArdress.module';
-import { VerifyUserGuardianModule } from 'src/useCases/user/VerifyUserGuardian/verifyUserGuardian.module';
+import { VerifyUserAssociationModule } from 'src/useCases/user/VerifyUserGuardian/verifyUserAssociation.module';
 import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([GuardianEntity]),
-    VerifyUserGuardianModule,
+    VerifyUserAssociationModule,
     CreateAddressModule,
     FindUserByIdModule,
   ],
