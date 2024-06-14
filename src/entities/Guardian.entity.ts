@@ -10,7 +10,7 @@ type propsGuardian = {
 
   address: Address;
 
-  user: User;
+  user: Omit<User, 'password'>;
 
   createdAt?: Date;
 
@@ -28,7 +28,7 @@ export class Guardian {
 
   public readonly address: Address;
 
-  public readonly user: User;
+  public readonly user: Omit<User, 'password'>;
 
   public createdAt?: Date;
 
