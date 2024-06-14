@@ -1,5 +1,6 @@
 import { Transform, TransformFnParams } from 'class-transformer';
 import {
+  IsDefined,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -13,6 +14,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { MatchPassword } from 'src/common/helpers/decoratorsValidators/passwordConfirm.decorator';
+import { PasswordIsTyped } from 'src/common/helpers/decoratorsValidators/passwordIsTyped.decorator';
 
 import { UserRole } from 'src/enum/roleUser.enum';
 
@@ -30,6 +32,7 @@ export class CreateUserControllerDto {
   readonly email: string;
 
   @Transform(({ value }: TransformFnParams) => value?.trim())
+  @PasswordIsTyped()
   @IsString({ message: 'password deve ser uma string.' })
   @IsNotEmpty({ message: 'password não pode ser vazio.' })
   @Matches(/^[^\s]+$/, { message: 'password não pode conter espaços entre os caracteres.' })
@@ -42,6 +45,7 @@ export class CreateUserControllerDto {
   readonly password: string;
 
   @Transform(({ value }: TransformFnParams) => value?.trim())
+  @IsDefined({ message: 'confirmPassword é obrigatório quando password é fornecido.' })
   @MatchPassword('password', { message: 'As senhas não coincidem' })
   @MaxLength(60, { message: 'O confirmPassword não pode ter mais de 60 caracteres.' })
   readonly confirmPassword: string;

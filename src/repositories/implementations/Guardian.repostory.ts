@@ -5,10 +5,9 @@ import { GuardianEntity } from 'src/infra/db/entities/Guardian.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { ICreateGuardianUseCaseDto } from 'src/useCases/guardian/createGuardian/dtos/ICreateGuardian.UseCase.dto';
 import { IFindAllGuardiansUseCaseDto } from 'src/useCases/guardian/findAllGuardians/dtos/IFindAllGuardins.useCase.dto';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
-import { PetEntity } from 'src/infra/db/entities/Pet.entity';
+import { IUpdateGuardianUseCaseDto } from 'src/useCases/guardian/updateGuardian/dtos/IUpdateGuardian.useCase.dto';
 
 @Injectable()
 export class GuardianRepository implements IGuardianRepository {
@@ -69,9 +68,19 @@ export class GuardianRepository implements IGuardianRepository {
       const guardianCreated = await transEntityManager.save(guardianEntity);
 
       const guardiansFormatted = this.formatGuardianProperties(guardianCreated);
-
       return guardiansFormatted;
     });
+  }
+
+  async updateGuardian(
+    id: string,
+    updateGuardianDto: IUpdateGuardianUseCaseDto,
+  ): Promise<Guardian> {
+    const result = await this.guardianRepository.update({ id }, { ...updateGuardianDto });
+
+    if (result.affected > 0) {
+      return this.findGuardianById(id);
+    }
   }
 
   private formatGuardianProperties(guadian: GuardianEntity): Guardian {
@@ -80,6 +89,7 @@ export class GuardianRepository implements IGuardianRepository {
     }
 
     const { id, user, about, birthDate, address, pets, createdAt, updatedAt, deletedAt } = guadian;
+    delete user.password;
 
     const guardianWithPet = {
       id,

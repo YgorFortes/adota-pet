@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { RoleUserGuard } from 'src/common/guards/RoleUser.guard';
-import { GuardianCrontollerDto } from '../dtos/CreateGuardian.controller.dto';
+import { CreateGuardianCrontollerDto } from '../dtos/CreateGuardian.controller.dto';
 import { CreateGuardianUseCase } from '../CreateGuardian.userCase';
 import { Guardian } from 'src/entities/Guardian.entity';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
@@ -12,7 +12,7 @@ export class CreateGuadianController {
   constructor(private createGuardianUseCase: CreateGuardianUseCase) {}
   @Post()
   async handle(
-    @Body() guardianDto: GuardianCrontollerDto,
+    @Body() guardianDto: CreateGuardianCrontollerDto,
     @Request() request: IRequestWithUser,
   ): Promise<{ message: string; guardian: Guardian }> {
     const idUser = request.user.sub;

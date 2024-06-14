@@ -6,7 +6,7 @@ import { isBeforeCurrentDate } from 'src/common/helpers/decoratorsValidators/isB
 import { CreateAddressControllerDto } from 'src/useCases/address/createAddress/dtos/CreateAddress.controller.dto';
 import { IsLegalAge } from 'src/common/helpers/decoratorsValidators/isLegalAge.decorator';
 
-export class GuardianCrontollerDto {
+export class CreateGuardianCrontollerDto {
   @Transform(trimString)
   @IsOptional()
   @IsString({ message: 'about deve ser uma string.' })

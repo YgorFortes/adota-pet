@@ -14,7 +14,6 @@ export class FindGuardianByIdController {
   @UseInterceptors(CacheInterceptor)
   @Get(':id')
   async handle(@Param() params: FindAllGuardiansControllerDto): Promise<Guardian> {
-    console.log('Entrou');
     const guardian = await this.findGuardianByIdUseCase.execute(params.id);
     return guardian;
   }
