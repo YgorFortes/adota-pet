@@ -1,6 +1,6 @@
 import { UserRole } from 'src/enum/roleUser.enum';
 
-export interface ICreateUserDTO {
+export interface ICreateUserUseCaseDTO {
   name: string;
 
   email: string;
