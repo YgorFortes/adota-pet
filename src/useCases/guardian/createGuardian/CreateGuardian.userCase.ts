@@ -5,7 +5,7 @@ import { ICreateGuardianUseCaseDto } from './dtos/ICreateGuardian.UseCase.dto';
 import { Guardian } from 'src/entities/Guardian.entity';
 import { CreateAddressUseCase } from 'src/useCases/address/createAddress/CreateAddress.useCase';
 import { Inject, Injectable } from '@nestjs/common';
-import { VerifyUserGuardianUseCase } from 'src/useCases/user/VerifyUserGuardian/VerifyUserGuardian.useCase';
+import { VerifyUserAssociationUseCase } from 'src/useCases/user/VerifyUserGuardian/VerifyUserAssociation.useCase';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class CreateGuardianUseCase {
   constructor(
     @Inject(RepositoryType.IGuardianRepository) private guardianRepository: IGuardianRepository,
     private createAddressUseCase: CreateAddressUseCase,
-    private verifyUserGuardianUseCase: VerifyUserGuardianUseCase,
+    private verifyUserGuardianUseCase: VerifyUserAssociationUseCase,
     private findUserByIdUseCase: FindUserByIdUseCase,
   ) {}
 
@@ -22,7 +22,7 @@ export class CreateGuardianUseCase {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [__, user] = await Promise.all([
-      this.verifyUserGuardianUseCase.execute(idUser),
+      this.verifyUserGuardianUseCase.verifyUserAssociationWithGuardian(idUser),
       this.findUserByIdUseCase.execute(idUser),
     ]);
 
