@@ -47,6 +47,10 @@ export class GuardianRepository implements IGuardianRepository {
       relations: ['user', 'address'],
     });
 
+    if (!guardian) {
+      return null;
+    }
+
     const guardiansFormatted = this.formatGuardianProperties(guardian);
 
     return guardiansFormatted;
@@ -83,12 +87,40 @@ export class GuardianRepository implements IGuardianRepository {
     }
   }
 
-  private formatGuardianProperties(guadian: GuardianEntity): Guardian {
-    if (!guadian) {
+  async deleteGuardian(id: string, transactionalEntityManager?: EntityManager): Promise<boolean> {
+    const entityManager = transactionalEntityManager || this.entityManager;
+
+    const guardian = await this.guardianRepository.findOne({
+      where: { id },
+      relations: ['user', 'address'],
+    });
+
+    await entityManager.transaction(async transEntityManager => {
+      const promiseRemoveAdrress = transEntityManager.remove(guardian.address);
+
+      const promiseRemoveUser = transEntityManager.remove(guardian.user);
+
+      const promiseRemoveGuardian = transEntityManager.remove(guardian);
+
+      const [__] = await Promise.all([
+        promiseRemoveAdrress,
+        promiseRemoveUser,
+        promiseRemoveGuardian,
+      ]);
+    });
+
+    const guadianDeleted = await this.findGuardianById(id);
+
+    return !guadianDeleted;
+  }
+
+  // To do called GuardianEntity  when guardian Message receveid Message
+  private formatGuardianProperties(guardian: GuardianEntity): Guardian {
+    if (!guardian) {
       return null;
     }
 
-    const { id, user, about, birthDate, address, pets, createdAt, updatedAt, deletedAt } = guadian;
+    const { id, user, about, birthDate, address, pets, createdAt, updatedAt, deletedAt } = guardian;
     delete user.password;
 
     const guardianWithPet = {

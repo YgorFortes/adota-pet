@@ -8,4 +8,5 @@ export interface IGuardianRepository {
   findAllGuardians(pagination: IFindAllGuardiansUseCaseDto): Promise<IPagination<Guardian>>;
   findGuardianById(id: string): Promise<Guardian>;
   updateGuardian(id: string, updateGuardianDto: IUpdateGuardianUseCaseDto): Promise<Guardian>;
+  deleteGuardian(id: string): Promise<boolean>;
 }
