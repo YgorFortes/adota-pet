@@ -6,7 +6,8 @@ import { UpdateUserUseCase } from 'src/useCases/user/updateUser/UpdateUser.useCa
 import { VerifyUserAssociationUseCase } from 'src/useCases/user/VerifyUserGuardian/VerifyUserAssociation.useCase';
 import { Guardian } from 'src/entities/Guardian.entity';
 import { UpdateAddressUseCase } from 'src/useCases/address/updateAddress/UpdateAddress.useCase';
-import { IUserWithGuardian } from 'src/common/interfaces/IUserWithGuardian';
+import { IUserWithAssociation } from 'src/common/interfaces/IUserWithAssociation';
+import { userAssociation } from 'src/enum/userAssociation.enum';
 
 @Injectable()
 export class UpdateGuardianUseCase {
@@ -20,11 +21,14 @@ export class UpdateGuardianUseCase {
   async execute(idUser: string, updateGuardianDto: IUpdateGuardianUseCaseDto): Promise<Guardian> {
     const { about, birthDate } = updateGuardianDto;
 
-    const userAssociation: IUserWithGuardian =
-      await this.verifyUserAssociationUseCase.findAssociantionWithUser(idUser);
+    const userAssociationGuardian: IUserWithAssociation =
+      await this.verifyUserAssociationUseCase.findAssociantionWithUser(
+        idUser,
+        userAssociation.GUARDIAN,
+      );
 
     const guardianUpdatedPromisse = this.guardianRepository.updateGuardian(
-      userAssociation.guardian.id,
+      userAssociationGuardian.guardian.id,
       {
         about,
         birthDate,
@@ -37,7 +41,7 @@ export class UpdateGuardianUseCase {
 
     const addressUpdatedPromisse = updateGuardianDto.address
       ? this.updateAddressUseCase.execute(
-          userAssociation.guardian.address.id,
+          userAssociationGuardian.guardian.address.id,
           updateGuardianDto.address,
         )
       : null;
