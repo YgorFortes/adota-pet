@@ -13,12 +13,14 @@ import { GuardianModule } from './useCases/guardian/guadian.module';
 import { UserModule } from './useCases/user/user.module';
 import { AddressModule } from './useCases/address/address.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ShelterModule } from './useCases/shelter/shelter.module';
 
 @Module({
   imports: [
     GuardianModule,
     UserModule,
     AddressModule,
+    ShelterModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
