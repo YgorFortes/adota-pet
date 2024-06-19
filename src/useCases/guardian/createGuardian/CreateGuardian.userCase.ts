@@ -7,6 +7,7 @@ import { CreateAddressUseCase } from 'src/useCases/address/createAddress/CreateA
 import { Inject, Injectable } from '@nestjs/common';
 import { VerifyUserAssociationUseCase } from 'src/useCases/user/VerifyUserGuardian/VerifyUserAssociation.useCase';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
+import { userAssociation } from 'src/enum/userAssociation.enum';
 
 @Injectable()
 export class CreateGuardianUseCase {
@@ -22,7 +23,10 @@ export class CreateGuardianUseCase {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [__, user] = await Promise.all([
-      this.verifyUserGuardianUseCase.verifyUserAssociationWithGuardian(idUser),
+      this.verifyUserGuardianUseCase.verifyUserAssociationWithGuardianOrShelter(
+        idUser,
+        userAssociation.GUARDIAN,
+      ),
       this.findUserByIdUseCase.execute(idUser),
     ]);
 

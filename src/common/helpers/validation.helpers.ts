@@ -10,7 +10,7 @@ export const isCepMissing = (address: Address, __: unknown): boolean => {
 };
 
 export const trimString = ({ value }: TransformFnParams): string => {
-  if (value) {
+  if (value && typeof value === 'string') {
     return value.trim();
   }
 };

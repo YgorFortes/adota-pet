@@ -6,6 +6,7 @@ import { UserEntity } from 'src/infra/db/entities/User.entity';
 import { Repository } from 'typeorm';
 import { ICreateUserUseCaseDTO } from 'src/useCases/user/createUser/dtos/ICreateUser.useCase.dto';
 import { IUpdateUserUseCaseDto } from 'src/useCases/user/updateUser/dtos/IUpdateUser.useCase.dto';
+import { userAssociation } from 'src/enum/userAssociation.enum';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -52,10 +53,10 @@ export class UserRepository implements IUserRepository {
     return userNew;
   }
 
-  async findUserGuardianAndAddressAssociation(id: string): Promise<User> {
+  async findUserWithAssociation(id: string, associantion: userAssociation): Promise<User> {
     const userGuadianAssociation = await this.userRepository.findOne({
       where: { id },
-      relations: ['guardian', 'guardian.address'],
+      relations: [`${associantion}`, `${associantion}.address`],
     });
 
     return userGuadianAssociation;
