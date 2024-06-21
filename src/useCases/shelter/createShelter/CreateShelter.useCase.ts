@@ -7,7 +7,6 @@ import { VerifyUserAssociationUseCase } from 'src/useCases/user/VerifyUserGuardi
 import { userAssociation } from 'src/enum/userAssociation.enum';
 import { CreateAddressUseCase } from 'src/useCases/address/createAddress/CreateAddress.useCase';
 import { Shelter } from 'src/entities/Shelter.entity';
-import { EntityManager } from 'typeorm';
 
 @Injectable()
 export class CreateShelterUseCase {
@@ -16,7 +15,6 @@ export class CreateShelterUseCase {
     private findUserByIdUseCase: FindUserByIdUseCase,
     private verifyUserAssociationUseCase: VerifyUserAssociationUseCase,
     private createAddressUseCase: CreateAddressUseCase,
-    private readonly entityManage: EntityManager,
   ) {}
 
   async execute(shelterDto: ICreateShelterUseCaseDto): Promise<Shelter> {
@@ -31,28 +29,19 @@ export class CreateShelterUseCase {
       ),
     ]);
 
-    const shelter = await this.entityManage.transaction(async transactionalEntityManager => {
-      const addresCreated = await this.createAddressUseCase.execute(
-        address,
-        transactionalEntityManager,
-      );
+    const addresCreated = await this.createAddressUseCase.execute(address);
 
-      const shelter = new Shelter({
-        abbout,
-        webSite,
-        workingHours,
-        address: addresCreated,
-        user,
-      });
-
-      const shelterCreated = await this.shelterReposiotory.save(
-        shelter,
-        transactionalEntityManager,
-      );
-
-      return shelterCreated;
+    const shelter = new Shelter({
+      abbout,
+      webSite,
+      workingHours,
+      address: addresCreated,
+      user,
     });
 
-    return shelter;
+    throw new Error('Error');
+    const shelterCreated = await this.shelterReposiotory.save(shelter);
+
+    return shelterCreated;
   }
 }

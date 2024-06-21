@@ -1,34 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { IShelterRepository } from '../interfaces/IShelterRepository.interface';
 import { Shelter } from 'src/entities/Shelter.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { ShelterEntity } from 'src/infra/db/entities/Shelter.entity';
+import { BaseRepository } from '../BaseRepository';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 
-@Injectable()
-export class ShelterRepository implements IShelterRepository {
-  constructor(
-    @InjectRepository(ShelterEntity)
-    private readonly shelterRepository: Repository<ShelterEntity>,
-    private readonly entityManager: EntityManager,
-  ) {}
+@Injectable({ scope: Scope.REQUEST })
+export class ShelterRepository extends BaseRepository implements IShelterRepository {
+  constructor(dataSource: DataSource, @Inject(REQUEST) request: Request) {
+    super(dataSource, request);
+  } // private readonly shelterRepository: Repository<ShelterEntity>, // @InjectRepository(ShelterEntity)
 
-  save(shelterdto: Shelter, transactionalEntityManager?: EntityManager): Promise<Shelter> {
-    const entityManager = transactionalEntityManager || this.entityManager;
-    return entityManager.transaction(async transEntityManager => {
-      const shelterEntity = transEntityManager.create(ShelterEntity, {
-        about: shelterdto.about,
-        webSite: shelterdto.webSite,
-        workingHours: shelterdto.workingHours,
-        address: shelterdto.address,
-        user: shelterdto.user,
-      });
+  async save(shelterdto: Shelter): Promise<Shelter> {
+    const shelterRepository = this.getRepository(ShelterEntity);
+    const shelterCreated = await shelterRepository.save(shelterdto);
 
-      const shelterCreated = await transEntityManager.save(shelterEntity);
-
-      const shelterFormated = this.formatShelterProperties(shelterCreated);
-      return shelterFormated;
-    });
+    const shelterFormated = this.formatShelterProperties(shelterCreated);
+    return shelterFormated;
   }
 
   private formatShelterProperties(shelter: ShelterEntity): Shelter {
