@@ -39,7 +39,6 @@ export class CreateShelterUseCase {
       user,
     });
 
-    throw new Error('Error');
     const shelterCreated = await this.shelterReposiotory.save(shelter);
 
     return shelterCreated;
