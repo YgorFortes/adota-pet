@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
 
-export class FindAllGuardiansControllerDto {
+export class FindAllPaginationControllerDto {
   @Type(() => Number)
   @IsInt({ message: 'page deve ser um número inteiro.' })
   @Min(1, { message: 'O valor mínimo para a page é 1.' })
