@@ -7,7 +7,6 @@ export const ENTITY_MANAGER_KEY = 'ENTITY_MANAGER';
 
 @Injectable()
 export class TransactionInterceptor implements NestInterceptor {
-  // to do = dataSource
   constructor(private dataSource: DataSource) {}
   async intercept(
     context: ExecutionContext,
