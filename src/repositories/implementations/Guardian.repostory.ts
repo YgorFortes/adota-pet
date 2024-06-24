@@ -2,13 +2,15 @@
 import { Guardian } from 'src/entities/Guardian.entity';
 import { IGuardianRepository } from '../interfaces/IGuardianRepository.interface';
 import { GuardianEntity } from 'src/infra/db/entities/Guardian.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, EntityManager, Repository } from 'typeorm';
-import { Inject, Injectable } from '@nestjs/common';
-import { IFindAllGuardiansUseCaseDto } from 'src/useCases/guardian/findAllGuardians/dtos/IFindAllGuardins.useCase.dto';
-import { IPagination } from 'src/common/interfaces/IPagination.interface';
+
+import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
 import { IUpdateGuardianUseCaseDto } from 'src/useCases/guardian/updateGuardian/dtos/IUpdateGuardian.useCase.dto';
+import { IPagination } from 'src/common/interfaces/IPagination.interface';
+
 import { BaseRepository } from './BaseRepository';
+
+import { DataSource } from 'typeorm';
+import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 
@@ -21,7 +23,7 @@ export class GuardianRepository
     super(GuardianEntity, dataSource, request);
   }
 
-  async findAllGuardians(pagination: IFindAllGuardiansUseCaseDto): Promise<IPagination<Guardian>> {
+  async findAllGuardians(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Guardian>> {
     const queryBuilder = this.repository.createQueryBuilder('guardian');
 
     queryBuilder
