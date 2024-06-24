@@ -3,19 +3,18 @@ import { IShelterRepository } from '../interfaces/IShelterRepository.interface';
 import { Shelter } from 'src/entities/Shelter.entity';
 import { DataSource } from 'typeorm';
 import { ShelterEntity } from 'src/infra/db/entities/Shelter.entity';
-import { BaseRepository } from '../BaseRepository';
+import { BaseRepository } from './BaseRepository';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 
 @Injectable({ scope: Scope.REQUEST })
-export class ShelterRepository extends BaseRepository implements IShelterRepository {
+export class ShelterRepository extends BaseRepository<ShelterEntity> implements IShelterRepository {
   constructor(dataSource: DataSource, @Inject(REQUEST) request: Request) {
-    super(dataSource, request);
-  } // private readonly shelterRepository: Repository<ShelterEntity>, // @InjectRepository(ShelterEntity)
+    super(ShelterEntity, dataSource, request);
+  }
 
   async save(shelterdto: Shelter): Promise<Shelter> {
-    const shelterRepository = this.getRepository(ShelterEntity);
-    const shelterCreated = await shelterRepository.save(shelterdto);
+    const shelterCreated = await this.repository.save(shelterdto);
 
     const shelterFormated = this.formatShelterProperties(shelterCreated);
     return shelterFormated;
