@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExepectionErrror } from './resource/errors/Exeception.error';
-import { GlobalLogger } from './resource/interceptor/Global.logger';
+import { GlobalLogger } from './resource/interceptor/global.interceptor';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfig } from './infra/config/Db.config';
