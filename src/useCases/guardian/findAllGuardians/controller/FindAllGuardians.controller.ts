@@ -1,6 +1,6 @@
 import { Controller, Get, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
-import { FindAllGuardiansControllerDto } from '../dtos/FindAllGuardians.controller.dto';
+import { FindAllPaginationControllerDto } from '../../../../common/dtos/FindAllPagination.controller.dto';
 import { FindAllGuardiansUseCase } from '../FindAllGuardians.useCase';
 import { Guardian } from 'src/entities/Guardian.entity';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
@@ -14,7 +14,9 @@ export class FindAllGuardiansController {
 
   @Get()
   @UseInterceptors(CacheInterceptor)
-  async handle(@Query() pagination: FindAllGuardiansControllerDto): Promise<IPagination<Guardian>> {
+  async handle(
+    @Query() pagination: FindAllPaginationControllerDto,
+  ): Promise<IPagination<Guardian>> {
     const allGuardians = await this.findAllGuardiansUseCase.execute(pagination);
 
     return allGuardians;
