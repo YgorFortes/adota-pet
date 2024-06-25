@@ -27,7 +27,7 @@ export class UpdateGuardianUseCase {
         userAssociation.GUARDIAN,
       );
 
-    const guardianUpdatedPromisse = this.guardianRepository.updateGuardian(
+    const guardianUpdated = await this.guardianRepository.updateGuardian(
       userAssociationGuardian.guardian.id,
       {
         about,
@@ -35,22 +35,16 @@ export class UpdateGuardianUseCase {
       },
     );
 
-    const userUpdatedPromisse = updateGuardianDto.user
-      ? this.updateUserUseCase.execute(idUser, updateGuardianDto.user)
+    const userUpdated = updateGuardianDto.user
+      ? await this.updateUserUseCase.execute(idUser, updateGuardianDto.user)
       : null;
 
-    const addressUpdatedPromisse = updateGuardianDto.address
-      ? this.updateAddressUseCase.execute(
+    const addressUpdated = updateGuardianDto.address
+      ? await this.updateAddressUseCase.execute(
           userAssociationGuardian.guardian.address.id,
           updateGuardianDto.address,
         )
       : null;
-
-    const [guardianUpdated, userUpdated, addressUpdated] = await Promise.all([
-      guardianUpdatedPromisse,
-      userUpdatedPromisse,
-      addressUpdatedPromisse,
-    ]);
 
     const updatedGuardian = {
       ...guardianUpdated,
