@@ -6,4 +6,5 @@ import { EntityManager } from 'typeorm';
 export interface IShelterRepository {
   save(shelterdto: Shelter, transaction?: EntityManager): Promise<Shelter>;
   findAllShelters(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Shelter>>;
+  findShelterById(shelterId: string): Promise<Shelter>;
 }
