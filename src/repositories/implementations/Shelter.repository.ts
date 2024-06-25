@@ -15,6 +15,21 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
     super(ShelterEntity, dataSource, request);
   }
 
+  async findShelterById(shelterId: string): Promise<Shelter> {
+    const shelter = await this.repository.findOne({
+      where: { id: shelterId },
+      relations: ['user', 'address'],
+    });
+
+    if (!shelter) {
+      return null;
+    }
+
+    const shelterFormated = this.formatShelterProperties(shelter);
+
+    return shelterFormated;
+  }
+
   async findAllShelters(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Shelter>> {
     const queryBuilder = this.repository.createQueryBuilder('shelter');
 
