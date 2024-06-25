@@ -18,7 +18,7 @@ export class CreateShelterUseCase {
   ) {}
 
   async execute(shelterDto: ICreateShelterUseCaseDto): Promise<Shelter> {
-    const { abbout, webSite, workingHours, address } = shelterDto;
+    const { about, webSite, workingHours, address } = shelterDto;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [user, __] = await Promise.all([
@@ -32,7 +32,7 @@ export class CreateShelterUseCase {
     const addresCreated = await this.createAddressUseCase.execute(address);
 
     const shelter = new Shelter({
-      abbout,
+      about,
       webSite,
       workingHours,
       address: addresCreated,

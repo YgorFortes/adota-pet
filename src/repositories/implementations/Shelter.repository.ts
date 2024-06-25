@@ -8,6 +8,7 @@ import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
+import { IUpdateShelterUseCaseDto } from 'src/useCases/shelter/updateShelter/dtos/IUpdateShelter.useCase.dto';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ShelterRepository extends BaseRepository<ShelterEntity> implements IShelterRepository {
@@ -59,6 +60,17 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
 
     const shelterFormated = this.formatShelterProperties(shelterCreated);
     return shelterFormated;
+  }
+
+  async updateShelter(
+    shelterId: string,
+    updateShelterDto: IUpdateShelterUseCaseDto,
+  ): Promise<Shelter> {
+    const result = await this.repository.update({ id: shelterId }, { ...updateShelterDto });
+
+    if (result.affected > 0) {
+      return this.findShelterById(shelterId);
+    }
   }
 
   private formatShelterProperties(shelter: ShelterEntity): Shelter {

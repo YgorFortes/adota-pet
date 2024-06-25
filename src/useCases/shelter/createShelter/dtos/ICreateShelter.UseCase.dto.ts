@@ -1,7 +1,7 @@
 import { Address } from 'src/entities/Address.entity';
 
 export interface ICreateShelterUseCaseDto {
-  abbout: string;
+  about: string;
 
   webSite: string;
 

@@ -4,7 +4,7 @@ import { User } from './User.entity';
 type propsShelter = {
   id?: string;
 
-  abbout?: string;
+  about?: string;
 
   webSite?: string;
 
@@ -42,7 +42,7 @@ export class Shelter {
 
   constructor(props: propsShelter) {
     this.id = props.id;
-    this.about = props.abbout;
+    this.about = props.about;
     this.webSite = props.webSite;
     this.workingHours = props.workingHours;
     this.address = props.address;
