@@ -1,4 +1,4 @@
-import { Transform, TransformFnParams } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import {
   IsDefined,
   IsEmail,
@@ -15,23 +15,24 @@ import {
 } from 'class-validator';
 import { MatchPassword } from 'src/common/helpers/decoratorsValidators/passwordConfirm.decorator';
 import { PasswordIsTyped } from 'src/common/helpers/decoratorsValidators/passwordIsTyped.decorator';
+import { trimString } from 'src/common/helpers/validation.helpers';
 
 import { UserRole } from 'src/enum/roleUser.enum';
 
 export class CreateUserControllerDto {
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Transform(trimString)
   @IsNotEmpty({ message: 'name não pode ser vazio.' })
   @IsString({ message: 'name deve ser uma string.' })
   @Length(3, 100, { message: 'name entre 3 a 100 caracteres ' })
   readonly name: string;
 
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Transform(trimString)
   @IsEmail({}, { message: 'Por favor, insira um endereço de email válido.' })
   @IsNotEmpty({ message: 'email não pode ser vazio.' })
   @MaxLength(255, { message: 'email não pode ter mais de 100 caracteres.' })
   readonly email: string;
 
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Transform(trimString)
   @PasswordIsTyped()
   @IsString({ message: 'password deve ser uma string.' })
   @IsNotEmpty({ message: 'password não pode ser vazio.' })
@@ -44,25 +45,25 @@ export class CreateUserControllerDto {
   @MaxLength(60, { message: 'password não pode ter mais de 60 caracteres.' })
   readonly password: string;
 
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Transform(trimString)
   @IsDefined({ message: 'confirmPassword é obrigatório quando password é fornecido.' })
   @MatchPassword('password', { message: 'As senhas não coincidem' })
   @MaxLength(60, { message: 'O confirmPassword não pode ter mais de 60 caracteres.' })
   readonly confirmPassword: string;
 
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Transform(trimString)
   @IsEnum(UserRole, {
     message: `role deve ser ${UserRole.GUARDIAN} ou ${UserRole.SHELTER}`,
   })
   readonly role: UserRole;
 
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Transform(trimString)
   @IsOptional()
   @IsString({ message: 'photo deve ser uma string.' })
   @IsUrl({}, { message: 'photo deve ser uma URL válida.' })
   readonly photo?: string;
 
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Transform(trimString)
   @IsNotEmpty({ message: 'telephone não pode estar vazio.' })
   @IsString({ message: 'telephone deve ser uma string.' })
   @IsPhoneNumber('BR', {
