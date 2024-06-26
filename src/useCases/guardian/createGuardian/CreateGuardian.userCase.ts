@@ -23,10 +23,7 @@ export class CreateGuardianUseCase {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [__, user] = await Promise.all([
-      this.verifyUserGuardianUseCase.verifyUserAssociationWithGuardianOrShelter(
-        idUser,
-        userAssociation.GUARDIAN,
-      ),
+      this.verifyUserGuardianUseCase.validateUserAssociation(idUser, userAssociation.GUARDIAN),
       this.findUserByIdUseCase.execute(idUser),
     ]);
 
