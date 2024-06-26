@@ -17,7 +17,7 @@ export class LogoutUserUseCase {
     return true;
   }
 
-  public addInvalidToken(token: string): void {
+  private addInvalidToken(token: string): void {
     AuthenticationGuard.tokensInvalids.push(token);
   }
 }
