@@ -85,17 +85,10 @@ export class GuardianRepository
       where: { id },
       relations: ['user', 'address'],
     });
-    const promiseRemoveAdrress = this.repository.manager.remove(guardian.address);
 
-    const promiseRemoveUser = this.repository.manager.remove(guardian.user);
-
-    const promiseRemoveGuardian = this.repository.manager.remove(guardian);
-
-    const [__] = await Promise.all([
-      promiseRemoveAdrress,
-      promiseRemoveUser,
-      promiseRemoveGuardian,
-    ]);
+    await this.repository.manager.remove(guardian.address);
+    await this.repository.manager.remove(guardian.user);
+    await this.repository.manager.remove(guardian);
 
     const guadianDeleted = await this.findGuardianById(id);
 
