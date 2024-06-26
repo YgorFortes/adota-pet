@@ -16,8 +16,10 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
     super(UserEntity, dataSource, request);
   }
 
-  async findById(id: string): Promise<User | null> {
-    const user = await this.repository.findOne({ where: { id } });
+  async findById(id: string, associantion?: userAssociation): Promise<User | null> {
+    const relations = associantion ? [`${associantion}`, `${associantion}.address`] : null;
+
+    const user = await this.repository.findOne({ where: { id }, relations: relations });
 
     if (!user) {
       return null;
@@ -53,15 +55,6 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
 
     delete userNew.password;
     return userNew;
-  }
-
-  async findUserWithAssociation(id: string, associantion: userAssociation): Promise<User> {
-    const userGuadianAssociation = await this.repository.findOne({
-      where: { id },
-      relations: [`${associantion}`, `${associantion}.address`],
-    });
-
-    return userGuadianAssociation;
   }
 
   async updateUser(id: string, updateUserDto: IUpdateUserUseCaseDto): Promise<User> {
