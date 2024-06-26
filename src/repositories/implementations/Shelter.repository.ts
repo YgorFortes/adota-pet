@@ -73,6 +73,21 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
     }
   }
 
+  async deleteShelter(shelterId: string): Promise<boolean> {
+    const shelter = await this.repository.findOne({
+      where: { id: shelterId },
+      relations: ['user', 'address'],
+    });
+
+    await this.repository.manager.remove(shelter.address);
+    await this.repository.manager.remove(shelter.user);
+    await this.repository.manager.remove(shelter);
+
+    const shelterDeleted = await this.findShelterById(shelterId);
+
+    return !shelterDeleted;
+  }
+
   private formatShelterProperties(shelter: ShelterEntity): Shelter {
     if (!shelter) {
       return null;

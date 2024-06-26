@@ -6,8 +6,7 @@ import { IUpdateUserUseCaseDto } from 'src/useCases/user/updateUser/dtos/IUpdate
 export interface IUserRepository {
   save(data: ICreateUserUseCaseDTO): Promise<User>;
   findByEmail(email: string): Promise<User>;
-  findById(id: string): Promise<User>;
+  findById(userId: string, associantion?: userAssociation): Promise<User>;
   verifyIfEmailIsUnique(email: string): Promise<boolean>;
-  findUserWithAssociation(id: string, associantion: userAssociation): Promise<User>;
-  updateUser(id: string, updateUserDto: IUpdateUserUseCaseDto): Promise<User>;
+  updateUser(userId: string, updateUserDto: IUpdateUserUseCaseDto): Promise<User>;
 }

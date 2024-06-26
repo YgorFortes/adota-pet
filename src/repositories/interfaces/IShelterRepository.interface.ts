@@ -9,4 +9,5 @@ export interface IShelterRepository {
   findAllShelters(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Shelter>>;
   findShelterById(shelterId: string): Promise<Shelter>;
   updateShelter(shelterId: string, updateShelterDto: IUpdateShelterUseCaseDto): Promise<Shelter>;
+  deleteShelter(shelterId: string): Promise<boolean>;
 }
