@@ -1,10 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
-import { IUserWithAssociation } from 'src/common/interfaces/IUserWithAssociation';
 import { RepositoryType } from 'src/enum/repositoryType.enum';
 import { userAssociation } from 'src/enum/userAssociation.enum';
 import { IGuardianRepository } from 'src/repositories/interfaces/IGuardianRepository.interface';
-import { VerifyUserAssociationUseCase } from 'src/useCases/user/VerifyUserGuardian/VerifyUserAssociation.useCase';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 import { LogoutUserUseCase } from 'src/useCases/user/logoutUser/LogoutUser.useCase';
 
@@ -13,23 +11,21 @@ export class DeleteGuardianUseCase {
   constructor(
     @Inject(RepositoryType.IGuardianRepository) private guardianRepository: IGuardianRepository,
     private findUserByIdUseCase: FindUserByIdUseCase,
-    private verifyUserAssociationUseCase: VerifyUserAssociationUseCase,
     private logoutUserUseCase: LogoutUserUseCase,
   ) {}
 
-  async execute(idUser: string, request: IRequestWithUser): Promise<boolean> {
-    await this.findUserByIdUseCase.execute(idUser);
+  async execute(userId: string, request: IRequestWithUser): Promise<boolean> {
+    await this.findUserByIdUseCase.execute(userId);
 
-    const userWithGuardian: IUserWithAssociation =
-      await this.verifyUserAssociationUseCase.findAssociantionWithUser(
-        idUser,
-        userAssociation.GUARDIAN,
-      );
+    const userWithGuardian = await this.findUserByIdUseCase.execute(
+      userId,
+      userAssociation.GUARDIAN,
+    );
 
     const result = await this.guardianRepository.deleteGuardian(userWithGuardian.guardian.id);
 
     if (result) {
-      this.logoutUserUseCase.execute(request);
+      await this.logoutUserUseCase.execute(request);
       return true;
     }
   }
