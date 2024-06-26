@@ -23,7 +23,7 @@ export class CreateShelterUseCase {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [user, __] = await Promise.all([
       this.findUserByIdUseCase.execute(shelterDto.idUser),
-      this.verifyUserAssociationUseCase.verifyUserAssociationWithGuardianOrShelter(
+      this.verifyUserAssociationUseCase.validateUserAssociation(
         shelterDto.idUser,
         userAssociation.SHELTER,
       ),
