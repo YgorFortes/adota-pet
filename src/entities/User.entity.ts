@@ -11,7 +11,7 @@ type propsUser = {
 
   role: UserRole;
 
-  photo?: string;
+  photo: string;
 
   telephone: string;
   createdAt?: Date;
@@ -30,7 +30,7 @@ export class User {
 
   public role: UserRole;
 
-  public photo?: string;
+  public photo: string;
 
   public telephone: string;
   public createdAt?: Date;
