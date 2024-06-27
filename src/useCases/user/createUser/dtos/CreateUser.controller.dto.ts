@@ -4,10 +4,8 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
-  IsOptional,
   IsPhoneNumber,
   IsString,
-  IsUrl,
   Length,
   Matches,
   MaxLength,
@@ -56,12 +54,6 @@ export class CreateUserControllerDto {
     message: `role deve ser ${UserRole.GUARDIAN} ou ${UserRole.SHELTER}`,
   })
   readonly role: UserRole;
-
-  @Transform(trimString)
-  @IsOptional()
-  @IsString({ message: 'photo deve ser uma string.' })
-  @IsUrl({}, { message: 'photo deve ser uma URL válida.' })
-  readonly photo?: string;
 
   @Transform(trimString)
   @IsNotEmpty({ message: 'telephone não pode estar vazio.' })
