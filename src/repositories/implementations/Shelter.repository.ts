@@ -1,5 +1,8 @@
 import { Inject, Injectable, Scope } from '@nestjs/common';
-import { IShelterRepository } from '../interfaces/IShelterRepository.interface';
+import {
+  IShelterRepository,
+  IUpdateShelterRepositoryDto,
+} from '../interfaces/IShelterRepository.interface';
 import { Shelter } from 'src/entities/Shelter.entity';
 import { DataSource } from 'typeorm';
 import { ShelterEntity } from 'src/infra/db/entities/Shelter.entity';
@@ -8,7 +11,6 @@ import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
-import { IUpdateShelterUseCaseDto } from 'src/useCases/shelter/updateShelter/dtos/IUpdateShelter.useCase.dto';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ShelterRepository extends BaseRepository<ShelterEntity> implements IShelterRepository {
@@ -64,7 +66,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
 
   async updateShelter(
     shelterId: string,
-    updateShelterDto: IUpdateShelterUseCaseDto,
+    updateShelterDto: IUpdateShelterRepositoryDto,
   ): Promise<Shelter> {
     const result = await this.repository.update({ id: shelterId }, { ...updateShelterDto });
 
