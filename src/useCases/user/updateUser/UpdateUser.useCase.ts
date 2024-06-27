@@ -5,6 +5,9 @@ import { IUpdateUserUseCaseDto } from './dtos/IUpdateUser.useCase.dto';
 import { FindUserByIdUseCase } from '../findUserById/FindUserById.useCase';
 import { User } from 'src/entities/User.entity';
 import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
+import { Provide } from 'src/enum/provider.enum';
+import { ISavePhotoInCoudInterface } from '../savePhotoInCloud/interface/ISavePhotoInCloud.interface';
+import { IImageFile } from '../createUser/dtos/IImageFile';
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -12,6 +15,8 @@ export class UpdateUserUseCase {
     @Inject(RepositoryType.IUserRepository) private userRepository: IUserRepository,
     private findUserByIdUseCase: FindUserByIdUseCase,
     private hashPassWordPipe: HashPasswordPipe,
+    @Inject(Provide.ISavePhotoInCoudInterface)
+    private savePhotoInCoud: ISavePhotoInCoudInterface,
   ) {}
 
   async execute(id: string, updateUserDto: IUpdateUserUseCaseDto): Promise<Omit<User, 'password'>> {
@@ -31,7 +36,7 @@ export class UpdateUserUseCase {
       email,
       name,
       password: updateUserDto.password,
-      photo,
+      photo: (await this.updatePhoto(photo)) || undefined,
       telephone,
     });
 
@@ -53,5 +58,11 @@ export class UpdateUserUseCase {
     if (!emailIsUnique) {
       throw new NotFoundException('Este email já está em uso.');
     }
+  }
+
+  private async updatePhoto(photo: IImageFile): Promise<string | null> {
+    const urlPhoto = photo ? await this.savePhotoInCoud.savePhoto(photo) : null;
+
+    return urlPhoto;
   }
 }
