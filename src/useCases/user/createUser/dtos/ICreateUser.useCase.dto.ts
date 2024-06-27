@@ -1,4 +1,5 @@
 import { UserRole } from 'src/enum/roleUser.enum';
+import { IImageFile } from './IImageFile';
 
 export interface ICreateUserUseCaseDTO {
   name: string;
@@ -9,7 +10,7 @@ export interface ICreateUserUseCaseDTO {
 
   role: UserRole;
 
-  photo?: string;
+  photo: IImageFile;
 
   telephone: string;
 }
