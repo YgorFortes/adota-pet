@@ -5,13 +5,9 @@ import {
   IUpdateGuardianRepositoryDto,
 } from '../interfaces/IGuardianRepository.interface';
 import { GuardianEntity } from 'src/infra/db/entities/Guardian.entity';
-
 import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
-import { IUpdateGuardianUseCaseDto } from 'src/useCases/guardian/updateGuardian/dtos/IUpdateGuardian.useCase.dto';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
-
 import { BaseRepository } from './BaseRepository';
-
 import { DataSource } from 'typeorm';
 import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
