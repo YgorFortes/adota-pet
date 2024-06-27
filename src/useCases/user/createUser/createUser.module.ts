@@ -6,6 +6,8 @@ import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
 import { UserRepository } from 'src/repositories/implementations/User.repository';
 import { CreateUserUseCase } from './CreateUser.useCase';
 import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { Provide } from 'src/enum/provider.enum';
+import { SavePhotoInCoudProvider } from '../savePhotoInCloud/SavePhotoInCloud.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -15,6 +17,10 @@ import { RepositoryType } from 'src/enum/repositoryType.enum';
     {
       provide: RepositoryType.IUserRepository,
       useClass: UserRepository,
+    },
+    {
+      provide: Provide.ISavePhotoInCoudInterface,
+      useClass: SavePhotoInCoudProvider,
     },
     CreateUserUseCase,
   ],
