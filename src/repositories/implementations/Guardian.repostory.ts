@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Guardian } from 'src/entities/Guardian.entity';
-import { IGuardianRepository } from '../interfaces/IGuardianRepository.interface';
+import {
+  IGuardianRepository,
+  IUpdateGuardianRepositoryDto,
+} from '../interfaces/IGuardianRepository.interface';
 import { GuardianEntity } from 'src/infra/db/entities/Guardian.entity';
-
 import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
-import { IUpdateGuardianUseCaseDto } from 'src/useCases/guardian/updateGuardian/dtos/IUpdateGuardian.useCase.dto';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
-
 import { BaseRepository } from './BaseRepository';
-
 import { DataSource } from 'typeorm';
 import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
@@ -71,7 +70,7 @@ export class GuardianRepository
 
   async updateGuardian(
     id: string,
-    updateGuardianDto: IUpdateGuardianUseCaseDto,
+    updateGuardianDto: IUpdateGuardianRepositoryDto,
   ): Promise<Guardian> {
     const result = await this.repository.update({ id }, { ...updateGuardianDto });
 

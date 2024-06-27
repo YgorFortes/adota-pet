@@ -14,6 +14,7 @@ import { UserModule } from './useCases/user/user.module';
 import { AddressModule } from './useCases/address/address.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ShelterModule } from './useCases/shelter/shelter.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -27,6 +28,9 @@ import { ShelterModule } from './useCases/shelter/shelter.module';
     TypeOrmModule.forRootAsync({
       useClass: PostgresConfig,
       inject: [PostgresConfig],
+    }),
+    MulterModule.register({
+      dest: './uploads',
     }),
     CacheModule.register({ isGlobal: true, ttl: 10000 }),
   ],

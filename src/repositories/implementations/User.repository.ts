@@ -1,10 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from '../interfaces/IUserRepository.interface';
+import { IUpdateUserRepositoryDto, IUserRepository } from '../interfaces/IUserRepository.interface';
 import { User } from 'src/entities/User.entity';
 import { UserEntity } from 'src/infra/db/entities/User.entity';
 import { DataSource } from 'typeorm';
-import { ICreateUserUseCaseDTO } from 'src/useCases/user/createUser/dtos/ICreateUser.useCase.dto';
-import { IUpdateUserUseCaseDto } from 'src/useCases/user/updateUser/dtos/IUpdateUser.useCase.dto';
 import { userAssociation } from 'src/enum/userAssociation.enum';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
@@ -46,7 +44,7 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
     return !emailIsUnique;
   }
 
-  async save(dataUser: ICreateUserUseCaseDTO): Promise<User> {
+  async save(dataUser: User): Promise<User> {
     const savedUser = await this.repository.save(dataUser);
 
     const user = new User({ ...savedUser });
@@ -57,7 +55,7 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
     return userNew;
   }
 
-  async updateUser(id: string, updateUserDto: IUpdateUserUseCaseDto): Promise<User> {
+  async updateUser(id: string, updateUserDto: IUpdateUserRepositoryDto): Promise<User> {
     const result = await this.repository.update({ id }, { ...updateUserDto });
 
     if (result.affected > 0) {
