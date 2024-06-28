@@ -13,6 +13,10 @@ import { dateFormated } from '../validation.helpers';
 @ValidatorConstraint({ async: false })
 export class BrazilianDateFormat implements ValidatorConstraintInterface {
   validate(birthDate: string): boolean {
+    if (!birthDate) {
+      return false;
+    }
+
     const birthDateFormated = dateFormated(birthDate);
 
     if (!isValid(birthDateFormated)) {
