@@ -7,7 +7,7 @@ import { UserRepository } from 'src/repositories/implementations/User.repository
 import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
 import { FindUserByIdModule } from '../findUserById/findUserById.module';
 import { Provide } from 'src/enum/provider.enum';
-import { SavePhotoInCoudProvider } from '../savePhotoInCloud/SavePhotoInCloud.provider';
+import { SavePhotoInCoudProvider } from '../../common/savePhotoInCloud/SavePhotoInCloud.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), FindUserByIdModule],

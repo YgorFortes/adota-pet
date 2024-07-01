@@ -7,7 +7,7 @@ import { UserRepository } from 'src/repositories/implementations/User.repository
 import { CreateUserUseCase } from './CreateUser.useCase';
 import { RepositoryType } from 'src/enum/repositoryType.enum';
 import { Provide } from 'src/enum/provider.enum';
-import { SavePhotoInCoudProvider } from '../savePhotoInCloud/SavePhotoInCloud.provider';
+import { SavePhotoInCoudProvider } from '../../common/savePhotoInCloud/SavePhotoInCloud.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],

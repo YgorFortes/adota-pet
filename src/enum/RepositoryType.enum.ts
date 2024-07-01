@@ -3,4 +3,5 @@ export enum RepositoryType {
   IGuardianRepository = 'IGuardianRepository',
   IAddressRepository = 'IAddressRepository',
   IShelterRepository = 'IShelterRepository',
+  IPetRepository = 'IPetRepository',
 }

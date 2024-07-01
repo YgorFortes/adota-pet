@@ -6,7 +6,7 @@ import { FindUserByIdUseCase } from '../findUserById/FindUserById.useCase';
 import { User } from 'src/entities/User.entity';
 import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
 import { Provide } from 'src/enum/provider.enum';
-import { ISavePhotoInCoudInterface } from '../savePhotoInCloud/interface/ISavePhotoInCloud.interface';
+import { ISavePhotoInCoudInterface } from '../../common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
 import { IImageFile } from '../createUser/dtos/IImageFile';
 
 @Injectable()
@@ -61,7 +61,7 @@ export class UpdateUserUseCase {
   }
 
   private async updatePhoto(photo: IImageFile): Promise<string | null> {
-    const urlPhoto = photo ? await this.savePhotoInCoud.savePhoto(photo) : null;
+    const urlPhoto = photo ? await this.savePhotoInCoud.execute(photo) : null;
 
     return urlPhoto;
   }

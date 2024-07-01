@@ -1,5 +1,5 @@
 import { BadGatewayException } from '@nestjs/common';
-import { IImageFile } from '../createUser/dtos/IImageFile';
+import { IImageFile } from '../../user/createUser/dtos/IImageFile';
 import { ISavePhotoInCoudInterface } from './interface/ISavePhotoInCloud.interface';
 import 'dotenv/config';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -13,7 +13,7 @@ export class SavePhotoInCoudProvider implements ISavePhotoInCoudInterface {
       applicationKey: process.env.BACKBLAZEB2APPLICATIONKEY,
     });
   }
-  async savePhoto(image: IImageFile): Promise<string> {
+  async execute(image: IImageFile): Promise<string> {
     try {
       await this.backblazeB2.authorize();
 

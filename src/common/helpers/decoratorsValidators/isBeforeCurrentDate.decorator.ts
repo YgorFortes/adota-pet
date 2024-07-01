@@ -13,6 +13,9 @@ import { dateFormated } from '../validation.helpers';
 @ValidatorConstraint({ async: false })
 export class ValidateCurrentDate implements ValidatorConstraintInterface {
   validate(birthDate: string): boolean {
+    if (!birthDate) {
+      return false;
+    }
     const currentDate = new Date();
     const birthDateFormated = dateFormated(birthDate);
 

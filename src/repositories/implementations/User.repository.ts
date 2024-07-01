@@ -15,9 +15,14 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
   }
 
   async findById(id: string, associantion?: userAssociation): Promise<User | null> {
-    const relations = associantion ? [`${associantion}`, `${associantion}.address`] : null;
+    const queryBuilder = this.repository.createQueryBuilder('user').where('user.id = :id', { id });
 
-    const user = await this.repository.findOne({ where: { id }, relations: relations });
+    if (associantion) {
+      queryBuilder.leftJoinAndSelect(`user.${associantion}`, associantion);
+      queryBuilder.leftJoinAndSelect(`${associantion}.address`, 'address');
+    }
+
+    const user = await queryBuilder.getOne();
 
     if (!user) {
       return null;

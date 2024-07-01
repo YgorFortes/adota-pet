@@ -4,7 +4,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/entities/User.entity';
 import { RepositoryType } from 'src/enum/repositoryType.enum';
 import { Provide } from 'src/enum/provider.enum';
-import { ISavePhotoInCoudInterface } from '../savePhotoInCloud/interface/ISavePhotoInCloud.interface';
+import { ISavePhotoInCoudInterface } from '../../common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -23,7 +23,7 @@ export class CreateUserUseCase {
       throw new BadRequestException('Usuário já existe');
     }
 
-    const urlPhoto = await this.savePhotoInCoud.savePhoto(photo);
+    const urlPhoto = await this.savePhotoInCoud.execute(photo);
 
     const user = new User({ ...dtoUser, photo: urlPhoto });
 
