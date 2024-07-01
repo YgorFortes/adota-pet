@@ -15,6 +15,7 @@ import { AddressModule } from './useCases/address/address.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ShelterModule } from './useCases/shelter/shelter.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { PetModule } from './useCases/pet/pet.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MulterModule } from '@nestjs/platform-express';
     UserModule,
     AddressModule,
     ShelterModule,
+    PetModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
