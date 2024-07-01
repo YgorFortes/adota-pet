@@ -10,10 +10,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { UserRole } from '../../../enum/roleUser.enum';
+
 import { GuardianEntity } from './Guardian.entity';
 import { ShelterEntity } from './Shelter.entity';
 import { MessageEntity } from './Message.entity';
+import { UserRole } from '../../../enum/roleUser.enum';
 
 @Entity({ name: 'user' })
 export class UserEntity {
