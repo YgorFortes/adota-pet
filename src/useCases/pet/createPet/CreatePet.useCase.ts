@@ -1,12 +1,12 @@
 import { Pet } from 'src/entities/Pet.entity';
 import { ICreatePetUseCaseDTO } from './dtos/ICreatePet.useCase.dto';
 import { Inject } from '@nestjs/common';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IPetRepository } from 'src/repositories/interfaces/IPetRepository.interface';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
-import { Provide } from 'src/enum/provider.enum';
+import { Provide } from 'src/common/enum/provider.enum';
 import { ISavePhotoInCoudInterface } from 'src/useCases/common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
-import { userAssociation } from 'src/enum/userAssociation.enum';
+import { userAssociation } from 'src/common/enum/userAssociation.enum';
 
 export class CreatePetUseCase {
   constructor(

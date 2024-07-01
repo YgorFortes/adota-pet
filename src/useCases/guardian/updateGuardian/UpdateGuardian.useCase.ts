@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IGuardianRepository } from 'src/repositories/interfaces/IGuardianRepository.interface';
 import { IUpdateGuardianUseCaseDto } from './dtos/IUpdateGuardian.useCase.dto';
 import { UpdateUserUseCase } from 'src/useCases/user/updateUser/UpdateUser.useCase';
 import { Guardian } from 'src/entities/Guardian.entity';
 import { UpdateAddressUseCase } from 'src/useCases/address/updateAddress/UpdateAddress.useCase';
-import { userAssociation } from 'src/enum/userAssociation.enum';
+import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 
 @Injectable()

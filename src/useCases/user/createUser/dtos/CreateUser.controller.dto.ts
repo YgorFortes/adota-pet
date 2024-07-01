@@ -15,7 +15,7 @@ import { MatchPassword } from 'src/common/helpers/decoratorsValidators/passwordC
 import { PasswordIsTyped } from 'src/common/helpers/decoratorsValidators/passwordIsTyped.decorator';
 import { trimString } from 'src/common/helpers/validation.helpers';
 
-import { UserRole } from 'src/enum/roleUser.enum';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 export class CreateUserControllerDto {
   @Transform(trimString)

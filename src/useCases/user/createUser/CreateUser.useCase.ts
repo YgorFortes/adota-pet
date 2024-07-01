@@ -2,8 +2,8 @@ import { IUserRepository } from 'src/repositories/interfaces/IUserRepository.int
 import { ICreateUserUseCaseDTO } from './dtos/ICreateUser.useCase.dto';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/entities/User.entity';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
-import { Provide } from 'src/enum/provider.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
+import { Provide } from 'src/common/enum/provider.enum';
 import { ISavePhotoInCoudInterface } from '../../common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
 
 @Injectable()

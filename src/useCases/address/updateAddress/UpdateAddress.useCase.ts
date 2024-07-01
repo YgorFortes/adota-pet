@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IAddressRepository } from 'src/repositories/interfaces/IAddressRepository.interface';
 import { IUpdateAddressUseCaseDto } from './dtos/IUpdateAddress.useCase.dto';
 import { IAddressCepFinderProvider } from '../findAddressByCep/interface/IAddressCepFinder.provider';
-import { Provide } from 'src/enum/provider.enum';
+import { Provide } from 'src/common/enum/provider.enum';
 import { Address } from 'src/entities/Address.entity';
 
 @Injectable()

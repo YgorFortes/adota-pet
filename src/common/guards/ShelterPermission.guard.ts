@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 
-import { UserRole } from 'src/enum/roleUser.enum';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 
 import { IRouteInfo } from '../interfaces/IRouterInfo.interface';

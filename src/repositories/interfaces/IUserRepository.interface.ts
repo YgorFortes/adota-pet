@@ -1,5 +1,5 @@
 import { User } from 'src/entities/User.entity';
-import { userAssociation } from 'src/enum/userAssociation.enum';
+import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { ICreateUserUseCaseDTO } from 'src/useCases/user/createUser/dtos/ICreateUser.useCase.dto';
 
 export interface IUserRepository {

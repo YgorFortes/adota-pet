@@ -1,6 +1,6 @@
 import { Inject, NotFoundException } from '@nestjs/common';
 import { Guardian } from 'src/entities/Guardian.entity';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IGuardianRepository } from 'src/repositories/interfaces/IGuardianRepository.interface';
 
 export class FindGuardianByIdUseCase {

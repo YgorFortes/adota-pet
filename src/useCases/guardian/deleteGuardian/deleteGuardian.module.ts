@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GuardianEntity } from 'src/infra/db/entities/Guardian.entity';
 import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.module';
 import { DeleteGuardianUseCase } from './DeleteGuardian.useCase';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { GuardianRepository } from 'src/repositories/implementations/Guardian.repostory';
 import { VerifyUserAssociationModule } from 'src/useCases/user/VerifyUserGuardian/verifyUserAssociation.module';
 import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';

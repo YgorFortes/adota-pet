@@ -1,5 +1,4 @@
 import { IUserRepository } from 'src/repositories/interfaces/IUserRepository.interface';
-
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/entities/User.entity';
 

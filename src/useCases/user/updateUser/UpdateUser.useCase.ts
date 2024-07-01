@@ -1,11 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IUserRepository } from 'src/repositories/interfaces/IUserRepository.interface';
 import { IUpdateUserUseCaseDto } from './dtos/IUpdateUser.useCase.dto';
 import { FindUserByIdUseCase } from '../findUserById/FindUserById.useCase';
 import { User } from 'src/entities/User.entity';
 import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
-import { Provide } from 'src/enum/provider.enum';
+import { Provide } from 'src/common/enum/provider.enum';
 import { ISavePhotoInCoudInterface } from '../../common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
 import { IImageFile } from '../createUser/dtos/IImageFile';
 

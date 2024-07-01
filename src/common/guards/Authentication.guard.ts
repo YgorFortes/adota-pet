@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
 import { IPayLoad } from '../interfaces/IPayLoad.interface';
 import { schedule } from 'node-cron';
-import { timeIntervals } from 'src/enum/timeIntervals.enum';
+import { timeIntervals } from 'src/common/enum/timeIntervals.enum';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {

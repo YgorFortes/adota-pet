@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { UserEntity } from 'src/infra/db/entities/User.entity';
 import { UserRepository } from 'src/repositories/implementations/User.repository';
 import { LogoutUserController } from './controller/LogoutUser.controller';

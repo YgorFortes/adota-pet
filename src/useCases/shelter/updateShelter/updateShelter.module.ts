@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UpdateShelterController } from './controller/UpdateShelter.controller';
 import { UpdateShelterUseCase } from './UpdateShelter.useCase';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { ShelterRepository } from 'src/repositories/implementations/Shelter.repository';
 import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.module';
 import { UpdateUserModule } from 'src/useCases/user/updateUser/updateUser.module';

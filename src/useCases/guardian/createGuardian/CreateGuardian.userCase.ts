@@ -1,5 +1,4 @@
-import { RepositoryType } from 'src/enum/repositoryType.enum';
-
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IGuardianRepository } from 'src/repositories/interfaces/IGuardianRepository.interface';
 import { ICreateGuardianUseCaseDto } from './dtos/ICreateGuardian.UseCase.dto';
 import { Guardian } from 'src/entities/Guardian.entity';
@@ -7,7 +6,7 @@ import { CreateAddressUseCase } from 'src/useCases/address/createAddress/CreateA
 import { Inject, Injectable } from '@nestjs/common';
 import { VerifyUserAssociationUseCase } from 'src/useCases/user/VerifyUserGuardian/VerifyUserAssociation.useCase';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
-import { userAssociation } from 'src/enum/userAssociation.enum';
+import { userAssociation } from 'src/common/enum/userAssociation.enum';
 
 @Injectable()
 export class CreateGuardianUseCase {

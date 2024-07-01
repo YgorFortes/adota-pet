@@ -3,7 +3,7 @@ import { IUpdateUserRepositoryDto, IUserRepository } from '../interfaces/IUserRe
 import { User } from 'src/entities/User.entity';
 import { UserEntity } from 'src/infra/db/entities/User.entity';
 import { DataSource } from 'typeorm';
-import { userAssociation } from 'src/enum/userAssociation.enum';
+import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { BaseRepository } from './BaseRepository';
