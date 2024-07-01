@@ -4,7 +4,7 @@ import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.
 import { CreatePetUseCase } from './CreatePet.useCase';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { Provide } from 'src/common/enum/provider.enum';
-import { SavePhotoInCoudProvider } from 'src/useCases/common/savePhotoInCloud/SavePhotoInCloud.provider';
+import { SavePhotoInCloudProvider } from 'src/useCases/common/savePhotoInCloud/SavePhotoInCloud.provider';
 import { PetRepository } from 'src/repositories/implementations/Pet.repository';
 
 @Module({
@@ -17,8 +17,8 @@ import { PetRepository } from 'src/repositories/implementations/Pet.repository';
       useClass: PetRepository,
     },
     {
-      provide: Provide.ISavePhotoInCoudInterface,
-      useClass: SavePhotoInCoudProvider,
+      provide: Provide.ISavePhotoInCloudInterface,
+      useClass: SavePhotoInCloudProvider,
     },
   ],
   exports: [],

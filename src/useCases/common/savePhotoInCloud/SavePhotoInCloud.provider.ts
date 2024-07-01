@@ -1,11 +1,11 @@
 import { BadGatewayException } from '@nestjs/common';
 import { IImageFile } from '../../user/createUser/dtos/IImageFile';
-import { ISavePhotoInCoudInterface } from './interface/ISavePhotoInCloud.interface';
+import { ISavePhotoInCloudInterface } from './interface/ISavePhotoInCloud.interface';
 import 'dotenv/config';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const BackblazeB2 = require('backblaze-b2');
 
-export class SavePhotoInCoudProvider implements ISavePhotoInCoudInterface {
+export class SavePhotoInCloudProvider implements ISavePhotoInCloudInterface {
   private backblazeB2: typeof BackblazeB2;
   constructor() {
     this.backblazeB2 = new BackblazeB2({
