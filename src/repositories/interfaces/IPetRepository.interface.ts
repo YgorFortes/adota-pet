@@ -5,4 +5,5 @@ import { Pet } from 'src/entities/Pet.entity';
 export interface IPetRepository {
   savePet(petDto: Pet): Promise<Pet>;
   findAllPets(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Pet>>;
+  findPetById(petId: string): Promise<Pet>;
 }

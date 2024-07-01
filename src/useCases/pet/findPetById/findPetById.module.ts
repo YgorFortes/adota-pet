@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
-import { FindAllPetsController } from './controller/FindAllPets.controller';
-import { FindAllPetsUseCase } from './FindAllPets.useCase';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { PetRepository } from 'src/repositories/implementations/Pet.repository';
+import { FindPetByIdController } from './controller/FindPetById.controller';
+import { FindPetByIdUseCase } from './FindPetById.useCase';
 
 @Module({
   imports: [],
-  controllers: [FindAllPetsController],
+  controllers: [FindPetByIdController],
   providers: [
-    FindAllPetsUseCase,
+    FindPetByIdUseCase,
     {
       provide: RepositoryType.IPetRepository,
       useClass: PetRepository,
     },
   ],
-  exports: [FindAllPetsUseCase],
+  exports: [FindPetByIdUseCase],
 })
-export class FindAllPetsModule {}
+export class FindPetByIdModule {}
