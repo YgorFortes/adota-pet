@@ -14,6 +14,12 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
     super(PetEntity, dataSource, request);
   }
 
+  async findPetById(petId: string): Promise<Pet> {
+    const pet = await this.repository.findOne({ where: { id: petId } });
+
+    return pet;
+  }
+
   async findAllPets(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Pet>> {
     const queryBuilder = this.repository.createQueryBuilder('pet');
 
