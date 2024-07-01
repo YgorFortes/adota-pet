@@ -1,5 +1,3 @@
-import { PetSize } from '../../../enum/petSize.enum';
-import { PetStatus } from '../../../enum/petStatus.enum';
 import {
   Column,
   Entity,
@@ -12,6 +10,9 @@ import {
 import { MessageEntity } from './Message.entity';
 import { ShelterEntity } from './Shelter.entity';
 import { GuardianEntity } from './Guardian.entity';
+import { PetSpecie } from '../../../enum/petSpecie.enum';
+import { PetSize } from '../../../enum/petSize.enum';
+import { PetStatus } from '../../../enum/petStatus.enum';
 
 @Entity({ name: 'pet' })
 export class PetEntity {
@@ -50,9 +51,14 @@ export class PetEntity {
   @Index()
   status: PetStatus;
 
-  @Column({ name: 'specie', length: 45, nullable: false })
+  @Column({
+    name: 'specie',
+    type: 'enum',
+    enum: PetSpecie,
+    nullable: false,
+  })
   @Index()
-  specie: string;
+  specie: PetSpecie;
 
   @ManyToOne(() => ShelterEntity, shelter => shelter.pets, {
     onDelete: 'CASCADE',
