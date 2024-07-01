@@ -1,4 +1,4 @@
-import { UserRole } from 'src/enum/roleUser.enum';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 type propsUser = {
   id?: string;

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
-import { userAssociation } from 'src/enum/userAssociation.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
+import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { IGuardianRepository } from 'src/repositories/interfaces/IGuardianRepository.interface';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 import { LogoutUserUseCase } from 'src/useCases/user/logoutUser/LogoutUser.useCase';

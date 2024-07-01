@@ -1,5 +1,5 @@
-import { PetSize } from 'src/enum/petSize.enum';
-import { PetSpecie } from 'src/enum/petSpecie.enum';
+import { PetSize } from 'src/common/enum/petSize.enum';
+import { PetSpecie } from 'src/common/enum/petSpecie.enum';
 import { IImageFile } from 'src/useCases/user/createUser/dtos/IImageFile';
 
 export interface ICreatePetUseCaseDTO {

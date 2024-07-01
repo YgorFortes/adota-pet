@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Shelter } from 'src/entities/Shelter.entity';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IShelterRepository } from 'src/repositories/interfaces/IShelterRepository.interface';
 
 @Injectable()

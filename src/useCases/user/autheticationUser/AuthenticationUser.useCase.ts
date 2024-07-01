@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IAuthenticationUserDto } from './dtos/IAuthenticationUser.useCase.dto';
-import { FindUserByEmailUseCase } from '../findEmailByemail/FindUserByEmail.useCase';
+import { FindUserByEmailUseCase } from '../findEmailByEmail/FindUserByEmail.useCase';
 
 import * as bcript from 'bcrypt';
 import { IPayLoad } from 'src/common/interfaces/IPayLoad.interface';

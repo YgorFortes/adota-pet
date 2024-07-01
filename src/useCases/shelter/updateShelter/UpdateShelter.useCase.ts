@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IUpdateShelterUseCaseDto } from './dtos/IUpdateShelter.useCase.dto';
 import { UpdateUserUseCase } from 'src/useCases/user/updateUser/UpdateUser.useCase';
 import { UpdateAddressUseCase } from 'src/useCases/address/updateAddress/UpdateAddress.useCase';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IShelterRepository } from 'src/repositories/interfaces/IShelterRepository.interface';
-import { userAssociation } from 'src/enum/userAssociation.enum';
+import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { Shelter } from 'src/entities/Shelter.entity';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 

@@ -2,16 +2,16 @@ import { IUserRepository } from 'src/repositories/interfaces/IUserRepository.int
 import { ICreateUserUseCaseDTO } from './dtos/ICreateUser.useCase.dto';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/entities/User.entity';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
-import { Provide } from 'src/enum/provider.enum';
-import { ISavePhotoInCoudInterface } from '../../common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
+import { Provide } from 'src/common/enum/provider.enum';
+import { ISavePhotoInCloudInterface } from '../../common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(
     @Inject(RepositoryType.IUserRepository) private userRepository: IUserRepository,
-    @Inject(Provide.ISavePhotoInCoudInterface)
-    private savePhotoInCoud: ISavePhotoInCoudInterface,
+    @Inject(Provide.ISavePhotoInCloudInterface)
+    private savePhotoInCloud: ISavePhotoInCloudInterface,
   ) {}
 
   async execute(dtoUser: ICreateUserUseCaseDTO): Promise<User> {
@@ -23,7 +23,7 @@ export class CreateUserUseCase {
       throw new BadRequestException('Usuário já existe');
     }
 
-    const urlPhoto = await this.savePhotoInCoud.execute(photo);
+    const urlPhoto = await this.savePhotoInCloud.execute(photo);
 
     const user = new User({ ...dtoUser, photo: urlPhoto });
 

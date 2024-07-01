@@ -1,8 +1,8 @@
-import { PetSize } from 'src/enum/petSize.enum';
-import { PetStatus } from 'src/enum/petStatus.enum';
+import { PetSize } from 'src/common/enum/petSize.enum';
+import { PetStatus } from 'src/common/enum/petStatus.enum';
 import { Shelter } from './Shelter.entity';
 import { Guardian } from './Guardian.entity';
-import { PetSpecie } from 'src/enum/petSpecie.enum';
+import { PetSpecie } from 'src/common/enum/petSpecie.enum';
 
 type propsPet = {
   id?: string;

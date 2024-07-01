@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { IUserWithAssociation } from 'src/common/interfaces/IUserWithAssociation';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
-import { userAssociation } from 'src/enum/userAssociation.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
+import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { IUserRepository } from 'src/repositories/interfaces/IUserRepository.interface';
 
 @Injectable()

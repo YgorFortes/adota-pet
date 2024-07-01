@@ -3,8 +3,8 @@ import { IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validato
 import { isBeforeCurrentDate } from 'src/common/helpers/decoratorsValidators/isBeforeCurrentDate.decorator';
 import { IsBrazilianDate } from 'src/common/helpers/decoratorsValidators/isBrazilianDate.decorator';
 import { trimString } from 'src/common/helpers/validation.helpers';
-import { PetSize } from 'src/enum/petSize.enum';
-import { PetSpecie } from 'src/enum/petSpecie.enum';
+import { PetSize } from 'src/common/enum/petSize.enum';
+import { PetSpecie } from 'src/common/enum/petSpecie.enum';
 
 export class CreatePetControllerDto {
   @Transform(trimString)

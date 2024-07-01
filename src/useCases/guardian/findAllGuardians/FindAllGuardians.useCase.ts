@@ -1,5 +1,5 @@
 import { Inject, NotFoundException } from '@nestjs/common';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IGuardianRepository } from 'src/repositories/interfaces/IGuardianRepository.interface';
 import { IFindAllPaginationUseCaseDto } from '../../../common/dtos/IFindAllPagination.useCase.dto';
 import { Guardian } from 'src/entities/Guardian.entity';

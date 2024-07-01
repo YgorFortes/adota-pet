@@ -10,9 +10,9 @@ import {
 import { MessageEntity } from './Message.entity';
 import { ShelterEntity } from './Shelter.entity';
 import { GuardianEntity } from './Guardian.entity';
-import { PetSpecie } from '../../../enum/petSpecie.enum';
-import { PetSize } from '../../../enum/petSize.enum';
-import { PetStatus } from '../../../enum/petStatus.enum';
+import { PetSpecie } from '../../../common/enum/petSpecie.enum';
+import { PetSize } from '../../../common/enum/petSize.enum';
+import { PetStatus } from '../../../common/enum/petStatus.enum';
 
 @Entity({ name: 'pet' })
 export class PetEntity {

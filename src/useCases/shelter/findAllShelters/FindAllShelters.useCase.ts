@@ -1,7 +1,7 @@
 import { Inject, NotFoundException } from '@nestjs/common';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { Shelter } from 'src/entities/Shelter.entity';
-import { RepositoryType } from 'src/enum/repositoryType.enum';
+import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IShelterRepository } from 'src/repositories/interfaces/IShelterRepository.interface';
 import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
 

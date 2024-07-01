@@ -12,7 +12,7 @@ import {
   ValidationArguments,
   isIn,
 } from 'class-validator';
-import { stateBrazilian } from 'src/enum/stateBrazilian.enum';
+import { stateBrazilian } from 'src/common/enum/stateBrazilian.enum';
 import { trimString, isCepMissing, otherFieldWithCep } from 'src/common/helpers/validation.helpers';
 import { ValidateCepWithoutOtherFields } from 'src/common/helpers/decoratorsValidators/cepWithoutOtherFields.decorator';
 
