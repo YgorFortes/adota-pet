@@ -18,7 +18,7 @@ export class CreatePetUseCase {
   async execute(userId: string, createPetDto: ICreatePetUseCaseDTO): Promise<Pet> {
     const user = await this.findUserByIdUseCase.execute(userId, userAssociation.SHELTER);
 
-    const imageUrl = 'await this.savePhotoInCoud.execute(createPetDto.image)';
+    const imageUrl = await this.savePhotoInCoud.execute(createPetDto.image);
 
     const pet = new Pet({ ...createPetDto, shelter: user.shelter, image: imageUrl });
 
