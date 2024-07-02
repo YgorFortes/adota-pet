@@ -1,5 +1,5 @@
 import { Pet } from 'src/entities/Pet.entity';
-import { IPetRepository } from '../interfaces/IPetRepository.interface';
+import { IPetRepository, IUpdatePetRepositoryDto } from '../interfaces/IPetRepository.interface';
 import { BaseRepository } from './BaseRepository';
 import { PetEntity } from 'src/infra/db/entities/Pet.entity';
 import { DataSource } from 'typeorm';
@@ -12,6 +12,18 @@ import { IPagination } from 'src/common/interfaces/IPagination.interface';
 export class PetRepository extends BaseRepository<PetEntity> implements IPetRepository {
   constructor(dataSource: DataSource, @Inject(REQUEST) request: Request) {
     super(PetEntity, dataSource, request);
+  }
+
+  async findPetByShelter(petId: string, shelterId: string): Promise<Pet> {
+    const queryBuilder = this.repository
+      .createQueryBuilder('pet')
+      .leftJoinAndSelect(`pet.shelter`, 'shelter')
+      .where('pet.id = :petId', { petId })
+      .andWhere('pet.shelter_id  = :shelterId', { shelterId });
+
+    const pet = await queryBuilder.getOne();
+
+    return pet;
   }
 
   async findPetById(petId: string): Promise<Pet> {
@@ -38,5 +50,21 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
     const petCreated = await this.repository.save(petDto);
 
     return petCreated;
+  }
+
+  async updatePet(petId: string, petUpdateDto: IUpdatePetRepositoryDto): Promise<Pet> {
+    const petUpdated = await this.repository.update({ id: petId }, petUpdateDto);
+
+    if (petUpdated.affected > 0) {
+      return await this.findPetById(petId);
+    }
+  }
+
+  async deletePet(petId: string): Promise<boolean> {
+    const petDeleted = await this.repository.delete(petId);
+
+    if (petDeleted.affected > 0) {
+      return true;
+    }
   }
 }
