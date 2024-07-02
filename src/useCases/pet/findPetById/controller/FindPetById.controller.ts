@@ -8,7 +8,7 @@ import { Pet } from 'src/entities/Pet.entity';
 export class FindPetByIdController {
   constructor(private findPetById: FindPetByIdUseCase) {}
   @Get(':id')
-  // @UseInterceptors(CacheInterceptor)
+  @UseInterceptors(CacheInterceptor)
   async handle(@Param() params: FindByIdControllerDto): Promise<Pet> {
     const pet = await this.findPetById.execute(params.id);
     return pet;
