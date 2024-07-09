@@ -28,6 +28,7 @@ export class CreatePetController {
     @UploadedFile(new ImageValidator(true)) image: Express.Multer.File,
   ): Promise<{ message: string; pet: Pet }> {
     const userId = request.user.sub;
+
     const petCreated = await this.createPetUseCase.execute(userId, {
       ...createPetControllerDto,
       image,
