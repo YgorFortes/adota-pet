@@ -1,10 +1,11 @@
 import { trimString } from 'src/common/helpers/validation.helpers';
 import { Transform, Type } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString, MaxLength, ValidateNested } from 'class-validator';
-import { IsBrazilianDate } from 'src/common/helpers/decoratorsValidators/isBrazilianDate.decorator';
-import { isBeforeCurrentDate } from 'src/common/helpers/decoratorsValidators/isBeforeCurrentDate.decorator';
+
+import { validateDate } from 'src/common/helpers/decoratorsValidators/isBeforeCurrentDate.decorator';
 import { CreateAddressControllerDto } from 'src/useCases/address/createAddress/dtos/CreateAddress.controller.dto';
 import { IsLegalAge } from 'src/common/helpers/decoratorsValidators/isLegalAge.decorator';
+import { ValidateDateFormat } from 'src/common/helpers/decoratorsValidators/validateDateFormat.decorator';
 
 export class CreateGuardianCrontollerDto {
   @Transform(trimString)
@@ -14,8 +15,8 @@ export class CreateGuardianCrontollerDto {
   about: string;
 
   @IsNotEmpty({ message: 'birthDate não pode ser vazio.' })
-  @isBeforeCurrentDate()
-  @IsBrazilianDate()
+  @ValidateDateFormat()
+  @validateDate()
   @IsLegalAge()
   birthDate: Date;
 

@@ -6,20 +6,13 @@ import {
   registerDecorator,
 } from 'class-validator';
 
-import { isValid } from 'date-fns';
-import { dateFormated } from '../validation.helpers';
-
 @Injectable()
 @ValidatorConstraint({ async: false })
-export class BrazilianDateFormat implements ValidatorConstraintInterface {
-  validate(birthDate: string): boolean {
-    if (!birthDate) {
-      return false;
-    }
+export class DateFormat implements ValidatorConstraintInterface {
+  validate(date: Date): boolean {
+    const validateDate = new Date(date);
 
-    const birthDateFormated = dateFormated(birthDate);
-
-    if (!isValid(birthDateFormated)) {
+    if (!validateDate.getTime()) {
       return false;
     }
 
@@ -27,18 +20,18 @@ export class BrazilianDateFormat implements ValidatorConstraintInterface {
   }
 
   defaultMessage?(): string {
-    return 'A data de nascimento deve estar no formato DD/MM/YYYY.';
+    return 'A data deve estar no formato YYYY-MM-DD ou YYYY/MM/DD.';
   }
 }
 
-export const IsBrazilianDate = (optionsValidation?: ValidationOptions) => {
+export const ValidateDateFormat = (optionsValidation?: ValidationOptions) => {
   return (object: unknown, propertyName: string): void => {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: optionsValidation,
       constraints: [],
-      validator: BrazilianDateFormat,
+      validator: DateFormat,
     });
   };
 };

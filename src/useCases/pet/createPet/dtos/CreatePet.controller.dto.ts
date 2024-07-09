@@ -1,10 +1,11 @@
 import { Transform } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
-import { isBeforeCurrentDate } from 'src/common/helpers/decoratorsValidators/isBeforeCurrentDate.decorator';
-import { IsBrazilianDate } from 'src/common/helpers/decoratorsValidators/isBrazilianDate.decorator';
+import { validateDate } from 'src/common/helpers/decoratorsValidators/isBeforeCurrentDate.decorator';
+
 import { trimString } from 'src/common/helpers/validation.helpers';
 import { PetSize } from 'src/common/enum/petSize.enum';
 import { PetSpecie } from 'src/common/enum/petSpecie.enum';
+import { ValidateDateFormat } from 'src/common/helpers/decoratorsValidators/validateDateFormat.decorator';
 
 export class CreatePetControllerDto {
   @Transform(trimString)
@@ -13,9 +14,9 @@ export class CreatePetControllerDto {
   @Length(3, 255, { message: 'name entre 3 a 100 caracteres ' })
   readonly name: string;
 
-  @isBeforeCurrentDate()
-  @IsBrazilianDate()
+  @validateDate()
   @IsOptional()
+  @ValidateDateFormat({})
   readonly birthDate?: Date;
 
   @Transform(trimString)

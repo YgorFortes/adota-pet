@@ -58,9 +58,15 @@ export class ShelterEntity {
   @JoinColumn({ name: 'address_id' })
   address: AddressEntity;
 
-  @OneToMany(() => PetEntity, petEntity => petEntity.shelter, { cascade: true, eager: true })
+  @OneToMany(() => PetEntity, petEntity => petEntity.shelter, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   pets: Array<PetEntity>;
 
-  @OneToMany(() => MessageEntity, message => message.shelter)
+  @OneToMany(() => MessageEntity, message => message.shelter, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   messages: Array<MessageEntity>;
 }

@@ -14,8 +14,10 @@ export class DeleteShelterController {
   async handle(@Request() request: IRequestWithUser): Promise<{ message: string }> {
     const userId = request.user.sub;
 
-    const message = await this.deleteShelterUseCase.execute(userId, request);
+    const result = await this.deleteShelterUseCase.execute(userId, request);
 
-    return { message };
+    if (result) {
+      return { message: `Abrigo deletado com sucesso.` };
+    }
   }
 }

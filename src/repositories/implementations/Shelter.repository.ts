@@ -21,7 +21,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
   async findShelterById(shelterId: string): Promise<Shelter> {
     const shelter = await this.repository.findOne({
       where: { id: shelterId },
-      relations: ['user', 'address'],
+      relations: ['user', 'address', 'pets'],
     });
 
     if (!shelter) {
@@ -38,8 +38,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
 
     queryBuilder
       .leftJoinAndSelect('shelter.user', 'user')
-      .leftJoinAndSelect('shelter.address', 'address')
-      .leftJoinAndSelect('shelter.pets', 'pet');
+      .leftJoinAndSelect('shelter.address', 'address');
 
     queryBuilder.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
 
@@ -71,7 +70,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
     const result = await this.repository.update({ id: shelterId }, { ...updateShelterDto });
 
     if (result.affected > 0) {
-      return this.findShelterById(shelterId);
+      return await this.repository.findOne({ where: { id: shelterId } });
     }
   }
 
@@ -85,7 +84,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
     await this.repository.manager.remove(shelter.user);
     await this.repository.manager.remove(shelter);
 
-    const shelterDeleted = await this.findShelterById(shelterId);
+    const shelterDeleted = await this.repository.findOne({ where: { id: shelterId } });
 
     return !shelterDeleted;
   }
@@ -95,8 +94,20 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
       return null;
     }
 
-    const { id, user, about, webSite, address, workingHours, createdAt, updatedAt, deletedAt } =
-      shelter;
+    const {
+      id,
+      user,
+      about,
+      webSite,
+      address,
+      workingHours,
+      createdAt,
+      updatedAt,
+      deletedAt,
+      pets,
+    } = shelter;
+
+    delete user.shelter;
 
     const shelterFormated = {
       id,
@@ -105,6 +116,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
       webSite,
       workingHours,
       address,
+      pets,
       createdAt,
       updatedAt,
       deletedAt,

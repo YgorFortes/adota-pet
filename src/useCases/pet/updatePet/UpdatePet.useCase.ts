@@ -8,6 +8,7 @@ import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { IImageFile } from 'src/useCases/user/createUser/dtos/IImageFile';
 import { Provide } from 'src/common/enum/provider.enum';
 import { ISavePhotoInCloudInterface } from 'src/useCases/common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
+import { IUserWithAssociation } from 'src/common/interfaces/IUserWithAssociation';
 
 export class UpdatePetUseCase {
   constructor(
@@ -21,20 +22,20 @@ export class UpdatePetUseCase {
     petId: string,
     userId: string,
     updatePetUseCaseDto: IUpdatePetUseCaseDto,
+    userEntity?: IUserWithAssociation,
+    petEntity?: Pet,
   ): Promise<Pet> {
     const { image } = updatePetUseCaseDto;
 
-    const user = await this.findUserByIdUseCase.execute(userId, userAssociation.SHELTER);
-
+    const user =
+      userEntity ?? (await this.findUserByIdUseCase.execute(userId, userAssociation.SHELTER));
     const shelterId = user.shelter.id;
 
-    const pet = await this.petRepository.findPetByShelter(petId, shelterId);
+    const pet = petEntity ?? (await this.petRepository.findPetById(petId, shelterId));
 
     if (!pet) {
       throw new NotFoundException('O pet não existe ou não está associado ao abrigo.');
     }
-
-    //verificar se o status do animal foi mudado para adotado, se sim, a tabela(ainda não criada deve ser preenchida)
 
     const petUpdated = await this.petRepository.updatePet(petId, {
       ...updatePetUseCaseDto,

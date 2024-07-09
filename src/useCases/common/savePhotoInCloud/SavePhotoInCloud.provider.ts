@@ -35,7 +35,7 @@ export class SavePhotoInCloudProvider implements ISavePhotoInCloudInterface {
       const url = `${process.env.URLBACKBLAZE}?fileId=${fileId}`;
       return url;
     } catch (error) {
-      console.log(error);
+      throw new BadGatewayException('Serviço de upload indisponível.');
     }
   }
 }

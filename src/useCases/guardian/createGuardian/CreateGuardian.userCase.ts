@@ -21,10 +21,12 @@ export class CreateGuardianUseCase {
     const { about, birthDate, address, idUser } = guardianDto;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [__, user] = await Promise.all([
-      this.verifyUserGuardianUseCase.validateUserAssociation(idUser, userAssociation.GUARDIAN),
-      this.findUserByIdUseCase.execute(idUser),
-    ]);
+    const user = await this.findUserByIdUseCase.execute(idUser, userAssociation.GUARDIAN);
+    await this.verifyUserGuardianUseCase.validateUserAssociation(
+      idUser,
+      userAssociation.GUARDIAN,
+      user,
+    );
 
     const addressCreated = await this.createAddressUseCase.execute(address);
 

@@ -15,16 +15,16 @@ export class DeletePetUseCase {
 
     const shelterId = user.shelter.id;
 
-    const pet = await this.petRepository.findPetByShelter(petId, shelterId);
+    const pet = await this.petRepository.findPetById(petId, shelterId);
 
     if (!pet) {
       throw new NotFoundException('O pet não existe ou não está associado ao abrigo.');
     }
 
-    const petDeleted = await this.petRepository.deletePet(petId);
+    const result = await this.petRepository.deletePet(petId);
 
-    if (!petDeleted) {
-      throw new InternalServerErrorException('Não foi possível deletar o pet.');
+    if (!result) {
+      throw new InternalServerErrorException(`Não foi possível deletar o pet. id: ${petId}`);
     }
 
     return true;
