@@ -17,7 +17,7 @@ export class DeleteGuardianController {
     const result = await this.deleteGuardianUseCase.execute(idUser, request);
 
     if (result) {
-      return { message: 'Usuário deletado com sucesso.' };
+      return { message: `Tutor deletado com sucesso.` };
     }
   }
 }
