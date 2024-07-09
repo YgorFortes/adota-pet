@@ -15,8 +15,9 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
   }
 
   async findById(id: string, associantion?: userAssociation): Promise<User | null> {
-    const queryBuilder = this.repository.createQueryBuilder('user').where('user.id = :id', { id });
+    const queryBuilder = this.repository.createQueryBuilder('user');
 
+    queryBuilder.where('user.id = :id', { id });
     if (associantion) {
       queryBuilder.leftJoinAndSelect(`user.${associantion}`, associantion);
       queryBuilder.leftJoinAndSelect(`${associantion}.address`, 'address');
@@ -31,16 +32,14 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
     return user;
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<User> {
     const userFound = await this.repository.findOne({ where: { email } });
 
     if (!userFound) {
       return null;
     }
 
-    const user = new User({ ...userFound });
-
-    return user;
+    return userFound;
   }
 
   async verifyIfEmailIsUnique(email: string): Promise<boolean> {
