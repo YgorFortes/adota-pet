@@ -14,7 +14,7 @@ export class DeleteShelterUseCase {
     private logoutUserUseCase: LogoutUserUseCase,
   ) {}
 
-  async execute(userId: string, request: IRequestWithUser): Promise<string> {
+  async execute(userId: string, request: IRequestWithUser): Promise<boolean> {
     const user = await this.findUserByIdUseCase.execute(userId, userAssociation.SHELTER);
 
     const shelterId = user.shelter.id;
@@ -26,6 +26,6 @@ export class DeleteShelterUseCase {
     }
 
     await this.logoutUserUseCase.execute(request);
-    return `Abrigo id: ${shelterId} deletado com sucesso.`;
+    return true;
   }
 }

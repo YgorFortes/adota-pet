@@ -19,7 +19,7 @@ export class DeletePetController {
     const result = await this.deletePetUseCase.execute(params.id, userId);
 
     if (result) {
-      return { message: 'Pet deletado com sucesso.' };
+      return { message: `Pet id: ${params.id} deletado com sucesso.` };
     }
   }
 }
