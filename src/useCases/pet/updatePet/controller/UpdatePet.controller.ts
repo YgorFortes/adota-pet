@@ -30,7 +30,7 @@ export class UpdatePetController {
     @Body() updatePetControllerDto: UpdatePetControllerDto,
     @Request() request: IRequestWithUser,
     @UploadedFile(new ImageValidator()) image: Express.Multer.File,
-  ): Promise<Pet> {
+  ): Promise<{ message: string; pet: Pet }> {
     const userId = request.user.sub;
 
     const petId = params.id;
@@ -40,6 +40,6 @@ export class UpdatePetController {
       image,
     });
 
-    return petUpdated;
+    return { message: 'Pet atualizado com sucesso', pet: petUpdated };
   }
 }
