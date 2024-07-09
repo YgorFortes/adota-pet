@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { userAssociation } from 'src/common/enum/userAssociation.enum';
@@ -24,9 +24,12 @@ export class DeleteGuardianUseCase {
 
     const result = await this.guardianRepository.deleteGuardian(userWithGuardian.guardian.id);
 
-    if (result) {
-      await this.logoutUserUseCase.execute(request);
-      return true;
+    const guardianId = userWithGuardian.guardian.id;
+    if (!result) {
+      throw new InternalServerErrorException(`Não foi possivel deletar tutor. id: ${guardianId}`);
     }
+
+    await this.logoutUserUseCase.execute(request);
+    return true;
   }
 }
