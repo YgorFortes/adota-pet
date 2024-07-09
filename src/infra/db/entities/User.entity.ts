@@ -4,7 +4,6 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -13,7 +12,6 @@ import { Exclude } from 'class-transformer';
 
 import { GuardianEntity } from './Guardian.entity';
 import { ShelterEntity } from './Shelter.entity';
-import { MessageEntity } from './Message.entity';
 import { UserRole } from '../../../common/enum/roleUser.enum';
 
 @Entity({ name: 'user' })
@@ -66,7 +64,4 @@ export class UserEntity {
     onUpdate: 'CASCADE',
   })
   shelter: ShelterEntity;
-
-  @OneToMany(() => MessageEntity, message => message.guardian)
-  message: Array<MessageEntity>;
 }

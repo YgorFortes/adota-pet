@@ -16,6 +16,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { ShelterModule } from './useCases/shelter/shelter.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { PetModule } from './useCases/pet/pet.module';
+import { AdoptionModule } from './useCases/adoption/adoption.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { PetModule } from './useCases/pet/pet.module';
     AddressModule,
     ShelterModule,
     PetModule,
+    AdoptionModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -34,7 +36,7 @@ import { PetModule } from './useCases/pet/pet.module';
     MulterModule.register({
       dest: './uploads',
     }),
-    CacheModule.register({ isGlobal: true, ttl: 10000 }),
+    CacheModule.register({ isGlobal: true, ttl: 60 }),
   ],
   controllers: [AppController],
   providers: [
