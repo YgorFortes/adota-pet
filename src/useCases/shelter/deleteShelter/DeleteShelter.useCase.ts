@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { userAssociation } from 'src/common/enum/userAssociation.enum';
@@ -22,11 +22,10 @@ export class DeleteShelterUseCase {
     const result = await this.shelterRepository.deleteShelter(shelterId);
 
     if (!result) {
-      return `Não foi possivel deletar shelter. id: ${shelterId}`;
+      throw new InternalServerErrorException(`Não foi possivel deletar abrigo. id: ${shelterId}`);
     }
 
     await this.logoutUserUseCase.execute(request);
-
-    return `Shelter id: ${shelterId} deletado com sucesso.`;
+    return `Abrigo id: ${shelterId} deletado com sucesso.`;
   }
 }
