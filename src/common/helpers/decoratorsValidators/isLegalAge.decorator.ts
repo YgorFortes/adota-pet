@@ -6,20 +6,13 @@ import {
   registerDecorator,
 } from 'class-validator';
 
-import { differenceInYears, isValid } from 'date-fns';
-import { dateFormated } from '../validation.helpers';
+import { differenceInYears } from 'date-fns';
 
 @Injectable()
 @ValidatorConstraint({ async: false })
 export class ValidateLegalAge implements ValidatorConstraintInterface {
-  validate(birthDate: string): boolean {
-    const birthDateFormated = dateFormated(birthDate);
-
-    const age = differenceInYears(new Date(), birthDateFormated);
-
-    if (!isValid(birthDateFormated)) {
-      return false;
-    }
+  validate(date: Date): boolean {
+    const age = differenceInYears(new Date(), date);
 
     return age >= 18;
   }
