@@ -6,8 +6,8 @@ import { IPetRepository } from 'src/repositories/interfaces/IPetRepository.inter
 export class FindPetByIdUseCase {
   constructor(@Inject(RepositoryType.IPetRepository) private petRepository: IPetRepository) {}
 
-  async execute(petId: string): Promise<Pet> {
-    const pet = await this.petRepository.findPetById(petId);
+  async execute(petId: string, shelterId?: string): Promise<Pet> {
+    const pet = await this.petRepository.findPetById(petId, shelterId);
 
     if (!pet) {
       throw new NotFoundException('Pet não encontrado.');
