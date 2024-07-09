@@ -19,7 +19,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('shelter')
 @UseGuards(AuthenticationGuard, RoleUserGuard)
-@UseInterceptors(FileInterceptor('user.photo'))
+@UseInterceptors(FileInterceptor('user[photo]'))
 @UseInterceptors(TransactionInterceptor)
 export class UpdateShelterController {
   constructor(private updateShelterUseCase: UpdateShelterUseCase) {}
@@ -28,16 +28,16 @@ export class UpdateShelterController {
     @Body() updateShelterDto: UpdateShelterControllerDto,
     @Request() request: IRequestWithUser,
     @UploadedFile(new ImageValidator()) photo: Express.Multer.File,
-  ): Promise<{ shelter: Shelter }> {
+  ): Promise<{ message: string; shelter: Shelter }> {
     const combinedData = {
       ...updateShelterDto,
-      user: { photo: photo },
+      user: { ...updateShelterDto.user, photo: photo },
     };
 
     const userId = request.user.sub;
 
     const shelterUpdated = await this.updateShelterUseCase.execute(userId, { ...combinedData });
 
-    return { shelter: shelterUpdated };
+    return { message: 'Abrigo atualizado com sucesso.', shelter: shelterUpdated };
   }
 }
