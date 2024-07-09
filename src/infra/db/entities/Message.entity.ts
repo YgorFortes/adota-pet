@@ -44,17 +44,26 @@ export class MessageEntity {
   })
   deletedAt: Date;
 
-  @ManyToOne(() => GuardianEntity, guardian => guardian.messages)
+  @ManyToOne(() => GuardianEntity, guardian => guardian.messages, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'guardian_id' })
   @Index()
   guardian: GuardianEntity;
 
-  @ManyToOne(() => ShelterEntity, shelter => shelter.address)
+  @ManyToOne(() => ShelterEntity, shelter => shelter.address, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'shelter_id' })
   @Index()
   shelter: ShelterEntity;
 
-  @ManyToOne(() => PetEntity, pet => pet.messages)
+  @ManyToOne(() => PetEntity, pet => pet.messages, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'pet_id' })
   @Index()
   pet: PetEntity;
