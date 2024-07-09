@@ -21,13 +21,13 @@ export class CreateShelterUseCase {
     const { about, webSite, workingHours, address } = shelterDto;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [user, __] = await Promise.all([
-      this.findUserByIdUseCase.execute(shelterDto.idUser),
-      this.verifyUserAssociationUseCase.validateUserAssociation(
-        shelterDto.idUser,
-        userAssociation.SHELTER,
-      ),
-    ]);
+    const user = await this.findUserByIdUseCase.execute(shelterDto.idUser, userAssociation.SHELTER);
+
+    await this.verifyUserAssociationUseCase.validateUserAssociation(
+      shelterDto.idUser,
+      userAssociation.SHELTER,
+      user,
+    );
 
     const addresCreated = await this.createAddressUseCase.execute(address);
 
