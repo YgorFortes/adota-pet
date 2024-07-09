@@ -28,7 +28,8 @@ export class GuardianRepository
     queryBuilder
       .leftJoinAndSelect('guardian.user', 'user')
       .leftJoinAndSelect('guardian.address', 'address')
-      .leftJoinAndSelect('guardian.pets', 'pet');
+      .leftJoinAndSelect('guardian.Adoptions', 'adoption')
+      .leftJoinAndSelect('adoption.pet', 'pet');
 
     queryBuilder.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
 
@@ -46,11 +47,17 @@ export class GuardianRepository
     return { items: guardiansFormatted, meta: { counterPage, totalCount: guardiansCount } };
   }
 
-  async findGuardianById(id: string): Promise<Guardian> {
-    const guardian = await this.repository.findOne({
-      where: { id },
-      relations: ['user', 'address'],
-    });
+  async findGuardianById(guardianId: string): Promise<Guardian> {
+    const queryBuilder = this.repository.createQueryBuilder('guardian');
+
+    queryBuilder
+      .leftJoinAndSelect('guardian.user', 'user')
+      .leftJoinAndSelect('guardian.address', 'address')
+      .leftJoinAndSelect('guardian.Adoptions', 'adoption')
+      .leftJoinAndSelect('adoption.pet', 'pet')
+      .where('guardian.id = :id', { id: guardianId });
+
+    const guardian = await queryBuilder.getOne();
 
     if (!guardian) {
       return null;
@@ -69,19 +76,19 @@ export class GuardianRepository
   }
 
   async updateGuardian(
-    id: string,
+    guardianId: string,
     updateGuardianDto: IUpdateGuardianRepositoryDto,
   ): Promise<Guardian> {
-    const result = await this.repository.update({ id }, { ...updateGuardianDto });
+    const result = await this.repository.update({ id: guardianId }, { ...updateGuardianDto });
 
     if (result.affected > 0) {
-      return this.findGuardianById(id);
+      return await this.repository.findOne({ where: { id: guardianId } });
     }
   }
 
-  async deleteGuardian(id: string): Promise<boolean> {
+  async deleteGuardian(guardianId: string): Promise<boolean> {
     const guardian = await this.repository.findOne({
-      where: { id },
+      where: { id: guardianId },
       relations: ['user', 'address'],
     });
 
@@ -89,7 +96,7 @@ export class GuardianRepository
     await this.repository.manager.remove(guardian.user);
     await this.repository.manager.remove(guardian);
 
-    const guadianDeleted = await this.findGuardianById(id);
+    const guadianDeleted = await this.repository.findOne({ where: { id: guardianId } });
 
     return !guadianDeleted;
   }
@@ -100,16 +107,17 @@ export class GuardianRepository
       return null;
     }
 
-    const { id, user, about, birthDate, address, pets, createdAt, updatedAt, deletedAt } = guardian;
-    delete user.password;
+    const { id, user, about, birthDate, address, createdAt, updatedAt, deletedAt, Adoptions } =
+      guardian;
 
+    delete user.guardian;
     const guardianWithPet = {
       id,
       user,
       about,
       birthDate,
       address,
-      pets,
+      Adoptions,
       createdAt,
       updatedAt,
       deletedAt,
