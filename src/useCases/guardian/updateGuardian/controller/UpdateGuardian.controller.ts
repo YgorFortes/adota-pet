@@ -20,7 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @UseGuards(AuthenticationGuard, RoleUserGuard)
 @Controller('guardian')
 @UseInterceptors(TransactionInterceptor)
-@UseInterceptors(FileInterceptor('user.photo'))
+@UseInterceptors(FileInterceptor('user[photo]'))
 export class UpdataGuardianControle {
   constructor(private updateGuardianUseCase: UpdateGuardianUseCase) {}
   @Put()
@@ -28,14 +28,14 @@ export class UpdataGuardianControle {
     @Body() updateGuardianDto: UpdateGuardianControleDto,
     @Request() request: IRequestWithUser,
     @UploadedFile(new ImageValidator()) photo: Express.Multer.File,
-  ): Promise<{ guardian: Guardian }> {
+  ): Promise<{ message: string; guardian: Guardian }> {
     const combinedData = {
       ...updateGuardianDto,
-      user: { photo: photo },
+      user: { ...updateGuardianDto.user, photo: photo },
     };
 
     const idUser = request.user.sub;
     const guardianUpdated = await this.updateGuardianUseCase.execute(idUser, combinedData);
-    return { guardian: guardianUpdated };
+    return { message: 'Tutor atualizado com sucesso.', guardian: guardianUpdated };
   }
 }
