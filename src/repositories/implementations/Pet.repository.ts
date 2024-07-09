@@ -14,20 +14,18 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
     super(PetEntity, dataSource, request);
   }
 
-  async findPetByShelter(petId: string, shelterId: string): Promise<Pet> {
+  async findPetById(petId: string, shelterId?: string): Promise<Pet> {
     const queryBuilder = this.repository
       .createQueryBuilder('pet')
-      .leftJoinAndSelect(`pet.shelter`, 'shelter')
-      .where('pet.id = :petId', { petId })
-      .andWhere('pet.shelter_id  = :shelterId', { shelterId });
+      .where('pet.id = :petId', { petId });
+
+    if (shelterId) {
+      queryBuilder
+        .leftJoinAndSelect(`pet.shelter`, 'shelter')
+        .andWhere('pet.shelter_id  = :shelterId', { shelterId });
+    }
 
     const pet = await queryBuilder.getOne();
-
-    return pet;
-  }
-
-  async findPetById(petId: string): Promise<Pet> {
-    const pet = await this.repository.findOne({ where: { id: petId } });
 
     return pet;
   }
@@ -48,7 +46,7 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
 
   async savePet(petDto: Pet): Promise<Pet> {
     const petCreated = await this.repository.save(petDto);
-
+    delete petCreated.shelter;
     return petCreated;
   }
 
