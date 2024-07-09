@@ -14,5 +14,6 @@ import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.
     FindGuardianByIdUseCase,
     { provide: RepositoryType.IGuardianRepository, useClass: GuardianRepository },
   ],
+  exports: [FindGuardianByIdUseCase],
 })
 export class FindGuardianByIdModule {}
