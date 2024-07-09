@@ -1,18 +1,21 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { MessageEntity } from './Message.entity';
 import { ShelterEntity } from './Shelter.entity';
-import { GuardianEntity } from './Guardian.entity';
 import { PetSpecie } from '../../../common/enum/petSpecie.enum';
 import { PetSize } from '../../../common/enum/petSize.enum';
 import { PetStatus } from '../../../common/enum/petStatus.enum';
+import { AdoptionEntity } from './Adoption.entity';
 
 @Entity({ name: 'pet' })
 export class PetEntity {
@@ -60,23 +63,38 @@ export class PetEntity {
   @Index()
   specie: PetSpecie;
 
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    nullable: true,
+    default: null,
+    type: 'timestamp with time zone',
+  })
+  deletedAt: Date;
+
   @ManyToOne(() => ShelterEntity, shelter => shelter.pets, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'shelter_id' })
-  @Index()
   shelter: ShelterEntity;
 
-  @ManyToOne(() => GuardianEntity, guardianEntity => guardianEntity.pets, {
+  @OneToMany(() => AdoptionEntity, adoptionEntity => adoptionEntity.pet, {
     nullable: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn({ name: 'guardian_id' })
-  @Index()
-  guardian: GuardianEntity;
+  @JoinColumn({ name: 'adoption_id' })
+  adoptions: Array<AdoptionEntity>;
 
-  @OneToMany(() => MessageEntity, message => message.pet)
+  @OneToMany(() => MessageEntity, message => message.pet, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   messages: Array<MessageEntity>;
 }

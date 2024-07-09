@@ -12,8 +12,8 @@ import {
 } from 'typeorm';
 import { UserEntity } from './User.entity';
 import { AddressEntity } from './Address.entity';
-import { PetEntity } from './Pet.entity';
 import { MessageEntity } from './Message.entity';
+import { AdoptionEntity } from './Adoption.entity';
 
 @Entity({ name: 'guardian' })
 export class GuardianEntity {
@@ -47,18 +47,24 @@ export class GuardianEntity {
   @JoinColumn({ name: 'address_id' })
   address: AddressEntity;
 
-  @OneToOne(() => UserEntity, user => user.guardian, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @OneToOne(() => UserEntity, user => user.guardian, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id' })
   @Index()
   user: UserEntity;
 
-  @OneToMany(() => PetEntity, petEntity => petEntity.guardian, {
-    cascade: true,
-    eager: true,
+  @OneToMany(() => AdoptionEntity, adoptionEntity => adoptionEntity.guardian, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
     nullable: true,
   })
-  pets: Array<PetEntity>;
+  Adoptions: Array<AdoptionEntity>;
 
-  @OneToMany(() => MessageEntity, message => message.guardian)
+  @OneToMany(() => MessageEntity, message => message.guardian, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   messages: Array<MessageEntity>;
 }
