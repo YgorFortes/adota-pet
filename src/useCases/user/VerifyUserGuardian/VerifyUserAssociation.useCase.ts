@@ -3,7 +3,6 @@ import { IUserWithAssociation } from 'src/common/interfaces/IUserWithAssociation
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { IUserRepository } from 'src/repositories/interfaces/IUserRepository.interface';
-import { User } from 'src/entities/User.entity';
 
 @Injectable()
 export class VerifyUserAssociationUseCase {
@@ -12,7 +11,7 @@ export class VerifyUserAssociationUseCase {
   async validateUserAssociation(
     userId: string,
     associantion: userAssociation,
-    user?: User,
+    user?: IUserWithAssociation,
   ): Promise<void> {
     const userAssociation: IUserWithAssociation =
       user ?? (await this.userRepository.findById(userId, associantion));
