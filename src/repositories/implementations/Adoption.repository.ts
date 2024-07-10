@@ -18,6 +18,22 @@ export class AdoptionRepository
   constructor(dataSource: DataSource, @Inject(REQUEST) request: Request) {
     super(AdoptionEntity, dataSource, request);
   }
+
+  async findAdoptionById(adoptionId: string, userId?: string): Promise<Adoption> {
+    const queryBuilder = this.repository.createQueryBuilder('adoption');
+    queryBuilder.where('adoption.id =:id', { id: adoptionId });
+    if (userId) {
+      queryBuilder
+        .leftJoinAndSelect('adoption.pet', 'pet')
+        .leftJoinAndSelect('pet.shelter', 'shelter')
+        .leftJoinAndSelect('shelter.user', 'user')
+        .andWhere('user.id =:userId', { userId });
+    }
+
+    const adoption = await queryBuilder.getOne();
+    return adoption;
+  }
+
   async saveAdoption(adoptionDto: Adoption): Promise<AdoptionWithoutGuardianAndPet> {
     const adoptionCreated = await this.repository.save(adoptionDto);
 
@@ -26,12 +42,12 @@ export class AdoptionRepository
     return adoption;
   }
 
-  async findOneAdoption(adoptionId: string): Promise<Adoption> {
-    const adoption = await this.repository.findOne({
-      where: { id: adoptionId },
-    });
+  async deleteAdoption(adoptionId: string): Promise<boolean> {
+    const adoptionDeleted = await this.repository.delete(adoptionId);
 
-    return adoption;
+    if (adoptionDeleted.affected > 0) {
+      return true;
+    }
   }
 
   private formatAdoptionProprieties(adoption: AdoptionEntity): AdoptionWithoutGuardianAndPet {
