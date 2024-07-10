@@ -8,6 +8,7 @@ import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
+import { PetStatus } from 'src/common/enum/petStatus.enum';
 
 export class PetRepository extends BaseRepository<PetEntity> implements IPetRepository {
   constructor(dataSource: DataSource, @Inject(REQUEST) request: Request) {
@@ -17,7 +18,8 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
   async findPetById(petId: string, shelterId?: string): Promise<Pet> {
     const queryBuilder = this.repository
       .createQueryBuilder('pet')
-      .where('pet.id = :petId', { petId });
+      .where('pet.id = :petId', { petId })
+      .andWhere('pet.status = :petStatus', { petStatus: PetStatus.NÃO_ADOTADO });
 
     if (shelterId) {
       queryBuilder
@@ -33,7 +35,9 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
   async findAllPets(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Pet>> {
     const queryBuilder = this.repository.createQueryBuilder('pet');
 
-    queryBuilder.leftJoinAndSelect('pet.shelter', 'shelter');
+    queryBuilder
+      .leftJoinAndSelect('pet.shelter', 'shelter')
+      .where('pet.status = :petStatus', { petStatus: PetStatus.NÃO_ADOTADO });
 
     queryBuilder.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
 
