@@ -29,6 +29,7 @@ export class UpdatePetUseCase {
 
     const user =
       userEntity ?? (await this.findUserByIdUseCase.execute(userId, userAssociation.SHELTER));
+
     const shelterId = user.shelter.id;
 
     const pet = petEntity ?? (await this.petRepository.findPetById(petId, shelterId));
