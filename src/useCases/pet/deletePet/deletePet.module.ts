@@ -15,6 +15,6 @@ import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.
       useClass: PetRepository,
     },
   ],
-  exports: [],
+  exports: [DeletePetUseCase],
 })
 export class DeletePetModule {}
