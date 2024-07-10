@@ -4,7 +4,7 @@ import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById
 import { IRouteInfo } from '../interfaces/IRouterInfo.interface';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
 import { userAssociation } from '../enum/userAssociation.enum';
-import { User } from 'src/entities/User.entity';
+import { IUserWithAssociation } from '../interfaces/IUserWithAssociation';
 
 @Injectable()
 export class RoleUserGuard implements CanActivate {
@@ -51,7 +51,7 @@ export class RoleUserGuard implements CanActivate {
     return method === 'POST';
   }
 
-  private async hasValidAssociation(user: User): Promise<boolean> {
+  private async hasValidAssociation(user: IUserWithAssociation): Promise<boolean> {
     const associationType =
       user.role === UserRole.GUARDIAN ? userAssociation.GUARDIAN : userAssociation.SHELTER;
 
