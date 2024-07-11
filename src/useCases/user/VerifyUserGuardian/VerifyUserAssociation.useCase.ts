@@ -1,8 +1,8 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { IUserWithAssociation } from 'src/common/interfaces/IUserWithAssociation';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
-import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { IUserRepository } from 'src/repositories/interfaces/IUserRepository.interface';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 @Injectable()
 export class VerifyUserAssociationUseCase {
@@ -10,7 +10,7 @@ export class VerifyUserAssociationUseCase {
 
   async validateUserAssociation(
     userId: string,
-    associantion: userAssociation,
+    associantion: UserRole,
     user?: IUserWithAssociation,
   ): Promise<void> {
     const userAssociation: IUserWithAssociation =
