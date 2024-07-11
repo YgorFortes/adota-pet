@@ -16,6 +16,7 @@ import { PasswordIsTyped } from 'src/common/helpers/decoratorsValidators/passwor
 import { trimString } from 'src/common/helpers/validation.helpers';
 
 import { UserRole } from 'src/common/enum/roleUser.enum';
+import { ValidateEmail } from 'src/common/helpers/decoratorsValidators/validateEmailDomains.decorator';
 
 export class CreateUserControllerDto {
   @Transform(trimString)
@@ -27,6 +28,7 @@ export class CreateUserControllerDto {
   @Transform(trimString)
   @IsEmail({}, { message: 'Por favor, insira um endereço de email válido.' })
   @IsNotEmpty({ message: 'email não pode ser vazio.' })
+  @ValidateEmail()
   @MaxLength(255, { message: 'email não pode ter mais de 100 caracteres.' })
   readonly email: string;
 
