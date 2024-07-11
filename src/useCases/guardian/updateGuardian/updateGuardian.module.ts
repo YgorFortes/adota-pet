@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { GuardianEntity } from 'src/infra/db/entities/Guardian.entity';
 import { UpdataGuardianControle } from './controller/UpdateGuardian.controller';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { GuardianRepository } from 'src/repositories/implementations/Guardian.repostory';
@@ -11,13 +9,7 @@ import { VerifyUserAssociationModule } from 'src/useCases/user/VerifyUserGuardia
 import { UpdateAddressModule } from 'src/useCases/address/updateAddress/updateAddress.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([GuardianEntity]),
-    FindUserByIdModule,
-    UpdateUserModule,
-    VerifyUserAssociationModule,
-    UpdateAddressModule,
-  ],
+  imports: [FindUserByIdModule, UpdateUserModule, VerifyUserAssociationModule, UpdateAddressModule],
   controllers: [UpdataGuardianControle],
   providers: [
     UpdateGuardianUseCase,
