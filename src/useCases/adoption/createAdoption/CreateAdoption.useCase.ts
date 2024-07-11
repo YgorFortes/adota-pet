@@ -11,9 +11,9 @@ import { FindGuardianByIdUseCase } from 'src/useCases/guardian/findGuardianById/
 import { AdoptionStatus } from 'src/common/enum/adoptionStatus.enum';
 import { UpdatePetUseCase } from 'src/useCases/pet/updatePet/UpdatePet.useCase';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
-import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { PetStatus } from 'src/common/enum/petStatus.enum';
 import { Pet } from 'src/entities/Pet.entity';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 export class CreateAdoptionUseCase {
   constructor(
@@ -28,7 +28,7 @@ export class CreateAdoptionUseCase {
     adoptionDto: ICreateAdoptionUseCaseDto,
     userId: string,
   ): Promise<AdoptionWithoutGuardianAndPet> {
-    const user = await this.findUserByIdUseCase.execute(userId, userAssociation.SHELTER);
+    const user = await this.findUserByIdUseCase.execute(userId, UserRole.SHELTER);
 
     const pet = await this.findPetByIdUseCase.execute(adoptionDto.petId, user.shelter.id);
     const guardian = await this.findGuardianByIdUseCase.execute(adoptionDto.guardianId);
