@@ -20,7 +20,13 @@ export class CreateAddressUseCase {
 
   private async createAddress(createAddressDto: ICreateAddressDto): Promise<Address> {
     if (createAddressDto.cep) {
-      return await this.createAddressByCep(createAddressDto.cep, createAddressDto.complement);
+      const address = await this.addressRepository.findAddress(createAddressDto.cep);
+
+      if (!address) {
+        return await this.createAddressByCep(createAddressDto.cep, createAddressDto.complement);
+      }
+
+      return address;
     } else {
       const createdAddress = await this.addressRepository.save(createAddressDto);
       return createdAddress;
