@@ -7,7 +7,7 @@ export interface ICreatePetUseCaseDTO {
 
   birthDate?: Date;
 
-  image: IImageFile;
+  photo: IImageFile;
 
   size: PetSize;
 
