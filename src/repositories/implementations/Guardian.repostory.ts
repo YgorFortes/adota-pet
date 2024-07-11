@@ -92,7 +92,6 @@ export class GuardianRepository
       relations: ['user', 'address'],
     });
 
-    await this.repository.manager.remove(guardian.address);
     await this.repository.manager.remove(guardian.user);
     await this.repository.manager.remove(guardian);
 
