@@ -5,7 +5,6 @@ import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById
 
 import { IRouteInfo } from '../interfaces/IRouterInfo.interface';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
-import { userAssociation } from '../enum/userAssociation.enum';
 
 @Injectable()
 export class ShelterPermition implements CanActivate {
@@ -17,7 +16,7 @@ export class ShelterPermition implements CanActivate {
 
     if ('user' in request) {
       const userId = request.user.sub;
-      const user = await this.findUserById.execute(userId, userAssociation.SHELTER);
+      const user = await this.findUserById.execute(userId, UserRole.SHELTER);
 
       if (user.role === UserRole.SHELTER && user.shelter) {
         return true;
