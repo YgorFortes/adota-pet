@@ -1,4 +1,4 @@
 export enum Provide {
   IAddressCepFinderProvider = 'IAddressCepFinderProvider',
-  ISavePhotoInCloudInterface = 'ISavePhotoInCloudInterface',
+  IManagePhotoInCloudInterface = 'IManagePhotoInCloudInterface',
 }

@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AddressEntity } from 'src/infra/db/entities/Address.entity';
 import { UpdateAddressUseCase } from './UpdateAddress.useCase';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { AddressRepository } from 'src/repositories/implementations/Address.repository';
@@ -8,7 +6,7 @@ import { Provide } from 'src/common/enum/provider.enum';
 import { findAddressByCepProvider } from '../findAddressByCep/FindAddressByCep.provider';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AddressEntity])],
+  imports: [],
   providers: [
     UpdateAddressUseCase,
     { provide: RepositoryType.IAddressRepository, useClass: AddressRepository },

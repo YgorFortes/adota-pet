@@ -3,7 +3,6 @@ import { UserRole } from 'src/common/enum/roleUser.enum';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 import { IRouteInfo } from '../interfaces/IRouterInfo.interface';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
-import { userAssociation } from '../enum/userAssociation.enum';
 import { IUserWithAssociation } from '../interfaces/IUserWithAssociation';
 
 @Injectable()
@@ -52,8 +51,7 @@ export class RoleUserGuard implements CanActivate {
   }
 
   private async hasValidAssociation(user: IUserWithAssociation): Promise<boolean> {
-    const associationType =
-      user.role === UserRole.GUARDIAN ? userAssociation.GUARDIAN : userAssociation.SHELTER;
+    const associationType = user.role === UserRole.GUARDIAN ? UserRole.GUARDIAN : UserRole.SHELTER;
 
     const association = await this.findUserById.execute(user.id, associationType);
 

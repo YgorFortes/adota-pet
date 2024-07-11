@@ -5,6 +5,7 @@ import {
   Entity,
   Index,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -40,10 +41,7 @@ export class GuardianEntity {
   })
   deletedAt: Date;
 
-  @OneToOne(() => AddressEntity, address => address.guardian, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToOne(() => AddressEntity, address => address.guardian, {})
   @JoinColumn({ name: 'address_id' })
   address: AddressEntity;
 

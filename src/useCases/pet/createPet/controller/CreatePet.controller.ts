@@ -17,7 +17,7 @@ import { ImageValidator } from 'src/common/pipes/ImageValidator.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('pet')
-@UseInterceptors(FileInterceptor('image'))
+@UseInterceptors(FileInterceptor('photo'))
 @UseGuards(AuthenticationGuard, ShelterPermition)
 export class CreatePetController {
   constructor(private createPetUseCase: CreatePetUseCase) {}
@@ -25,13 +25,13 @@ export class CreatePetController {
   async handle(
     @Body() createPetControllerDto: CreatePetControllerDto,
     @Request() request: IRequestWithUser,
-    @UploadedFile(new ImageValidator(true)) image: Express.Multer.File,
+    @UploadedFile(new ImageValidator(true)) photo: Express.Multer.File,
   ): Promise<{ message: string; pet: Pet }> {
     const userId = request.user.sub;
 
     const petCreated = await this.createPetUseCase.execute(userId, {
       ...createPetControllerDto,
-      image,
+      photo,
     });
 
     return { message: 'Pet criado com sucesso.', pet: petCreated };

@@ -6,7 +6,7 @@ import { FindUserByIdUseCase } from '../findUserById/FindUserById.useCase';
 import { User } from 'src/entities/User.entity';
 import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
 import { Provide } from 'src/common/enum/provider.enum';
-import { ISavePhotoInCloudInterface } from '../../common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
+import { IManagePhotoInCloudInterface } from 'src/useCases/common/ManagePhotoInCloud/interface/ISavePhotoInCloud.interface';
 import { IImageFile } from '../createUser/dtos/IImageFile';
 
 @Injectable()
@@ -15,12 +15,12 @@ export class UpdateUserUseCase {
     @Inject(RepositoryType.IUserRepository) private userRepository: IUserRepository,
     private findUserByIdUseCase: FindUserByIdUseCase,
     private hashPassWordPipe: HashPasswordPipe,
-    @Inject(Provide.ISavePhotoInCloudInterface)
-    private savePhotoInCloud: ISavePhotoInCloudInterface,
+    @Inject(Provide.IManagePhotoInCloudInterface)
+    private managePhotoInCloud: IManagePhotoInCloudInterface,
   ) {}
 
   async execute(id: string, updateUserDto: IUpdateUserUseCaseDto): Promise<Omit<User, 'password'>> {
-    await this.findUserByIdUseCase.execute(id);
+    const user = await this.findUserByIdUseCase.execute(id);
 
     if (updateUserDto.email) {
       await this.verifyEmailIsUnique(updateUserDto.email);
@@ -39,6 +39,10 @@ export class UpdateUserUseCase {
       photo: (await this.updatePhoto(photo)) || undefined,
       telephone,
     });
+
+    if (photo) {
+      await this.managePhotoInCloud.deletePhoto(user.photo);
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userWithoutPassword } = userUpdated;
@@ -61,7 +65,7 @@ export class UpdateUserUseCase {
   }
 
   private async updatePhoto(photo: IImageFile): Promise<string | null> {
-    const urlPhoto = photo ? await this.savePhotoInCloud.execute(photo) : null;
+    const urlPhoto = photo ? await this.managePhotoInCloud.uploadPhoto(photo) : null;
 
     return urlPhoto;
   }

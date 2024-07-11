@@ -15,6 +15,12 @@ export class AddressRepository extends BaseRepository<AddressEntity> implements 
     super(AddressEntity, dataSource, request);
   }
 
+  async findAddress(cep: string): Promise<Address> {
+    const address = await this.repository.findOne({ where: { cep } });
+
+    return address;
+  }
+
   async save(addressDto: ICreateAddressDto): Promise<Address> {
     const savedAddress = await this.repository.save(addressDto);
 

@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -47,15 +47,9 @@ export class AddressEntity {
   })
   deletedAt: Date;
 
-  @OneToOne(() => GuardianEntity, guardian => guardian.address, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  guardian: GuardianEntity;
+  @OneToMany(() => GuardianEntity, guardian => guardian.address, {})
+  guardian: Array<GuardianEntity>;
 
-  @OneToOne(() => ShelterEntity, shelter => shelter.address, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  shelter: ShelterEntity;
+  @OneToMany(() => ShelterEntity, shelter => shelter.address, {})
+  shelter: Array<ShelterEntity>;
 }

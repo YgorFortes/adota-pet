@@ -5,6 +5,7 @@ import {
   Entity,
   Index,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -51,10 +52,7 @@ export class ShelterEntity {
   @Index()
   user: UserEntity;
 
-  @OneToOne(() => AddressEntity, address => address.shelter, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToOne(() => AddressEntity, address => address.shelter, {})
   @JoinColumn({ name: 'address_id' })
   address: AddressEntity;
 

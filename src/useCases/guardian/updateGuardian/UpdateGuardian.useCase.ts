@@ -5,8 +5,8 @@ import { IUpdateGuardianUseCaseDto } from './dtos/IUpdateGuardian.useCase.dto';
 import { UpdateUserUseCase } from 'src/useCases/user/updateUser/UpdateUser.useCase';
 import { Guardian } from 'src/entities/Guardian.entity';
 import { UpdateAddressUseCase } from 'src/useCases/address/updateAddress/UpdateAddress.useCase';
-import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 @Injectable()
 export class UpdateGuardianUseCase {
@@ -22,7 +22,7 @@ export class UpdateGuardianUseCase {
 
     const userAssociationGuardian = await this.findUserByIdUseCase.execute(
       idUser,
-      userAssociation.GUARDIAN,
+      UserRole.GUARDIAN,
     );
 
     const guardianUpdated = await this.guardianRepository.updateGuardian(

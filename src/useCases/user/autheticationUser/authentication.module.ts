@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from 'src/infra/db/entities/User.entity';
 import { AuthenticationUserController } from './controller/AuthenticationUser.controller';
 import { ConfigService } from '@nestjs/config';
 import { AuthenticationUserUseCase } from './AuthenticationUser.useCase';
@@ -11,7 +9,6 @@ import { FindUserByEmailModule } from '../findEmailByEmail/findUserByEmail.modul
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
     FindUserByEmailModule,
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => {

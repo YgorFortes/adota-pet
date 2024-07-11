@@ -1,11 +1,11 @@
 import { BadGatewayException } from '@nestjs/common';
 import { IImageFile } from '../../user/createUser/dtos/IImageFile';
-import { ISavePhotoInCloudInterface } from './interface/ISavePhotoInCloud.interface';
+import { IManagePhotoInCloudInterface } from './interface/ISavePhotoInCloud.interface';
 import 'dotenv/config';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const BackblazeB2 = require('backblaze-b2');
 
-export class SavePhotoInCloudProvider implements ISavePhotoInCloudInterface {
+export class ManagePhotoInCloudProvider implements IManagePhotoInCloudInterface {
   private backblazeB2: typeof BackblazeB2;
   constructor() {
     this.backblazeB2 = new BackblazeB2({
@@ -13,7 +13,7 @@ export class SavePhotoInCloudProvider implements ISavePhotoInCloudInterface {
       applicationKey: process.env.BACKBLAZEB2APPLICATIONKEY,
     });
   }
-  async execute(image: IImageFile): Promise<string> {
+  async uploadPhoto(image: IImageFile): Promise<string> {
     try {
       await this.backblazeB2.authorize();
 
@@ -34,6 +34,30 @@ export class SavePhotoInCloudProvider implements ISavePhotoInCloudInterface {
       }
       const url = `${process.env.URLBACKBLAZE}?fileId=${fileId}`;
       return url;
+    } catch (error) {
+      throw new BadGatewayException('Serviço de upload indisponível.');
+    }
+  }
+
+  async deletePhoto(url: string): Promise<boolean> {
+    try {
+      const fileId = url.split('fileId=')[1];
+
+      await this.backblazeB2.authorize();
+
+      const reponseNamePhoto = await this.backblazeB2.getFileInfo({ fileId });
+      const namePhoto = reponseNamePhoto.data.fileName;
+
+      const responseDelete = await this.backblazeB2.deleteFileVersion({
+        fileId: fileId,
+        fileName: namePhoto,
+      });
+
+      if (responseDelete.status !== 200) {
+        throw new BadGatewayException('Serviço de upload indisponível.');
+      }
+
+      return true;
     } catch (error) {
       throw new BadGatewayException('Serviço de upload indisponível.');
     }

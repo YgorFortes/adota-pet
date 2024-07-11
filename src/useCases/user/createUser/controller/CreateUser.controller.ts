@@ -16,13 +16,13 @@ export class CreateUserController {
     @Body() userDto: CreateUserControllerDto,
     @Body('password', HashPasswordPipe) hashedPassword: string,
     @UploadedFile(new ImageValidator(true)) photo: Express.Multer.File,
-  ): Promise<{ message: string; user: User }> {
-    const userSaved = await this.createUserUseCase.execute({
+  ): Promise<{ message: string; user: User; token: string }> {
+    const { token, user } = await this.createUserUseCase.execute({
       ...userDto,
       password: hashedPassword,
       photo,
     });
 
-    return { message: 'Usuário criado', user: userSaved };
+    return { message: 'Usuário criado', user, token };
   }
 }

@@ -2,11 +2,9 @@ import { Module } from '@nestjs/common';
 import { UserRepository } from 'src/repositories/implementations/User.repository';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { FindUserByEmailUseCase } from './FindUserByEmail.useCase';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from 'src/infra/db/entities/User.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [],
   controllers: [],
   providers: [
     {
