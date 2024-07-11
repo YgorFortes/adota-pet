@@ -4,9 +4,9 @@ import { UpdateUserUseCase } from 'src/useCases/user/updateUser/UpdateUser.useCa
 import { UpdateAddressUseCase } from 'src/useCases/address/updateAddress/UpdateAddress.useCase';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IShelterRepository } from 'src/repositories/interfaces/IShelterRepository.interface';
-import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { Shelter } from 'src/entities/Shelter.entity';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 @Injectable()
 export class UpdateShelterUseCase {
@@ -19,10 +19,7 @@ export class UpdateShelterUseCase {
   async execute(userId: string, updateShelterDto: IUpdateShelterUseCaseDto): Promise<Shelter> {
     const { about, webSite, workingHours, user, address } = updateShelterDto;
 
-    const userAssociationShelter = await this.findUserByIdUseCase.execute(
-      userId,
-      userAssociation.SHELTER,
-    );
+    const userAssociationShelter = await this.findUserByIdUseCase.execute(userId, UserRole.SHELTER);
 
     const shelterUpdated = await this.shelterRepository.updateShelter(
       userAssociationShelter.shelter.id,
