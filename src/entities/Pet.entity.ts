@@ -11,7 +11,7 @@ type propsPet = {
 
   birthDate?: Date;
 
-  image: string;
+  photo: string;
 
   size: PetSize;
 
@@ -36,7 +36,7 @@ export class Pet {
   public readonly id?: string;
   public name: string;
   public birthDate?: Date;
-  public image: string;
+  public photo: string;
   public size: PetSize;
   public behavior: string;
   public status?: PetStatus;
@@ -51,7 +51,7 @@ export class Pet {
     this.id = props.id;
     this.name = props.name;
     this.birthDate = props.birthDate;
-    this.image = props.image;
+    this.photo = props.photo;
     this.size = props.size;
     this.behavior = props.behavior;
     this.status = props.status;
