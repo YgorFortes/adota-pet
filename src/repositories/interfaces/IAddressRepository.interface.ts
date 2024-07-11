@@ -4,6 +4,7 @@ import { IUpdateAddressUseCaseDto } from 'src/useCases/address/updateAddress/dto
 import { EntityManager } from 'typeorm';
 
 export interface IAddressRepository {
+  findAddress(cep: string): Promise<Address>;
   save(addressDto: ICreateAddressDto, transaction?: EntityManager): Promise<Address>;
   updateAddress(id: string, updateAddressDto: IUpdateAddressUseCaseDto): Promise<Address>;
 }
