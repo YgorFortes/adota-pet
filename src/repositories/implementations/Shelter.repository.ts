@@ -80,7 +80,6 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
       relations: ['user', 'address'],
     });
 
-    await this.repository.manager.remove(shelter.address);
     await this.repository.manager.remove(shelter.user);
     await this.repository.manager.remove(shelter);
 
