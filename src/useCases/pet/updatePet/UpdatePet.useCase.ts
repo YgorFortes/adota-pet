@@ -4,18 +4,18 @@ import { Pet } from 'src/entities/Pet.entity';
 import { IPetRepository } from 'src/repositories/interfaces/IPetRepository.interface';
 import { IUpdatePetUseCaseDto } from './dtos/IUpdatePet.useCase.dto';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
-import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { IImageFile } from 'src/useCases/user/createUser/dtos/IImageFile';
 import { Provide } from 'src/common/enum/provider.enum';
-import { ISavePhotoInCloudInterface } from 'src/useCases/common/savePhotoInCloud/interface/ISavePhotoInCloud.interface';
+import { IManagePhotoInCloudInterface } from 'src/useCases/common/ManagePhotoInCloud/interface/ISavePhotoInCloud.interface';
 import { IUserWithAssociation } from 'src/common/interfaces/IUserWithAssociation';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 export class UpdatePetUseCase {
   constructor(
     @Inject(RepositoryType.IPetRepository) private petRepository: IPetRepository,
     private findUserByIdUseCase: FindUserByIdUseCase,
-    @Inject(Provide.ISavePhotoInCloudInterface)
-    private savePhotoInCloud: ISavePhotoInCloudInterface,
+    @Inject(Provide.IManagePhotoInCloudInterface)
+    private managePhotoInCloud: IManagePhotoInCloudInterface,
   ) {}
 
   async execute(
@@ -25,10 +25,9 @@ export class UpdatePetUseCase {
     userEntity?: IUserWithAssociation,
     petEntity?: Pet,
   ): Promise<Pet> {
-    const { image } = updatePetUseCaseDto;
+    const { photo } = updatePetUseCaseDto;
 
-    const user =
-      userEntity ?? (await this.findUserByIdUseCase.execute(userId, userAssociation.SHELTER));
+    const user = userEntity ?? (await this.findUserByIdUseCase.execute(userId, UserRole.SHELTER));
 
     const shelterId = user.shelter.id;
 
@@ -40,14 +39,18 @@ export class UpdatePetUseCase {
 
     const petUpdated = await this.petRepository.updatePet(petId, {
       ...updatePetUseCaseDto,
-      image: (await this.updatePhoto(image)) || undefined,
+      photo: (await this.updatePhoto(photo)) || undefined,
     });
+
+    if (photo) {
+      await this.managePhotoInCloud.deletePhoto(pet.photo);
+    }
 
     return petUpdated;
   }
 
   private async updatePhoto(image: IImageFile): Promise<string | null> {
-    const urlPhoto = image ? await this.savePhotoInCloud.execute(image) : null;
+    const urlPhoto = image ? await this.managePhotoInCloud.uploadPhoto(image) : null;
 
     return urlPhoto;
   }
