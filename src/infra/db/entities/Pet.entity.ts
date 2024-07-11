@@ -34,8 +34,8 @@ export class PetEntity {
   @Index()
   birthDate: Date;
 
-  @Column({ name: 'image', length: 255, nullable: false })
-  image: string;
+  @Column({ name: 'photo', length: 255, nullable: false })
+  photo: string;
 
   @Column({ name: 'size', type: 'enum', enum: PetSize, nullable: false })
   @Index()
