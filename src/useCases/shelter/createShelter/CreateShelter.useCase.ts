@@ -4,9 +4,9 @@ import { IShelterRepository } from 'src/repositories/interfaces/IShelterReposito
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 import { ICreateShelterUseCaseDto } from './dtos/ICreateShelter.UseCase.dto';
 import { VerifyUserAssociationUseCase } from 'src/useCases/user/VerifyUserGuardian/VerifyUserAssociation.useCase';
-import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { CreateAddressUseCase } from 'src/useCases/address/createAddress/CreateAddress.useCase';
 import { Shelter } from 'src/entities/Shelter.entity';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 @Injectable()
 export class CreateShelterUseCase {
@@ -21,11 +21,11 @@ export class CreateShelterUseCase {
     const { about, webSite, workingHours, address } = shelterDto;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const user = await this.findUserByIdUseCase.execute(shelterDto.idUser, userAssociation.SHELTER);
+    const user = await this.findUserByIdUseCase.execute(shelterDto.idUser, UserRole.SHELTER);
 
     await this.verifyUserAssociationUseCase.validateUserAssociation(
       shelterDto.idUser,
-      userAssociation.SHELTER,
+      UserRole.SHELTER,
       user,
     );
 
