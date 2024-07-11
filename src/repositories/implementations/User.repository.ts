@@ -3,10 +3,10 @@ import { IUpdateUserRepositoryDto, IUserRepository } from '../interfaces/IUserRe
 import { User } from 'src/entities/User.entity';
 import { UserEntity } from 'src/infra/db/entities/User.entity';
 import { DataSource } from 'typeorm';
-import { userAssociation } from 'src/common/enum/userAssociation.enum';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { BaseRepository } from './BaseRepository';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 
 @Injectable()
 export class UserRepository extends BaseRepository<UserEntity> implements IUserRepository {
@@ -14,10 +14,10 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
     super(UserEntity, dataSource, request);
   }
 
-  async findById(id: string, associantion?: userAssociation): Promise<User | null> {
+  async findById(id: string, associantion?: UserRole): Promise<User | null> {
     const queryBuilder = this.repository.createQueryBuilder('user');
-
     queryBuilder.where('user.id = :id', { id });
+
     if (associantion) {
       queryBuilder.leftJoinAndSelect(`user.${associantion}`, associantion);
       queryBuilder.leftJoinAndSelect(`${associantion}.address`, 'address');
