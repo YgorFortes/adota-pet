@@ -12,7 +12,7 @@ export interface IPetRepository {
   deletePet(petId: string): Promise<boolean>;
 }
 
-export interface IUpdatePetRepositoryDto extends Partial<Omit<IUpdatePetUseCaseDto, 'image'>> {
-  image?: string;
+export interface IUpdatePetRepositoryDto extends Partial<Omit<IUpdatePetUseCaseDto, 'photo'>> {
+  photo?: string;
   status?: PetStatus;
 }
