@@ -20,7 +20,7 @@ import { Pet } from 'src/entities/Pet.entity';
 
 @Controller('pet')
 @UseGuards(AuthenticationGuard, ShelterPermition)
-@UseInterceptors(FileInterceptor('image'))
+@UseInterceptors(FileInterceptor('photo'))
 export class UpdatePetController {
   constructor(private updatePetUseCase: UpdatePetUseCase) {}
 
@@ -29,7 +29,7 @@ export class UpdatePetController {
     @Param() params: FindByIdControllerDto,
     @Body() updatePetControllerDto: UpdatePetControllerDto,
     @Request() request: IRequestWithUser,
-    @UploadedFile(new ImageValidator()) image: Express.Multer.File,
+    @UploadedFile(new ImageValidator()) photo: Express.Multer.File,
   ): Promise<{ message: string; pet: Pet }> {
     const userId = request.user.sub;
 
@@ -37,7 +37,7 @@ export class UpdatePetController {
 
     const petUpdated = await this.updatePetUseCase.execute(petId, userId, {
       ...updatePetControllerDto,
-      image,
+      photo,
     });
 
     return { message: 'Pet atualizado com sucesso', pet: petUpdated };
