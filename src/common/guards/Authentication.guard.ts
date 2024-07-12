@@ -1,17 +1,28 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
 import { IPayLoad } from '../interfaces/IPayLoad.interface';
 import { schedule } from 'node-cron';
 import { timeIntervals } from 'src/common/enum/timeIntervals.enum';
+import { RepositoryType } from '../enum/repositoryType.enum';
+import { ITokenInvalidRepository } from 'src/repositories/interfaces/ITokenInvalidRepository.interface';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  static tokensInvalids: Array<string> = [];
-
-  constructor(private jwtService: JwtService) {
+  constructor(
+    private jwtService: JwtService,
+    @Inject(RepositoryType.ITokenInvalidRepository)
+    private tokenRepository: ITokenInvalidRepository,
+  ) {
     schedule(timeIntervals.EVERY_3_DAYS_AT_9AM, () => {
+      console.log('invalids tokens deleted');
       this.removeTokenInvalids();
     });
   }
@@ -42,13 +53,16 @@ export class AuthenticationGuard implements CanActivate {
     return token;
   }
 
-  private verifyTokenIsValid(token: string): void {
-    if (AuthenticationGuard.tokensInvalids.includes(token)) {
+  private async verifyTokenIsValid(token: string): Promise<void> {
+    const tokens = await this.tokenRepository.findAll();
+    const tokensInvalids = tokens.map(tableToken => tableToken.token);
+
+    if (tokensInvalids.includes(token)) {
       throw new UnauthorizedException('Token invalido.');
     }
   }
 
   private removeTokenInvalids(): void {
-    AuthenticationGuard.tokensInvalids.splice(0, AuthenticationGuard.tokensInvalids.length);
+    this.tokenRepository.deleteAllTokensInvalids();
   }
 }
