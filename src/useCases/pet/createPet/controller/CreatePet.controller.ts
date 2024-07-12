@@ -7,7 +7,6 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { ShelterPermition } from 'src/common/guards/ShelterPermission.guard';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { CreatePetControllerDto } from '../dtos/CreatePet.controller.dto';
@@ -15,10 +14,11 @@ import { CreatePetUseCase } from '../CreatePet.useCase';
 import { Pet } from 'src/entities/Pet.entity';
 import { ImageValidator } from 'src/common/pipes/ImageValidator.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
 
 @Controller('pet')
 @UseInterceptors(FileInterceptor('photo'))
-@UseGuards(AuthenticationGuard, ShelterPermition)
+@UseGuards(AuthenticationGuardModule, ShelterPermition)
 export class CreatePetController {
   constructor(private createPetUseCase: CreatePetUseCase) {}
   @Post()
