@@ -1,14 +1,14 @@
 import { Body, Controller, Post, UseGuards, UseInterceptors, Request } from '@nestjs/common';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { ShelterPermition } from 'src/common/guards/ShelterPermission.guard';
 import { CreateAdoptionControllerDto } from '../dtos/CreateAdoption.controller.dto';
 import { CreateAdoptionUseCase } from '../CreateAdoption.useCase';
 import { TransactionInterceptor } from 'src/resource/interceptor/transaction.interceptor';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { AdoptionWithoutGuardianAndPet } from 'src/repositories/interfaces/IAdoptionRepository.interface';
+import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
 
 @Controller('/adoption')
-@UseGuards(AuthenticationGuard, ShelterPermition)
+@UseGuards(AuthenticationGuardModule, ShelterPermition)
 @UseInterceptors(TransactionInterceptor)
 export class CreateAdoptionContoller {
   constructor(private createAdoptionUseCase: CreateAdoptionUseCase) {}

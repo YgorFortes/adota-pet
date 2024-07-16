@@ -5,4 +5,5 @@ export enum RepositoryType {
   IShelterRepository = 'IShelterRepository',
   IPetRepository = 'IPetRepository',
   IAdoptionRepository = 'IAdoptionRepository',
+  ITokenInvalidRepository = 'ITokenInvalidRepository',
 }

@@ -1,11 +1,11 @@
 import { Controller, Delete, Param, UseGuards, Request } from '@nestjs/common';
 import { DeletePetUseCase } from '../DeletePet.useCase';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { ShelterPermition } from 'src/common/guards/ShelterPermission.guard';
 import { FindByIdControllerDto } from 'src/common/dtos/FindById.controller.dto';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
+import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
 
-@UseGuards(AuthenticationGuard, ShelterPermition)
+@UseGuards(AuthenticationGuardModule, ShelterPermition)
 @Controller('pet')
 export class DeletePetController {
   constructor(private deletePetUseCase: DeletePetUseCase) {}

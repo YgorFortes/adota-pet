@@ -1,12 +1,12 @@
 import { Controller, Delete, Param, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FindByIdControllerDto } from 'src/common/dtos/FindById.controller.dto';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { ShelterPermition } from 'src/common/guards/ShelterPermission.guard';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { DeleteAdoptionUseCase } from '../DeleteAdoption.useCase';
 import { TransactionInterceptor } from 'src/resource/interceptor/transaction.interceptor';
+import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
 
-@UseGuards(AuthenticationGuard, ShelterPermition)
+@UseGuards(AuthenticationGuardModule, ShelterPermition)
 @UseInterceptors(TransactionInterceptor)
 @Controller('adoption')
 export class DeleteAdoptionController {

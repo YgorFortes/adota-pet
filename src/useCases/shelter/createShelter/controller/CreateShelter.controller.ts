@@ -3,12 +3,12 @@ import { CreateShelterControllerDto } from '../dtos/CreateShelter.controller.dto
 import { CreateShelterUseCase } from '../CreateShelter.useCase';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { RoleUserGuard } from 'src/common/guards/RoleUser.guard';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { Shelter } from 'src/entities/Shelter.entity';
 import { TransactionInterceptor } from 'src/resource/interceptor/transaction.interceptor';
+import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
 
 @Controller('shelter')
-@UseGuards(AuthenticationGuard, RoleUserGuard)
+@UseGuards(AuthenticationGuardModule, RoleUserGuard)
 export class CreateShelterController {
   constructor(private createShelterUseCase: CreateShelterUseCase) {}
   @Post()

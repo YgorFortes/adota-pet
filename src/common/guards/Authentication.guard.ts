@@ -3,18 +3,15 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
 import { IPayLoad } from '../interfaces/IPayLoad.interface';
-import { schedule } from 'node-cron';
-import { timeIntervals } from 'src/common/enum/timeIntervals.enum';
+
+import { TokenUseCase } from 'src/useCases/token/Token.useCase';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  static tokensInvalids: Array<string> = [];
-
-  constructor(private jwtService: JwtService) {
-    schedule(timeIntervals.EVERY_3_DAYS_AT_9AM, () => {
-      this.removeTokenInvalids();
-    });
-  }
+  constructor(
+    private jwtService: JwtService,
+    private tokenUseCase: TokenUseCase,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<IRequestWithUser>();
@@ -24,7 +21,7 @@ export class AuthenticationGuard implements CanActivate {
       throw new UnauthorizedException('Erro de autenticação.');
     }
 
-    this.verifyTokenIsValid(token);
+    await this.tokenUseCase.verifyTokenIsValid(token);
 
     try {
       const payload: IPayLoad = await this.jwtService.verifyAsync(token);
@@ -40,15 +37,5 @@ export class AuthenticationGuard implements CanActivate {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [__, token] = request.headers.authorization?.split(' ') ?? [];
     return token;
-  }
-
-  private verifyTokenIsValid(token: string): void {
-    if (AuthenticationGuard.tokensInvalids.includes(token)) {
-      throw new UnauthorizedException('Token invalido.');
-    }
-  }
-
-  private removeTokenInvalids(): void {
-    AuthenticationGuard.tokensInvalids.splice(0, AuthenticationGuard.tokensInvalids.length);
   }
 }

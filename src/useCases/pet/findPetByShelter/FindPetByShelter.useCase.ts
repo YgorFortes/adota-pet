@@ -18,12 +18,12 @@ export class FindPetByShelterUseCase {
 
     const pet = await this.petRepository.findPetById(petId, shelterId);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { shelter, ...petWithoutShelter } = pet;
-
     if (!pet) {
       throw new NotFoundException('Pet não encontrado.');
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { shelter, ...petWithoutShelter } = pet;
 
     return petWithoutShelter;
   }

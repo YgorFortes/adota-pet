@@ -7,7 +7,6 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { RoleUserGuard } from 'src/common/guards/RoleUser.guard';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { UpdateShelterUseCase } from '../UpdateShelter.useCase';
@@ -16,9 +15,10 @@ import { UpdateShelterControllerDto } from '../dtos/UpdateShelter.controller.dto
 import { Shelter } from 'src/entities/Shelter.entity';
 import { ImageValidator } from 'src/common/pipes/ImageValidator.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
 
 @Controller('shelter')
-@UseGuards(AuthenticationGuard, RoleUserGuard)
+@UseGuards(AuthenticationGuardModule, RoleUserGuard)
 @UseInterceptors(FileInterceptor('user[photo]'))
 @UseInterceptors(TransactionInterceptor)
 export class UpdateShelterController {

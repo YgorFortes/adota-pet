@@ -8,7 +8,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UpdateGuardianControleDto } from '../dtos/UpdateGuardian.controller.dto';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { UpdateGuardianUseCase } from '../UpdateGuardian.useCase';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { RoleUserGuard } from 'src/common/guards/RoleUser.guard';
@@ -16,8 +15,9 @@ import { Guardian } from 'src/entities/Guardian.entity';
 import { TransactionInterceptor } from 'src/resource/interceptor/transaction.interceptor';
 import { ImageValidator } from 'src/common/pipes/ImageValidator.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
 
-@UseGuards(AuthenticationGuard, RoleUserGuard)
+@UseGuards(AuthenticationGuardModule, RoleUserGuard)
 @Controller('guardian')
 @UseInterceptors(TransactionInterceptor)
 @UseInterceptors(FileInterceptor('user[photo]'))
