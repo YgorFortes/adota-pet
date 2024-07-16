@@ -3,15 +3,18 @@ import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { UserRepository } from 'src/repositories/implementations/User.repository';
 import { LogoutUserController } from './controller/LogoutUser.controller';
 import { FindUserByIdModule } from '../findUserById/findUserById.module';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
+
 import { LogoutUserUseCase } from './LogoutUser.useCase';
 
+import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
+import { tokenModule } from 'src/useCases/token/token.module';
+
 @Module({
-  imports: [FindUserByIdModule],
+  imports: [FindUserByIdModule, tokenModule],
   controllers: [LogoutUserController],
   providers: [
-    AuthenticationGuard,
     LogoutUserUseCase,
+    AuthenticationGuard,
     {
       provide: RepositoryType.IUserRepository,
       useClass: UserRepository,
