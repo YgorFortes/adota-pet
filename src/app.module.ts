@@ -54,7 +54,6 @@ import { AdoptionModule } from './useCases/adoption/adoption.module';
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     },
-    ConsoleLogger,
   ],
 })
 export class AppModule {}
