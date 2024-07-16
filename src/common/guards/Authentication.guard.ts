@@ -1,31 +1,17 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Inject,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
 import { IPayLoad } from '../interfaces/IPayLoad.interface';
-import { schedule } from 'node-cron';
-import { timeIntervals } from 'src/common/enum/timeIntervals.enum';
-import { RepositoryType } from '../enum/repositoryType.enum';
-import { ITokenInvalidRepository } from 'src/repositories/interfaces/ITokenInvalidRepository.interface';
+
+import { TokenUseCase } from 'src/useCases/token/Token.useCase';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
-    @Inject(RepositoryType.ITokenInvalidRepository)
-    private tokenRepository: ITokenInvalidRepository,
-  ) {
-    schedule(timeIntervals.EVERY_3_DAYS_AT_9AM, () => {
-      console.log('invalids tokens deleted');
-      this.removeTokenInvalids();
-    });
-  }
+    private tokenUseCase: TokenUseCase,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<IRequestWithUser>();
@@ -35,7 +21,7 @@ export class AuthenticationGuard implements CanActivate {
       throw new UnauthorizedException('Erro de autenticação.');
     }
 
-    this.verifyTokenIsValid(token);
+    await this.tokenUseCase.verifyTokenIsValid(token);
 
     try {
       const payload: IPayLoad = await this.jwtService.verifyAsync(token);
@@ -51,18 +37,5 @@ export class AuthenticationGuard implements CanActivate {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [__, token] = request.headers.authorization?.split(' ') ?? [];
     return token;
-  }
-
-  private async verifyTokenIsValid(token: string): Promise<void> {
-    const tokens = await this.tokenRepository.findAll();
-    const tokensInvalids = tokens.map(tableToken => tableToken.token);
-
-    if (tokensInvalids.includes(token)) {
-      throw new UnauthorizedException('Token invalido.');
-    }
-  }
-
-  private removeTokenInvalids(): void {
-    this.tokenRepository.deleteAllTokensInvalids();
   }
 }
