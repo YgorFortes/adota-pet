@@ -1,20 +1,22 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { UserRole } from 'src/common/enum/roleUser.enum';
-import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
-import { IRouteInfo } from '../interfaces/IRouterInfo.interface';
+import { ForbiddenException, Injectable, NestMiddleware } from '@nestjs/common';
 import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
+import { Response, NextFunction } from 'express';
+import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
+import { UserRole } from '../enum/roleUser.enum';
 import { IUserWithAssociation } from '../interfaces/IUserWithAssociation';
+import { IRouteInfo } from '../interfaces/IRouterInfo.interface';
 
 @Injectable()
-export class RoleUserGuard implements CanActivate {
+export class RoleUserMiddleware implements NestMiddleware {
   constructor(private findUserById: FindUserByIdUseCase) {}
-  async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<IRequestWithUser>();
+  async use(request: IRequestWithUser, response: Response, next: NextFunction): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [__, routePath] = context.switchToHttp().getRequest<IRouteInfo>().route.path.split('/');
+    const [__, routePath] = (request as IRouteInfo).route.path.split('/');
+
     if (!('user' in request)) {
       throw new ForbiddenException('Usuário não autenticado');
     }
+
     const userId = request.user.sub;
     const user = await this.findUserById.execute(userId);
 
@@ -25,13 +27,13 @@ export class RoleUserGuard implements CanActivate {
     }
 
     if (this.isMethodPost(request)) {
-      return true;
+      next();
     }
 
     const hasValidAssociation = await this.hasValidAssociation(user);
 
     if (hasValidAssociation) {
-      return true;
+      next();
     }
 
     throw new ForbiddenException(

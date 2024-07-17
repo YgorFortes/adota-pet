@@ -1,13 +1,10 @@
-import { Controller, Get, Param, UseGuards, Request } from '@nestjs/common';
-import { ShelterPermition } from 'src/common/guards/ShelterPermission.guard';
+import { Controller, Get, Param, Request } from '@nestjs/common';
 import { FindByIdControllerDto } from 'src/common/dtos/FindById.controller.dto';
 import { FindPetByShelterUseCase } from '../FindPetByShelter.useCase';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { Pet } from 'src/entities/Pet.entity';
-import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
 
 @Controller('shelter/pets')
-@UseGuards(AuthenticationGuardModule, ShelterPermition)
 export class FindPetByShelterController {
   constructor(private findPetByShelterUseCase: FindPetByShelterUseCase) {}
   @Get(':id')

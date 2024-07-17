@@ -1,17 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
-import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { TokenUseCase } from 'src/useCases/token/Token.useCase';
 
 @Injectable()
 export class LogoutUserUseCase {
-  constructor(
-    private authenticationGuard: AuthenticationGuard,
-    private tokenUseCase: TokenUseCase,
-  ) {}
-  async execute(request: IRequestWithUser): Promise<boolean> {
-    const token = this.authenticationGuard.extractTokenHeader(request);
-
+  constructor(private tokenUseCase: TokenUseCase) {}
+  async execute(token: string): Promise<boolean> {
     if (!token) {
       throw new UnauthorizedException('Erro de autenticação.');
     }

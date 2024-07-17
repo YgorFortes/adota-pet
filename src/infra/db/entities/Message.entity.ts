@@ -18,15 +18,6 @@ export class MessageEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'name_guardian', length: 100, nullable: false })
-  nameGuardian: string;
-
-  @Column({ name: 'telephone_guardian', length: 15, nullable: false })
-  telephoneGuardian: string;
-
-  @Column({ name: 'name_pet', length: 45, nullable: false })
-  namePet: string;
-
   @Column({ name: 'content', type: 'text', nullable: false })
   content: string;
 
@@ -44,26 +35,17 @@ export class MessageEntity {
   })
   deletedAt: Date;
 
-  @ManyToOne(() => GuardianEntity, guardian => guardian.messages, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToOne(() => GuardianEntity, guardian => guardian.messages, {})
   @JoinColumn({ name: 'guardian_id' })
   @Index()
   guardian: GuardianEntity;
 
-  @ManyToOne(() => ShelterEntity, shelter => shelter.address, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToOne(() => ShelterEntity, shelter => shelter.address, {})
   @JoinColumn({ name: 'shelter_id' })
   @Index()
   shelter: ShelterEntity;
 
-  @ManyToOne(() => PetEntity, pet => pet.messages, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToOne(() => PetEntity, pet => pet.messages, {})
   @JoinColumn({ name: 'pet_id' })
   @Index()
   pet: PetEntity;

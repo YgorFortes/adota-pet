@@ -6,7 +6,6 @@ import { FindUserByIdModule } from '../findUserById/findUserById.module';
 
 import { LogoutUserUseCase } from './LogoutUser.useCase';
 
-import { AuthenticationGuard } from 'src/common/guards/Authentication.guard';
 import { tokenModule } from 'src/useCases/token/token.module';
 
 @Module({
@@ -14,7 +13,6 @@ import { tokenModule } from 'src/useCases/token/token.module';
   controllers: [LogoutUserController],
   providers: [
     LogoutUserUseCase,
-    AuthenticationGuard,
     {
       provide: RepositoryType.IUserRepository,
       useClass: UserRepository,

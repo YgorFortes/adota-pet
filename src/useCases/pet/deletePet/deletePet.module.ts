@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DeletePetController } from './controller/DeletePetController';
+import { DeletePetController } from './controller/DeletePet.controller';
 import { DeletePetUseCase } from './DeletePet.useCase';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { PetRepository } from 'src/repositories/implementations/Pet.repository';

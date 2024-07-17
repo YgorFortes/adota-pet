@@ -1,12 +1,10 @@
-import { Controller, Delete, Request, UseGuards, UseInterceptors } from '@nestjs/common';
-import { RoleUserGuard } from 'src/common/guards/RoleUser.guard';
+import { Controller, Delete, Request, UseInterceptors } from '@nestjs/common';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { TransactionInterceptor } from 'src/resource/interceptor/transaction.interceptor';
 import { DeleteShelterUseCase } from '../DeleteShelter.useCase';
-import { AuthenticationGuardModule } from 'src/common/guards/authentication.module';
+import { extractTokenHeader } from 'src/common/helpers/extractToken.helpers';
 
 @Controller('shelter')
-@UseGuards(AuthenticationGuardModule, RoleUserGuard)
 @UseInterceptors(TransactionInterceptor)
 export class DeleteShelterController {
   constructor(private deleteShelterUseCase: DeleteShelterUseCase) {}
@@ -14,7 +12,9 @@ export class DeleteShelterController {
   async handle(@Request() request: IRequestWithUser): Promise<{ message: string }> {
     const userId = request.user.sub;
 
-    const result = await this.deleteShelterUseCase.execute(userId, request);
+    const token = extractTokenHeader(request);
+
+    const result = await this.deleteShelterUseCase.execute(userId, token);
 
     if (result) {
       return { message: `Abrigo deletado com sucesso.` };
