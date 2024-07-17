@@ -1,5 +1,4 @@
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IGuardianRepository } from 'src/repositories/interfaces/IGuardianRepository.interface';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
@@ -18,7 +17,7 @@ export class DeleteGuardianUseCase {
     private managePhotoInCloud: IManagePhotoInCloudInterface,
   ) {}
 
-  async execute(userId: string, request: IRequestWithUser): Promise<boolean> {
+  async execute(userId: string, token: string): Promise<boolean> {
     const userWithGuardian = await this.findUserByIdUseCase.execute(userId, UserRole.GUARDIAN);
 
     const result = await this.guardianRepository.deleteGuardian(userWithGuardian.guardian.id);
@@ -30,7 +29,7 @@ export class DeleteGuardianUseCase {
 
     await this.managePhotoInCloud.deletePhoto(userWithGuardian.photo);
 
-    await this.logoutUserUseCase.execute(request);
+    await this.logoutUserUseCase.execute(token);
     return true;
   }
 }
