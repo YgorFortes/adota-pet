@@ -60,9 +60,6 @@ export class GuardianEntity {
   })
   Adoptions: Array<AdoptionEntity>;
 
-  @OneToMany(() => MessageEntity, message => message.guardian, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @OneToMany(() => MessageEntity, message => message.guardian, {})
   messages: Array<MessageEntity>;
 }

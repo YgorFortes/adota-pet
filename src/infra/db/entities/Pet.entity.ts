@@ -92,9 +92,6 @@ export class PetEntity {
   @JoinColumn({ name: 'adoption_id' })
   adoptions: Array<AdoptionEntity>;
 
-  @OneToMany(() => MessageEntity, message => message.pet, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @OneToMany(() => MessageEntity, message => message.pet, {})
   messages: Array<MessageEntity>;
 }

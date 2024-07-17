@@ -62,9 +62,6 @@ export class ShelterEntity {
   })
   pets: Array<PetEntity>;
 
-  @OneToMany(() => MessageEntity, message => message.shelter, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @OneToMany(() => MessageEntity, message => message.shelter, {})
   messages: Array<MessageEntity>;
 }
