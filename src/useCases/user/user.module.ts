@@ -1,19 +1,30 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { UserEntity } from 'src/infra/db/entities/User.entity';
-
 import { AuthenticationModule } from './autheticationUser/authentication.module';
 import { CreateUserModule } from './createUser/createUser.module';
 import { LogoutUserModule } from './logoutUser/logoutUser.module';
+import { FindUserByIdModule } from './findUserById/findUserById.module';
+import { FindUserByEmailModule } from './findEmailByEmail/findUserByEmail.module';
+import { UpdateUserModule } from './updateUser/updateUser.module';
+import { VerifyUserAssociationModule } from './VerifyUserGuardian/verifyUserAssociation.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
     AuthenticationModule,
     CreateUserModule,
     LogoutUserModule,
+    FindUserByIdModule,
+    FindUserByEmailModule,
+    UpdateUserModule,
+    VerifyUserAssociationModule,
   ],
-  exports: [CreateUserModule, AuthenticationModule],
+  exports: [
+    AuthenticationModule,
+    CreateUserModule,
+    LogoutUserModule,
+    FindUserByIdModule,
+    FindUserByEmailModule,
+    UpdateUserModule,
+    VerifyUserAssociationModule,
+  ],
 })
 export class UserModule {}
