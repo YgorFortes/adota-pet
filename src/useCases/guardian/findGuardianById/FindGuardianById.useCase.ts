@@ -8,8 +8,8 @@ export class FindGuardianByIdUseCase {
     @Inject(RepositoryType.IGuardianRepository) private guardianRepository: IGuardianRepository,
   ) {}
 
-  async execute(id: string): Promise<Guardian> {
-    const guadian = await this.guardianRepository.findGuardianById(id);
+  async execute(guardianId: string): Promise<Guardian> {
+    const guadian = await this.guardianRepository.findGuardianById(guardianId);
 
     if (!guadian) {
       throw new NotFoundException('Guardian não encontrado.');
