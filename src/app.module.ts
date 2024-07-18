@@ -88,8 +88,10 @@ export class AppModule implements NestModule {
       { path: 'pet', method: RequestMethod.PUT },
       { path: 'pet', method: RequestMethod.DELETE },
       { path: 'shelter', method: RequestMethod.ALL },
+      { path: 'message', method: RequestMethod.ALL },
     );
 
+    //Routes for Shelter role
     consumer
       .apply(ShelterAuthenticationMiddleware)
       .forRoutes(
@@ -104,12 +106,14 @@ export class AppModule implements NestModule {
         { path: 'guardian', method: RequestMethod.GET },
       );
 
+    //Routes for Guardian role
     consumer
       .apply(GuardianAuthenticationMiddleware)
       .forRoutes(
         { path: 'guardian', method: RequestMethod.POST },
         { path: 'guardian', method: RequestMethod.DELETE },
         { path: 'guardian', method: RequestMethod.PUT },
+        { path: 'message', method: RequestMethod.POST },
       );
   }
 }
