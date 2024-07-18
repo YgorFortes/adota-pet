@@ -7,6 +7,8 @@ import { FindShelterByIdUseCase } from 'src/useCases/shelter/findShelterById/Fin
 import { Message } from 'src/entities/Message.entity';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 import { UserRole } from 'src/common/enum/roleUser.enum';
+import { Provide } from 'src/common/enum/provider.enum';
+import { IManageEmailInterface } from '../sendEmail/interface/IManageEmail.interface';
 
 export class CreateMessageUseCase {
   constructor(
@@ -14,18 +16,19 @@ export class CreateMessageUseCase {
     private findShelterByIdUseCase: FindShelterByIdUseCase,
     private findUserByIdUseCase: FindUserByIdUseCase,
     private findPetByIdUseCase: FindPetByIdUseCase,
+    @Inject(Provide.IManageEmailInterface) private manageEmailUseCase: IManageEmailInterface,
   ) {}
 
   async execute(createMessageDto: ICreateMessageUseCaseDto): Promise<boolean> {
     const { content, shelterId, userId, petId } = createMessageDto;
-    const shelterUser = await this.findShelterByIdUseCase.execute(shelterId);
+    const shelter = await this.findShelterByIdUseCase.execute(shelterId);
 
     const guardianUser = await this.findUserByIdUseCase.execute(userId, UserRole.GUARDIAN);
-    const pet = await this.findPetByIdUseCase.execute(petId, shelterUser.id);
+    const pet = await this.findPetByIdUseCase.execute(petId, shelter.id);
 
     const message = new Message({
       content,
-      shelter: shelterUser,
+      shelter: shelter,
       guardian: guardianUser.guardian,
       pet,
     });
@@ -35,6 +38,13 @@ export class CreateMessageUseCase {
     if (!resultMessage) {
       throw new InternalServerErrorException(`Não foi possivel enviar a mensagem.`);
     }
+
+    this.manageEmailUseCase.sendEmail({
+      message: resultMessage,
+      email: shelter.user.email,
+      guardianEmail: guardianUser.email,
+      pet,
+    });
 
     return true;
   }
