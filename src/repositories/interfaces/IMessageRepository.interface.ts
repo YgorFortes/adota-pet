@@ -1,7 +1,7 @@
 import { Message } from 'src/entities/Message.entity';
 
 export interface IMessageRepository {
-  saveMessage(message: Message): Promise<boolean>;
+  saveMessage(message: Message): Promise<Message>;
   findMessage(messageId: string): Promise<Message>;
   findAllMessagesByPet(
     shelterId: string,

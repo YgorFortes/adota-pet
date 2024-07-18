@@ -21,10 +21,10 @@ export class MessageRepository extends BaseRepository<MessageEntity> implements 
     throw new Error('Method not implemented.');
   }
 
-  async saveMessage(message: Message): Promise<boolean> {
+  async saveMessage(message: Message): Promise<Message> {
     const messageCreated = await this.repository.save(message);
 
-    return !!messageCreated;
+    return messageCreated;
   }
   async findMessage(messageId: string): Promise<Message> {
     console.log(messageId);
