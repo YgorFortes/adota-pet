@@ -6,6 +6,8 @@ import { FindShelterByIdModule } from 'src/useCases/shelter/findShelterById/find
 import { FindPetByIdModule } from 'src/useCases/pet/findPetById/findPetById.module';
 import { CreateMessageController } from './controller/CreateMessage.controller';
 import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.module';
+import { Provide } from 'src/common/enum/provider.enum';
+import { ManageEmailProvide } from '../sendEmail/ManageEmail.provide';
 
 @Module({
   imports: [FindUserByIdModule, FindShelterByIdModule, FindPetByIdModule],
@@ -13,6 +15,7 @@ import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.
   providers: [
     CreateMessageUseCase,
     { provide: RepositoryType.IMessageRepository, useClass: MessageRepository },
+    { provide: Provide.IManageEmailInterface, useClass: ManageEmailProvide },
   ],
   exports: [CreateMessageUseCase],
 })
