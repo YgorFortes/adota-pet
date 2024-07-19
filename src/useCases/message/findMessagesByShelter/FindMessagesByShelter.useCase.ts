@@ -7,7 +7,7 @@ import { Message } from 'src/entities/Message.entity';
 import { IMessageRepository } from 'src/repositories/interfaces/IMessageRepository.interface';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 
-export class FindMessageByShelterUseCase {
+export class FindMessagesByShelterUseCase {
   constructor(
     @Inject(RepositoryType.IMessageRepository) private messageRepository: IMessageRepository,
     private findUserByIdUseCase: FindUserByIdUseCase,
