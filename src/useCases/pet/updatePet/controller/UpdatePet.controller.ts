@@ -8,7 +8,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UpdatePetUseCase } from '../UpdatePet.useCase';
-import { FindByIdControllerDto } from 'src/common/dtos/FindById.controller.dto';
+import { IdParamControllerDto } from 'src/common/dtos/IdParam.controller.dto';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { UpdatePetControllerDto } from '../dtos/UpdatePet.controller.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -22,7 +22,7 @@ export class UpdatePetController {
 
   @Put(':id')
   async handle(
-    @Param() params: FindByIdControllerDto,
+    @Param() params: IdParamControllerDto,
     @Body() updatePetControllerDto: UpdatePetControllerDto,
     @Request() request: IRequestWithUser,
     @UploadedFile(new ImageValidator()) photo: Express.Multer.File,

@@ -1,6 +1,6 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { Guardian } from 'src/entities/Guardian.entity';
-import { FindByIdControllerDto } from '../../../../common/dtos/FindById.controller.dto';
+import { IdParamControllerDto } from '../../../../common/dtos/IdParam.controller.dto';
 import { FindGuardianByIdUseCase } from '../FindGuardianById.useCase';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
@@ -10,7 +10,7 @@ export class FindGuardianByIdController {
 
   @UseInterceptors(CacheInterceptor)
   @Get(':id')
-  async handle(@Param() params: FindByIdControllerDto): Promise<Guardian> {
+  async handle(@Param() params: IdParamControllerDto): Promise<Guardian> {
     const guardian = await this.findGuardianByIdUseCase.execute(params.id);
     return guardian;
   }

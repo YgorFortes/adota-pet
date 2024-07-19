@@ -1,6 +1,6 @@
 import { Controller, Delete, Param, Request } from '@nestjs/common';
 import { DeletePetUseCase } from '../DeletePet.useCase';
-import { FindByIdControllerDto } from 'src/common/dtos/FindById.controller.dto';
+import { IdParamControllerDto } from 'src/common/dtos/IdParam.controller.dto';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 
 @Controller('pet')
@@ -9,7 +9,7 @@ export class DeletePetController {
 
   @Delete(':id')
   async handle(
-    @Param() params: FindByIdControllerDto,
+    @Param() params: IdParamControllerDto,
     @Request() request: IRequestWithUser,
   ): Promise<{ message: string }> {
     const userId = request.user.sub;
