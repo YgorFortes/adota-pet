@@ -77,6 +77,10 @@ export class AppModule implements NestModule {
         method: RequestMethod.ALL,
       },
       {
+        path: 'guardian/:id',
+        method: RequestMethod.GET,
+      },
+      {
         path: 'logout',
         method: RequestMethod.ALL,
       },
@@ -84,11 +88,18 @@ export class AppModule implements NestModule {
         path: 'adoption',
         method: RequestMethod.ALL,
       },
+      {
+        path: 'adoption/:id',
+        method: RequestMethod.ALL,
+      },
       { path: 'pet', method: RequestMethod.POST },
-      { path: 'pet', method: RequestMethod.PUT },
-      { path: 'pet', method: RequestMethod.DELETE },
-      { path: 'shelter', method: RequestMethod.ALL },
+      { path: 'pet/:id', method: RequestMethod.PUT },
+      { path: 'pet/:id', method: RequestMethod.DELETE },
+      { path: 'shelter', method: RequestMethod.POST },
+      { path: 'shelter', method: RequestMethod.PUT },
+      { path: 'shelter', method: RequestMethod.DELETE },
       { path: 'message', method: RequestMethod.ALL },
+      { path: 'message/:id', method: RequestMethod.GET },
     );
 
     //Routes for Shelter role
@@ -99,12 +110,14 @@ export class AppModule implements NestModule {
         { path: 'shelter', method: RequestMethod.POST },
         { path: 'shelter', method: RequestMethod.PUT },
         { path: 'pet', method: RequestMethod.POST },
-        { path: 'pet', method: RequestMethod.PUT },
-        { path: 'pet', method: RequestMethod.DELETE },
+        { path: 'pet/:id', method: RequestMethod.PUT },
+        { path: 'pet/:id', method: RequestMethod.DELETE },
         { path: 'adoption', method: RequestMethod.POST },
-        { path: 'adoption', method: RequestMethod.DELETE },
+        { path: 'adoption/:id', method: RequestMethod.DELETE },
         { path: 'guardian', method: RequestMethod.GET },
+        { path: 'guardian/:id', method: RequestMethod.GET },
         { path: 'message', method: RequestMethod.GET },
+        { path: 'message/:id', method: RequestMethod.GET },
       );
 
     //Routes for Guardian role
