@@ -41,7 +41,7 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
 
     queryBuilder.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
 
-    const [pets, petsCount] = await Promise.all([queryBuilder.getMany(), this.repository.count()]);
+    const [pets, petsCount] = await Promise.all([queryBuilder.getMany(), queryBuilder.getCount()]);
 
     const counterPage = Math.ceil(petsCount / pagination.limit);
 
