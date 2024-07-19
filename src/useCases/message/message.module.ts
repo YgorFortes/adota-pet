@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CreateMessageModule } from './createMessage/createMessage.module';
-import { FindMessageByShelterModule } from './findMessageForShelter/FindMessageByShelter.module';
+import { FindMessageByShelterModule } from './findMessageByShelter/FindMessageByShelter.module';
 
 @Module({
   imports: [CreateMessageModule, FindMessageByShelterModule],
