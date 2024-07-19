@@ -48,9 +48,12 @@ export class MessageRepository extends BaseRepository<MessageEntity> implements 
 
     return messageCreated;
   }
-  async findMessage(messageId: string): Promise<Message> {
-    console.log(messageId);
-    throw new Error('Method not implemented.');
+  async findMessageById(messageId: string, shelterId: string): Promise<Message> {
+    const message = await this.repository.findOne({
+      where: { id: messageId, shelter: { id: shelterId } },
+    });
+
+    return message;
   }
 
   findMessagesByGuardian(guardianId: string): Promise<Array<Message>> {

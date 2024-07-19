@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { FindMessageByShelterController } from './controller/FindMessageByShelter.controller';
+import { FindMessagesByShelterController } from './controller/FindMessagesByShelter.controller';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { MessageRepository } from 'src/repositories/implementations/Message.repository';
-import { FindMessageByShelterUseCase } from './FindMessageByShelter.useCase';
+import { FindMessagesByShelterUseCase } from './FindMessagesByShelter.useCase';
 import { FindUserByIdModule } from 'src/useCases/user/findUserById/findUserById.module';
 
 @Module({
   imports: [FindUserByIdModule],
-  controllers: [FindMessageByShelterController],
+  controllers: [FindMessagesByShelterController],
   providers: [
-    FindMessageByShelterUseCase,
+    FindMessagesByShelterUseCase,
     { provide: RepositoryType.IMessageRepository, useClass: MessageRepository },
   ],
-  exports: [],
+  exports: [FindMessagesByShelterUseCase],
 })
-export class FindMessageByShelterModule {}
+export class FindMessagesByShelterModule {}

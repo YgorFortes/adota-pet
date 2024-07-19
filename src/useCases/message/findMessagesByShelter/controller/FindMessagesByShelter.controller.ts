@@ -1,15 +1,17 @@
-import { Controller, Get, Query, Request } from '@nestjs/common';
+import { Controller, Get, Query, Request, UseInterceptors } from '@nestjs/common';
 import { FindAllPaginationControllerDto } from 'src/common/dtos/FindAllPagination.controller.dto';
-import { FindMessageByShelterUseCase } from '../FindMessageByShelter.useCase';
+import { FindMessagesByShelterUseCase } from '../FindMessagesByShelter.useCase';
 import { Message } from 'src/entities/Message.entity';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('message')
-export class FindMessageByShelterController {
-  constructor(private findMessageByShelterUseCase: FindMessageByShelterUseCase) {}
+export class FindMessagesByShelterController {
+  constructor(private findMessageByShelterUseCase: FindMessagesByShelterUseCase) {}
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
   async handle(
     @Query() pagination: FindAllPaginationControllerDto,
     @Request() request: IRequestWithUser,
