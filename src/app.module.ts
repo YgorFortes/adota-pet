@@ -104,6 +104,7 @@ export class AppModule implements NestModule {
         { path: 'adoption', method: RequestMethod.POST },
         { path: 'adoption', method: RequestMethod.DELETE },
         { path: 'guardian', method: RequestMethod.GET },
+        { path: 'message', method: RequestMethod.GET },
       );
 
     //Routes for Guardian role
