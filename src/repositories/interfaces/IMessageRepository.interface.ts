@@ -3,9 +3,7 @@ import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { Message } from 'src/entities/Message.entity';
 
 export interface IMessageRepository {
-  saveMessage(message: Message): Promise<Message>;
-
-  findMessage(messageId: string): Promise<Message>;
+  findMessageById(messageId: string, shelterId: string): Promise<Message>;
 
   findAllMessagesByPet(
     shelterId: string,
@@ -19,4 +17,6 @@ export interface IMessageRepository {
   ): Promise<IPagination<Message>>;
 
   findMessagesByGuardian(guardianId: string): Promise<Array<Message>>;
+
+  saveMessage(message: Message): Promise<Message>;
 }
