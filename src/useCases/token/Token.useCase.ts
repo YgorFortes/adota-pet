@@ -1,4 +1,9 @@
-import { ConsoleLogger, Inject, UnauthorizedException } from '@nestjs/common';
+import {
+  ConsoleLogger,
+  Inject,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { schedule } from 'node-cron';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { timeIntervals } from 'src/common/enum/timeIntervals.enum';
@@ -34,7 +39,7 @@ export class TokenUseCase {
         });
       }
     } catch (error) {
-      console.log(error);
+      throw new InternalServerErrorException('Não foi possivel apagar tokens inválidos');
     }
 
     this.methodCalled = true;
