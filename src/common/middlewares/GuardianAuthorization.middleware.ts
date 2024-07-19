@@ -27,7 +27,7 @@ export class GuardianAuthenticationMiddleware implements NestMiddleware {
       }
 
       throw new ForbiddenException(
-        `O usuário ${user.name}, id: ${user.id} não tem acesso a rota: GET ${routePath}`,
+        `O usuário ${user.name}, id: ${user.id} não tem acesso a rota: ${request.method} ${routePath}`,
       );
     }
   }
