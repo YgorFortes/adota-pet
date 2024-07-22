@@ -20,7 +20,11 @@ export class FindMessagesByShelterUseCase {
 
     const shelterId = userShelter.shelter.id;
 
-    const messages = await this.messageRepository.findMessagesByShelter(pagination, shelterId);
+    const messages = await this.messageRepository.findMessagesByUserRole(
+      pagination,
+      shelterId,
+      UserRole.SHELTER,
+    );
     return messages;
   }
 }
