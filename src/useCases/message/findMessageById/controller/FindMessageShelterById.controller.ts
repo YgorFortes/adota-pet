@@ -2,10 +2,10 @@ import { Controller, Get, Param, Request } from '@nestjs/common';
 import { IdParamControllerDto } from 'src/common/dtos/IdParam.controller.dto';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { Message } from 'src/entities/Message.entity';
-import { FindMessageByIdUserCase } from '../FindMessageById.useCase';
+import { FindMessageByIdUserCase } from '../FindMessageShelterById.useCase';
 
 @Controller('message')
-export class FindMessageByIdController {
+export class FindMessageShelterByIdController {
   constructor(private findMessageByIdUserCase: FindMessageByIdUserCase) {}
 
   @Get('shelter/:id')
