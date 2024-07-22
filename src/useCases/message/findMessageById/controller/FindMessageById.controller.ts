@@ -8,7 +8,7 @@ import { FindMessageByIdUserCase } from '../FindMessageById.useCase';
 export class FindMessageByIdController {
   constructor(private findMessageByIdUserCase: FindMessageByIdUserCase) {}
 
-  @Get(':id')
+  @Get('shelter/:id')
   async handle(
     @Param() params: IdParamControllerDto,
     @Request() request: IRequestWithUser,
