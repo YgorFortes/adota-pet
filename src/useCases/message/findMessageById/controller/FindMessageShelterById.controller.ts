@@ -1,16 +1,16 @@
 import { Controller, Get, Param, Request } from '@nestjs/common';
-import { FindByIdControllerDto } from 'src/common/dtos/FindById.controller.dto';
+import { IdParamControllerDto } from 'src/common/dtos/IdParam.controller.dto';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { Message } from 'src/entities/Message.entity';
-import { FindMessageByIdUserCase } from '../FindMessageById.useCase';
+import { FindMessageByIdUserCase } from '../FindMessageShelterById.useCase';
 
 @Controller('message')
-export class FindMessageByIdController {
+export class FindMessageShelterByIdController {
   constructor(private findMessageByIdUserCase: FindMessageByIdUserCase) {}
 
-  @Get(':id')
+  @Get('shelter/:id')
   async handle(
-    @Param() params: FindByIdControllerDto,
+    @Param() params: IdParamControllerDto,
     @Request() request: IRequestWithUser,
   ): Promise<Message> {
     const userId = request.user.sub;

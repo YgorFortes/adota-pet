@@ -1,4 +1,5 @@
 import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
+import { UserRole } from 'src/common/enum/roleUser.enum';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { Message } from 'src/entities/Message.entity';
 
@@ -11,12 +12,18 @@ export interface IMessageRepository {
     petId: string,
   ): Promise<Array<Message>>;
 
-  findMessagesByShelter(
+  findMessagesByUserRole(
     pagination: IFindAllPaginationUseCaseDto,
-    shelterId: string,
+    userRoleId: string,
+    userRole: UserRole,
   ): Promise<IPagination<Message>>;
 
   findMessagesByGuardian(guardianId: string): Promise<Array<Message>>;
 
   saveMessage(message: Message): Promise<Message>;
+}
+
+export interface IUserRoleId {
+  shelterId: string;
+  guardianId: string;
 }

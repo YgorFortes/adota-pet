@@ -15,6 +15,6 @@ import { PetRepository } from 'src/repositories/implementations/Pet.repository';
       useClass: PetRepository,
     },
   ],
-  exports: [],
+  exports: [FindUserByIdModule],
 })
 export class FindPetByShelterModule {}

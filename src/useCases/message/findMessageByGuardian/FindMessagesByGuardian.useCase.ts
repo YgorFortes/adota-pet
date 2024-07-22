@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common';
-import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
+import { FindAllPaginationControllerDto } from 'src/common/dtos/FindAllPagination.controller.dto';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { UserRole } from 'src/common/enum/roleUser.enum';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
@@ -7,24 +7,26 @@ import { Message } from 'src/entities/Message.entity';
 import { IMessageRepository } from 'src/repositories/interfaces/IMessageRepository.interface';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 
-export class FindMessagesByShelterUseCase {
+export class FindMessagesByGuardianUseCase {
   constructor(
     @Inject(RepositoryType.IMessageRepository) private messageRepository: IMessageRepository,
     private findUserByIdUseCase: FindUserByIdUseCase,
   ) {}
+
   async execute(
-    pagination: IFindAllPaginationUseCaseDto,
+    pagination: FindAllPaginationControllerDto,
     userId: string,
   ): Promise<IPagination<Message>> {
-    const userShelter = await this.findUserByIdUseCase.execute(userId, UserRole.SHELTER);
+    const guardianUser = await this.findUserByIdUseCase.execute(userId, UserRole.GUARDIAN);
 
-    const shelterId = userShelter.shelter.id;
+    const guardianId = guardianUser.guardian.id;
 
-    const messages = await this.messageRepository.findMessagesByUserRole(
+    const messagesGuardian = await this.messageRepository.findMessagesByUserRole(
       pagination,
-      shelterId,
-      UserRole.SHELTER,
+      guardianId,
+      UserRole.GUARDIAN,
     );
-    return messages;
+
+    return messagesGuardian;
   }
 }

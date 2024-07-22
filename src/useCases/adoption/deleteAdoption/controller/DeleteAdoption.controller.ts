@@ -1,5 +1,5 @@
 import { Controller, Delete, Param, Request, UseInterceptors } from '@nestjs/common';
-import { FindByIdControllerDto } from 'src/common/dtos/FindById.controller.dto';
+import { IdParamControllerDto } from 'src/common/dtos/IdParam.controller.dto';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { DeleteAdoptionUseCase } from '../DeleteAdoption.useCase';
 import { TransactionInterceptor } from 'src/resource/interceptor/transaction.interceptor';
@@ -10,7 +10,7 @@ export class DeleteAdoptionController {
   constructor(private deleteAdoption: DeleteAdoptionUseCase) {}
   @Delete(':id')
   async handle(
-    @Param() params: FindByIdControllerDto,
+    @Param() params: IdParamControllerDto,
     @Request() request: IRequestWithUser,
   ): Promise<{ message: string }> {
     const userId = request.user.sub;

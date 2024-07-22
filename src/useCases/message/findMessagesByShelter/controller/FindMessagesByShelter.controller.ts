@@ -10,7 +10,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 export class FindMessagesByShelterController {
   constructor(private findMessageByShelterUseCase: FindMessagesByShelterUseCase) {}
 
-  @Get()
+  @Get('/shelter')
   @UseInterceptors(CacheInterceptor)
   async handle(
     @Query() pagination: FindAllPaginationControllerDto,

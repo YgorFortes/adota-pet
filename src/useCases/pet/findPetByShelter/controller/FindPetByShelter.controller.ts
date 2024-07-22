@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Request } from '@nestjs/common';
-import { FindByIdControllerDto } from 'src/common/dtos/FindById.controller.dto';
+import { IdParamControllerDto } from 'src/common/dtos/IdParam.controller.dto';
 import { FindPetByShelterUseCase } from '../FindPetByShelter.useCase';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { Pet } from 'src/entities/Pet.entity';
@@ -9,7 +9,7 @@ export class FindPetByShelterController {
   constructor(private findPetByShelterUseCase: FindPetByShelterUseCase) {}
   @Get(':id')
   async handle(
-    @Param() params: FindByIdControllerDto,
+    @Param() params: IdParamControllerDto,
     @Request() request: IRequestWithUser,
   ): Promise<Omit<Pet, 'shelter'>> {
     const userId = request.user.sub;
