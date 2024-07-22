@@ -21,6 +21,30 @@ export class MessageEntity {
   @Column({ name: 'content', type: 'text', nullable: false })
   content: string;
 
+  @Column('int', { name: 'guardian_id', nullable: false })
+  guardianId: number;
+
+  @ManyToOne(() => GuardianEntity, guardian => guardian.messages, {})
+  @JoinColumn({ name: 'guardian_id' })
+  @Index()
+  guardian: GuardianEntity;
+
+  @Column('int', { name: 'shelter_id', nullable: false })
+  shelterId: number;
+
+  @ManyToOne(() => ShelterEntity, shelter => shelter.address, {})
+  @JoinColumn({ name: 'shelter_id' })
+  @Index()
+  shelter: ShelterEntity;
+
+  @Column('int', { name: 'pet_id', nullable: false })
+  petId: number;
+
+  @ManyToOne(() => PetEntity, pet => pet.messages, {})
+  @JoinColumn({ name: 'pet_id' })
+  @Index()
+  pet: PetEntity;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
   createdAt: Date;
 
@@ -34,19 +58,4 @@ export class MessageEntity {
     type: 'timestamp with time zone',
   })
   deletedAt: Date;
-
-  @ManyToOne(() => GuardianEntity, guardian => guardian.messages, {})
-  @JoinColumn({ name: 'guardian_id' })
-  @Index()
-  guardian: GuardianEntity;
-
-  @ManyToOne(() => ShelterEntity, shelter => shelter.address, {})
-  @JoinColumn({ name: 'shelter_id' })
-  @Index()
-  shelter: ShelterEntity;
-
-  @ManyToOne(() => PetEntity, pet => pet.messages, {})
-  @JoinColumn({ name: 'pet_id' })
-  @Index()
-  pet: PetEntity;
 }
