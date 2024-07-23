@@ -63,20 +63,8 @@ export class PetEntity {
   @Index()
   specie: PetSpecie;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({
-    name: 'deleted_at',
-    nullable: true,
-    default: null,
-    type: 'timestamp with time zone',
-  })
-  deletedAt: Date;
-
+  @Column('int', { name: 'shelter_id', nullable: false })
+  shelterId: number;
   @ManyToOne(() => ShelterEntity, shelter => shelter.pets, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
@@ -94,4 +82,18 @@ export class PetEntity {
 
   @OneToMany(() => MessageEntity, message => message.pet, {})
   messages: Array<MessageEntity>;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    nullable: true,
+    default: null,
+    type: 'timestamp with time zone',
+  })
+  deletedAt: Date;
 }
