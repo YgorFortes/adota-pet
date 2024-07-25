@@ -26,7 +26,7 @@ export class GuardianAuthenticationMiddleware implements NestMiddleware {
         return next();
       }
 
-      const params = request.params ? `/:${request.params.id}` : '';
+      const params = request.params.id ? `/:${request.params.id}` : '';
 
       throw new ForbiddenException(
         `O usuário ${user.name}, id: ${user.id} não tem acesso a rota: ${request.method} ${routePath}${params}`,
