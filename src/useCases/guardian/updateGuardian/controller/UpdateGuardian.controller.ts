@@ -20,7 +20,7 @@ export class UpdataGuardianControle {
   ): Promise<{ message: string; guardian: Guardian }> {
     const combinedData = {
       ...updateGuardianDto,
-      user: { ...updateGuardianDto.user, photo: photo },
+      ...(photo ? { user: { ...updateGuardianDto.user, photo } } : {}),
     };
 
     const idUser = request.user.sub;

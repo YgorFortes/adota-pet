@@ -93,16 +93,20 @@ export class AppModule implements NestModule {
         method: RequestMethod.ALL,
       },
       { path: 'pet', method: RequestMethod.POST },
+      { path: 'pets/', method: RequestMethod.GET },
+      { path: 'pets/shelter/:id', method: RequestMethod.GET },
       { path: 'pet/:id', method: RequestMethod.PUT },
       { path: 'pet/:id', method: RequestMethod.DELETE },
-      { path: 'shelter/pets/:id', method: RequestMethod.GET },
-      { path: 'shelter', method: RequestMethod.POST },
-      { path: 'shelter', method: RequestMethod.PUT },
-      { path: 'shelter', method: RequestMethod.DELETE },
+      { path: 'pet/:id', method: RequestMethod.GET },
+      { path: 'shelter/pet/:id', method: RequestMethod.GET },
+      { path: 'shelter', method: RequestMethod.ALL },
+      { path: 'shelter/:id', method: RequestMethod.GET },
       { path: 'message', method: RequestMethod.ALL },
-      { path: 'message/shelter', method: RequestMethod.GET },
-      { path: 'message/shelter/:id', method: RequestMethod.GET },
-      { path: 'message/guardian/', method: RequestMethod.GET },
+      { path: 'guardian/message', method: RequestMethod.POST },
+      { path: 'shelter/message', method: RequestMethod.POST },
+      { path: 'shelter/messages/all', method: RequestMethod.GET },
+      { path: 'shelter/message/:id', method: RequestMethod.GET },
+      { path: 'guardian/messages/all/', method: RequestMethod.GET },
     );
 
     //Routes for Shelter role
@@ -112,7 +116,7 @@ export class AppModule implements NestModule {
         { path: 'shelter', method: RequestMethod.DELETE },
         { path: 'shelter', method: RequestMethod.POST },
         { path: 'shelter', method: RequestMethod.PUT },
-        { path: 'shelter/pets/:id', method: RequestMethod.GET },
+        { path: 'shelter/pet/:id', method: RequestMethod.GET },
         { path: 'pet', method: RequestMethod.POST },
         { path: 'pet/:id', method: RequestMethod.PUT },
         { path: 'pet/:id', method: RequestMethod.DELETE },
@@ -120,8 +124,9 @@ export class AppModule implements NestModule {
         { path: 'adoption/:id', method: RequestMethod.DELETE },
         { path: 'guardian', method: RequestMethod.GET },
         { path: 'guardian/:id', method: RequestMethod.GET },
-        { path: 'message/shelter', method: RequestMethod.GET },
-        { path: 'message/shelter/:id', method: RequestMethod.GET },
+        { path: 'shelter/message', method: RequestMethod.POST },
+        { path: 'shelter/messages/all', method: RequestMethod.GET },
+        { path: 'shelter/message/:id', method: RequestMethod.GET },
       );
 
     //Routes for Guardian role
@@ -131,8 +136,8 @@ export class AppModule implements NestModule {
         { path: 'guardian', method: RequestMethod.POST },
         { path: 'guardian', method: RequestMethod.DELETE },
         { path: 'guardian', method: RequestMethod.PUT },
-        { path: 'message', method: RequestMethod.POST },
-        { path: 'message/guardian/', method: RequestMethod.GET },
+        { path: 'guardian/message', method: RequestMethod.POST },
+        { path: 'guardian/messages/all/', method: RequestMethod.GET },
       );
   }
 }

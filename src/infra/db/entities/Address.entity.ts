@@ -33,6 +33,12 @@ export class AddressEntity {
   @Column({ name: 'neighborhood', length: 45, nullable: false })
   neighborhood: string;
 
+  @OneToMany(() => GuardianEntity, guardian => guardian.address, {})
+  guardian: Array<GuardianEntity>;
+
+  @OneToMany(() => ShelterEntity, shelter => shelter.address, {})
+  shelter: Array<ShelterEntity>;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
   createdAt: Date;
 
@@ -46,10 +52,4 @@ export class AddressEntity {
     type: 'timestamp with time zone',
   })
   deletedAt: Date;
-
-  @OneToMany(() => GuardianEntity, guardian => guardian.address, {})
-  guardian: Array<GuardianEntity>;
-
-  @OneToMany(() => ShelterEntity, shelter => shelter.address, {})
-  shelter: Array<ShelterEntity>;
 }

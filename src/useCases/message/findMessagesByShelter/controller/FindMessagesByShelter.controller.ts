@@ -6,11 +6,11 @@ import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
-@Controller('message')
+@Controller('shelter')
 export class FindMessagesByShelterController {
   constructor(private findMessageByShelterUseCase: FindMessagesByShelterUseCase) {}
 
-  @Get('/shelter')
+  @Get('/messages/all')
   @UseInterceptors(CacheInterceptor)
   async handle(
     @Query() pagination: FindAllPaginationControllerDto,

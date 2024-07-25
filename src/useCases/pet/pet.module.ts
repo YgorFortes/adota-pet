@@ -5,6 +5,7 @@ import { FindPetByIdModule } from './findPetById/findPetById.module';
 import { UpdatePetModule } from './updatePet/updatePet.module';
 import { DeletePetModule } from './deletePet/deletePet.module';
 import { FindPetByShelterModule } from './findPetByShelter/findPetByShelter.module';
+import { FindAllPetsByShelterModule } from './findAllPetsByShelter/findAllPetsByShelter.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { FindPetByShelterModule } from './findPetByShelter/findPetByShelter.modu
     FindAllPetsModule,
     FindPetByIdModule,
     FindPetByShelterModule,
+    FindAllPetsByShelterModule,
     UpdatePetModule,
     DeletePetModule,
   ],
@@ -20,6 +22,7 @@ import { FindPetByShelterModule } from './findPetByShelter/findPetByShelter.modu
     FindAllPetsModule,
     FindPetByIdModule,
     FindPetByShelterModule,
+    FindAllPetsByShelterModule,
     UpdatePetModule,
     DeletePetModule,
   ],

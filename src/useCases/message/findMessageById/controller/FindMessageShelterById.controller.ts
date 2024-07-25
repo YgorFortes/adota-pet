@@ -4,11 +4,11 @@ import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interfa
 import { Message } from 'src/entities/Message.entity';
 import { FindMessageByIdUserCase } from '../FindMessageShelterById.useCase';
 
-@Controller('message')
+@Controller('shelter')
 export class FindMessageShelterByIdController {
   constructor(private findMessageByIdUserCase: FindMessageByIdUserCase) {}
 
-  @Get('shelter/:id')
+  @Get('message/:id')
   async handle(
     @Param() params: IdParamControllerDto,
     @Request() request: IRequestWithUser,

@@ -19,7 +19,8 @@ export class UpdateAddressUseCase {
       return await this.updateAddressByCep(id, updateAddressDto.cep, updateAddressDto.complement);
     }
 
-    return await this.addressRepository.updateAddress(id, { ...updateAddressDto });
+    const addressUpdated = await this.addressRepository.updateAddress(id, { ...updateAddressDto });
+    return addressUpdated;
   }
 
   private async updateAddressByCep(id: string, cep: string, complement?: string): Promise<Address> {

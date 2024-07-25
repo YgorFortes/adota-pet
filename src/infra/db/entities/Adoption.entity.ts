@@ -32,6 +32,30 @@ export class AdoptionEntity {
   @Column({ name: 'notes', type: 'text', nullable: true })
   notes: string;
 
+  @Column({ name: 'guardian_id', nullable: false })
+  guardianId: string;
+
+  @ManyToOne(() => GuardianEntity, guardianEntity => guardianEntity.Adoptions, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'guardian_id' })
+  @Index()
+  guardian: GuardianEntity;
+
+  @Column({ name: 'pet_id', nullable: false })
+  petId: string;
+
+  @ManyToOne(() => PetEntity, petEntity => petEntity.adoptions, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'pet_id' })
+  @Index()
+  pet: PetEntity;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
   createdAt: Date;
 
@@ -45,22 +69,4 @@ export class AdoptionEntity {
     type: 'timestamp with time zone',
   })
   deletedAt: Date;
-
-  @ManyToOne(() => GuardianEntity, guardianEntity => guardianEntity.Adoptions, {
-    nullable: false,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'guardian_id' })
-  @Index()
-  guardian: GuardianEntity;
-
-  @ManyToOne(() => PetEntity, petEntity => petEntity.adoptions, {
-    nullable: false,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'pet_id' })
-  @Index()
-  pet: PetEntity;
 }

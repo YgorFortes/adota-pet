@@ -6,7 +6,10 @@ import { IUpdatePetUseCaseDto } from 'src/useCases/pet/updatePet/dtos/IUpdatePet
 
 export interface IPetRepository {
   savePet(petDto: Pet): Promise<Pet>;
-  findAllPets(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Pet>>;
+  findAllPets(
+    pagination: IFindAllPaginationUseCaseDto,
+    shelterId?: string,
+  ): Promise<IPagination<Pet>>;
   findPetById(petId: string, shelterId?: string): Promise<Pet>;
   updatePet(petId: string, petUpdateDto: IUpdatePetRepositoryDto): Promise<Pet>;
   deletePet(petId: string): Promise<boolean>;

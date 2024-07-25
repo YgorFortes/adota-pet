@@ -32,12 +32,17 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
     return pet;
   }
 
-  async findAllPets(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Pet>> {
+  async findAllPets(
+    pagination: IFindAllPaginationUseCaseDto,
+    shelterId?: string,
+  ): Promise<IPagination<Pet>> {
     const queryBuilder = this.repository.createQueryBuilder('pet');
 
-    queryBuilder
-      .leftJoinAndSelect('pet.shelter', 'shelter')
-      .where('pet.status = :petStatus', { petStatus: PetStatus.NÃO_ADOTADO });
+    queryBuilder.where('pet.status = :petStatus', { petStatus: PetStatus.NÃO_ADOTADO });
+
+    if (shelterId) {
+      queryBuilder.andWhere('pet.shelter_id = :shelterId', { shelterId });
+    }
 
     queryBuilder.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
 
@@ -49,8 +54,12 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
   }
 
   async savePet(petDto: Pet): Promise<Pet> {
-    const petCreated = await this.repository.save(petDto);
-    delete petCreated.shelter;
+    const { shelter, ...petDtoWithoutShelter } = petDto;
+    const petCreated = await this.repository.save({
+      ...petDtoWithoutShelter,
+      shelterId: shelter.id,
+    });
+
     return petCreated;
   }
 

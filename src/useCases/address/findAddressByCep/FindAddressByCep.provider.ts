@@ -9,19 +9,27 @@ interface IRequestCep {
   logradouro: string;
   complemento: string;
   bairro: string;
-  localidade: 'São Paulo';
-  uf: 'SP';
-  ibge: '3550308';
-  gia: '1004';
-  ddd: '11';
-  siafi: '7107';
+  localidade: string;
+  uf: string;
+  ibge: string;
+  gia: string;
+  ddd: string;
+  siafi: string;
+  erro: string | undefined;
 }
 
 export class findAddressByCepProvider implements IAddressCepFinderProvider {
   async findAddressByCep(cep: string, complement?: string): Promise<Address> {
     try {
       const apiUrl = `https://viacep.com.br/ws/${cep}/json/`;
+
       const reponseData: IRequestCep = (await axios.get(apiUrl)).data;
+
+      if (reponseData.erro) {
+        throw new BadRequestException(
+          'CEP não encontrado. Se seu CEP não foi encontrado, tente digitar manualmente o endereço.',
+        );
+      }
 
       complement ? reponseData.complemento : null;
 
@@ -36,7 +44,9 @@ export class findAddressByCepProvider implements IAddressCepFinderProvider {
 
       return address;
     } catch (error) {
-      throw new BadRequestException('CEP não encontrado');
+      throw new BadRequestException(
+        'CEP não encontrado. Se seu CEP não foi encontrado, tente digitar manualmente o endereço.',
+      );
     }
   }
 }

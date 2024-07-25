@@ -21,7 +21,7 @@ export class UpdateShelterController {
   ): Promise<{ message: string; shelter: Shelter }> {
     const combinedData = {
       ...updateShelterDto,
-      user: { ...updateShelterDto.user, photo: photo },
+      ...(photo ? { user: { ...updateShelterDto.user, photo } } : {}),
     };
 
     const userId = request.user.sub;

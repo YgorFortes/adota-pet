@@ -5,10 +5,10 @@ import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { FindAllPaginationControllerDto } from 'src/common/dtos/FindAllPagination.controller.dto';
 import { Message } from 'src/entities/Message.entity';
 
-@Controller('message')
+@Controller('guardian')
 export class FindMessagesByGuardianController {
   constructor(private findMessageByGuardianUseCase: FindMessagesByGuardianUseCase) {}
-  @Get('/guardian')
+  @Get('/messages/all')
   async handle(
     @Query() pagination: FindAllPaginationControllerDto,
     @Request() request: IRequestWithUser,

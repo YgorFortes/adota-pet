@@ -4,7 +4,7 @@ import { FindPetByShelterUseCase } from '../FindPetByShelter.useCase';
 import { IRequestWithUser } from 'src/common/interfaces/IRequestWithUser.interface';
 import { Pet } from 'src/entities/Pet.entity';
 
-@Controller('shelter/pets')
+@Controller('shelter/pet')
 export class FindPetByShelterController {
   constructor(private findPetByShelterUseCase: FindPetByShelterUseCase) {}
   @Get(':id')

@@ -18,10 +18,10 @@ export class ManageEmailProvide implements IManageEmailInterface {
 
     try {
       transporter.sendMail({
-        from: `${emailDto.guardianEmail}`,
-        to: emailDto.email,
+        from: `${emailDto.from}`,
+        to: emailDto.to,
         subject: `Sobre o pet ${emailDto.pet.name}.`,
-        html: generateHtmlTemplate(emailDto.message.content, emailDto.pet.photo),
+        html: generateHtmlTemplate(emailDto.message, emailDto.pet.photo),
       });
     } catch (error) {
       throw new BadGatewayException('Serviço de upload indisponível.');

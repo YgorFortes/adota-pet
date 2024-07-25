@@ -30,20 +30,6 @@ export class ShelterEntity {
   @Column({ name: 'working_hours', length: 45 })
   workingHours: string;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({
-    name: 'deleted_at',
-    nullable: true,
-    default: null,
-    type: 'timestamp with time zone',
-  })
-  deletedAt: Date;
-
   @OneToOne(() => UserEntity, user => user.shelter, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
@@ -64,4 +50,18 @@ export class ShelterEntity {
 
   @OneToMany(() => MessageEntity, message => message.shelter, {})
   messages: Array<MessageEntity>;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    nullable: true,
+    default: null,
+    type: 'timestamp with time zone',
+  })
+  deletedAt: Date;
 }
