@@ -35,11 +35,14 @@ export class AdoptionRepository
   }
 
   async saveAdoption(adoptionDto: Adoption): Promise<AdoptionWithoutGuardianAndPet> {
-    const adoptionCreated = await this.repository.save(adoptionDto);
+    const { guardian, pet, ...adoptionDtoWithoutPetAndGuardian } = adoptionDto;
+    const adoptionCreated = await this.repository.save({
+      ...adoptionDtoWithoutPetAndGuardian,
+      petId: pet.id,
+      guardianId: guardian.id,
+    });
 
-    const adoption = this.formatAdoptionProprieties(adoptionCreated);
-
-    return adoption;
+    return adoptionCreated;
   }
 
   async deleteAdoption(adoptionId: string): Promise<boolean> {
@@ -48,17 +51,5 @@ export class AdoptionRepository
     if (adoptionDeleted.affected > 0) {
       return true;
     }
-  }
-
-  private formatAdoptionProprieties(adoption: AdoptionEntity): AdoptionWithoutGuardianAndPet {
-    return {
-      id: adoption.id,
-      adoptionDate: adoption.adoptionDate,
-      status: adoption.status,
-      notes: adoption.notes,
-      createdAt: adoption.createdAt,
-      updatedAt: adoption.updatedAt,
-      deletedAt: adoption.deletedAt,
-    };
   }
 }
