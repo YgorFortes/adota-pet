@@ -20,7 +20,7 @@ export class DateFormat implements ValidatorConstraintInterface {
   }
 
   defaultMessage?(): string {
-    return 'A data deve estar no formato YYYY-MM-DD ou YYYY/MM/DD.';
+    return 'A data deve estar nos formato YYYY-MM-DD, YYYY/MM/DD ou MM/DD/YYYY';
   }
 }
 
