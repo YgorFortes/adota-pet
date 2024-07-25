@@ -21,7 +21,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
   async findShelterById(shelterId: string): Promise<Shelter> {
     const shelter = await this.repository.findOne({
       where: { id: shelterId },
-      relations: ['user', 'address', 'pets'],
+      relations: ['user', 'address'],
     });
 
     if (!shelter) {
@@ -70,7 +70,9 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
     const result = await this.repository.update({ id: shelterId }, { ...updateShelterDto });
 
     if (result.affected > 0) {
-      return await this.repository.findOne({ where: { id: shelterId } });
+      const shelter = await this.repository.findOne({ where: { id: shelterId } });
+      console.log(shelter);
+      return shelter;
     }
   }
 
