@@ -32,8 +32,8 @@ export class AdoptionEntity {
   @Column({ name: 'notes', type: 'text', nullable: true })
   notes: string;
 
-  @Column('int', { name: 'guardian_id', nullable: false })
-  guardianId: number;
+  @Column({ name: 'guardian_id', nullable: false })
+  guardianId: string;
 
   @ManyToOne(() => GuardianEntity, guardianEntity => guardianEntity.Adoptions, {
     nullable: false,
@@ -44,8 +44,8 @@ export class AdoptionEntity {
   @Index()
   guardian: GuardianEntity;
 
-  @Column('int', { name: 'pet_id', nullable: false })
-  petId: number;
+  @Column({ name: 'pet_id', nullable: false })
+  petId: string;
 
   @ManyToOne(() => PetEntity, petEntity => petEntity.adoptions, {
     nullable: false,

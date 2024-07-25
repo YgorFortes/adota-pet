@@ -21,24 +21,24 @@ export class MessageEntity {
   @Column({ name: 'content', type: 'text', nullable: false })
   content: string;
 
-  @Column('int', { name: 'guardian_id', nullable: false })
-  guardianId: number;
+  @Column({ name: 'guardian_id', nullable: true })
+  guardianId: string;
 
   @ManyToOne(() => GuardianEntity, guardian => guardian.messages, {})
   @JoinColumn({ name: 'guardian_id' })
   @Index()
   guardian: GuardianEntity;
 
-  @Column('int', { name: 'shelter_id', nullable: false })
-  shelterId: number;
+  @Column({ name: 'shelter_id', nullable: true })
+  shelterId: string;
 
   @ManyToOne(() => ShelterEntity, shelter => shelter.address, {})
   @JoinColumn({ name: 'shelter_id' })
   @Index()
   shelter: ShelterEntity;
 
-  @Column('int', { name: 'pet_id', nullable: false })
-  petId: number;
+  @Column({ name: 'pet_id', nullable: true })
+  petId: string;
 
   @ManyToOne(() => PetEntity, pet => pet.messages, {})
   @JoinColumn({ name: 'pet_id' })
