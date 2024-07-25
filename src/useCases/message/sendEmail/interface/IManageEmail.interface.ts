@@ -1,4 +1,3 @@
-import { Message } from 'src/entities/Message.entity';
 import { Pet } from 'src/entities/Pet.entity';
 
 export interface IManageEmailInterface {
@@ -6,8 +5,8 @@ export interface IManageEmailInterface {
 }
 
 export interface IEmailDto {
-  message: Message;
-  email: string;
-  guardianEmail: string;
+  message: string;
+  to: string;
+  from: string;
   pet: Pet;
 }
