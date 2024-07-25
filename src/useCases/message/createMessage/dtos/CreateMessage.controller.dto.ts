@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsString, IsUUID, Length } from 'class-validator';
 
 export class CreateMessageControllerDto {
-  @IsUUID('all', { message: 'O shelterId deve ser do tipo uuid' })
-  @IsNotEmpty({ message: 'shelterId não deve ser vazio.' })
-  shelterId: string;
+  @IsUUID('all', { message: 'O recipientId deve ser do tipo uuid' })
+  @IsNotEmpty({ message: 'recipientId não deve ser vazio.' })
+  recipientId: string;
 
   @IsUUID('all', { message: 'O petId deve ser do tipo uuid' })
   @IsNotEmpty({ message: 'petId não deve ser vazio.' })
