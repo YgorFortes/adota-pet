@@ -71,7 +71,6 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
 
     if (result.affected > 0) {
       const shelter = await this.repository.findOne({ where: { id: shelterId } });
-      console.log(shelter);
       return shelter;
     }
   }
