@@ -12,6 +12,7 @@ import { DataSource } from 'typeorm';
 import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
+import { MessageEntity } from 'src/infra/db/entities/Message.entity';
 
 @Injectable()
 export class GuardianRepository
@@ -91,6 +92,8 @@ export class GuardianRepository
       where: { id: guardianId },
       relations: ['user', 'address'],
     });
+
+    await this.repository.manager.update(MessageEntity, { guardianId }, { guardianId: null });
 
     await this.repository.manager.remove(guardian.user);
     await this.repository.manager.remove(guardian);
