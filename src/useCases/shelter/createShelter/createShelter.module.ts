@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { CreateShelterController } from './controller/CreateShelter.controller';
 import { CreateShelterUseCase } from './CreateShelter.useCase';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { ShelterRepository } from 'src/repositories/implementations/Shelter.repository';
@@ -9,7 +8,7 @@ import { CreateAddressModule } from 'src/useCases/address/createAddress/createAr
 
 @Module({
   imports: [FindUserByIdModule, VerifyUserAssociationModule, CreateAddressModule],
-  controllers: [CreateShelterController],
+  controllers: [],
   providers: [
     CreateShelterUseCase,
     {
@@ -17,6 +16,6 @@ import { CreateAddressModule } from 'src/useCases/address/createAddress/createAr
       useClass: ShelterRepository,
     },
   ],
-  exports: [],
+  exports: [CreateShelterUseCase],
 })
 export class CreateShelterModule {}
