@@ -3,15 +3,15 @@ import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { Shelter } from 'src/entities/Shelter.entity';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { IShelterRepository } from 'src/repositories/interfaces/IShelterRepository.interface';
-import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
+import { FiltersFindAllSheltersDto } from './dto/FiltersFindAllShelters.controller.dto';
 
 export class FindAllSheltersUseCase {
   constructor(
     @Inject(RepositoryType.IShelterRepository) private shelterRepository: IShelterRepository,
   ) {}
 
-  async execute(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Shelter>> {
-    const shelters = await this.shelterRepository.findAllShelters(pagination);
+  async execute(filters: FiltersFindAllSheltersDto): Promise<IPagination<Shelter>> {
+    const shelters = await this.shelterRepository.findAllShelters(filters);
 
     if (shelters.items.length < 1) {
       throw new NotFoundException('Abrigo não encontrado.');
