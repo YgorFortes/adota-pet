@@ -10,7 +10,7 @@ import { BaseRepository } from './BaseRepository';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
-import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
+import { FiltersFindAllSheltersDto } from 'src/useCases/shelter/findAllShelters/dto/FiltersFindAllShelters.controller.dto';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ShelterRepository extends BaseRepository<ShelterEntity> implements IShelterRepository {
@@ -33,14 +33,40 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
     return shelterFormated;
   }
 
-  async findAllShelters(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Shelter>> {
+  async findAllShelters(filters: FiltersFindAllSheltersDto): Promise<IPagination<Shelter>> {
     const queryBuilder = this.repository.createQueryBuilder('shelter');
 
     queryBuilder
       .leftJoinAndSelect('shelter.user', 'user')
       .leftJoinAndSelect('shelter.address', 'address');
 
-    queryBuilder.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
+    if (filters.name) {
+      queryBuilder.andWhere('unaccent(user.name) ILIKE :name', { name: `%${filters.name}%` });
+    }
+
+    if (filters.city) {
+      queryBuilder.andWhere('unaccent(address.city) ILIKE :city', { city: `%${filters.city}%` });
+    }
+
+    if (filters.state) {
+      queryBuilder.andWhere('unaccent(address.state) ILIKE :state', {
+        state: `%${filters.state}%`,
+      });
+    }
+
+    if (filters.neighborhood) {
+      queryBuilder.andWhere('unaccent(address.neighborhood) ILIKE :neighborhood', {
+        neighborhood: `%${filters.neighborhood}%`,
+      });
+    }
+
+    if (filters.cep) {
+      queryBuilder.andWhere('address.cep LIKE :cep', {
+        cep: `%${filters.cep}%`,
+      });
+    }
+
+    queryBuilder.skip((filters.page - 1) * filters.limit).take(filters.limit);
 
     const [shelters, sheltersCount] = await Promise.all([
       queryBuilder.getMany(),
@@ -51,7 +77,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
       return this.formatShelterProperties(shelter);
     });
 
-    const counterPage = Math.ceil(sheltersCount / pagination.limit);
+    const counterPage = Math.ceil(sheltersCount / filters.limit);
 
     return { items: shelterFormated, meta: { counterPage, totalCount: sheltersCount } };
   }
