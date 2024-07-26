@@ -114,7 +114,6 @@ export class AppModule implements NestModule {
       .apply(ShelterAuthenticationMiddleware)
       .forRoutes(
         { path: 'shelter', method: RequestMethod.DELETE },
-        { path: 'shelter', method: RequestMethod.POST },
         { path: 'shelter', method: RequestMethod.PUT },
         { path: 'shelter/pet/:id', method: RequestMethod.GET },
         { path: 'pet', method: RequestMethod.POST },
@@ -134,7 +133,6 @@ export class AppModule implements NestModule {
     consumer
       .apply(GuardianAuthenticationMiddleware)
       .forRoutes(
-        { path: 'guardian', method: RequestMethod.POST },
         { path: 'guardian', method: RequestMethod.DELETE },
         { path: 'guardian', method: RequestMethod.PUT },
         { path: 'guardian/message', method: RequestMethod.POST },
