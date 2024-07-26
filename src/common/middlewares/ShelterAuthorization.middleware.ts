@@ -4,7 +4,6 @@ import { Response, NextFunction } from 'express';
 import { FindUserByIdUseCase } from 'src/useCases/user/findUserById/FindUserById.useCase';
 import { UserRole } from '../enum/roleUser.enum';
 import { IRouteInfo } from '../interfaces/IRouterInfo.interface';
-import { IUserWithAssociation } from '../interfaces/IUserWithAssociation';
 
 @Injectable()
 export class ShelterAuthenticationMiddleware implements NestMiddleware {
@@ -18,10 +17,6 @@ export class ShelterAuthenticationMiddleware implements NestMiddleware {
       const userId = request.user.sub;
       const user = await this.findUserById.execute(userId, UserRole.SHELTER);
 
-      if (this.isPostRequestToShelterRoute(request, user, routePath)) {
-        return next();
-      }
-
       if (user.role === UserRole.SHELTER && user.shelter) {
         return next();
       }
@@ -32,15 +27,5 @@ export class ShelterAuthenticationMiddleware implements NestMiddleware {
         `O usuário ${user.name}, id: ${user.id} não tem acesso a rota: ${request.method} ${routePath}${params}`,
       );
     }
-  }
-
-  private isPostRequestToShelterRoute(
-    request: IRequestWithUser,
-    user: IUserWithAssociation,
-    routePath: string,
-  ): boolean {
-    return (
-      request.method === 'POST' && routePath === UserRole.SHELTER && user.role === UserRole.SHELTER
-    );
   }
 }
