@@ -9,7 +9,6 @@ export class LogoutUserController {
 
   @Get()
   async handle(@Request() request: IRequestWithUser): Promise<{ message: string }> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const token = extractTokenHeader(request);
     const result = await this.logoutUserUseCase.execute(token);
 
