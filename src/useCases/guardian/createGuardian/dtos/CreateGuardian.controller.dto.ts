@@ -1,9 +1,7 @@
 import { trimString } from 'src/common/helpers/validation.helpers';
-import { Transform, Type } from 'class-transformer';
-import { IsNotEmpty, IsOptional, IsString, MaxLength, ValidateNested } from 'class-validator';
-
+import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { validateDate } from 'src/common/helpers/decoratorsValidators/isBeforeCurrentDate.decorator';
-import { CreateAddressControllerDto } from 'src/useCases/address/createAddress/dtos/CreateAddress.controller.dto';
 import { IsLegalAge } from 'src/common/helpers/decoratorsValidators/isLegalAge.decorator';
 import { ValidateDateFormat } from 'src/common/helpers/decoratorsValidators/validateDateFormat.decorator';
 
@@ -19,9 +17,4 @@ export class CreateGuardianCrontollerDto {
   @validateDate()
   @IsLegalAge()
   birthDate: Date;
-
-  @IsNotEmpty({ message: 'address não pode ser vazio.' })
-  @ValidateNested()
-  @Type(() => CreateAddressControllerDto)
-  address: CreateAddressControllerDto;
 }

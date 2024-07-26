@@ -3,7 +3,7 @@ import { Guardian } from 'src/entities/Guardian.entity';
 import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
 import { IUpdateUserRepositoryDto } from './IUserRepository.interface';
 import { IUpdateAddressUseCaseDto } from 'src/useCases/address/updateAddress/dtos/IUpdateAddress.useCase.dto';
-import { GuardianCreationWithoutAddressDto } from 'src/useCases/guardian/updateGuardian/dtos/GuardianCreationWithoutAddressDto';
+import { ICreateGuardianUseCaseDto } from 'src/useCases/guardian/createGuardian/dtos/ICreateGuardian.UseCase.dto';
 
 export interface IGuardianRepository {
   save(data: Guardian): Promise<Guardian>;
@@ -13,7 +13,7 @@ export interface IGuardianRepository {
   deleteGuardian(id: string): Promise<boolean>;
 }
 
-export interface IUpdateGuardianRepositoryDto extends Partial<GuardianCreationWithoutAddressDto> {
+export interface IUpdateGuardianRepositoryDto extends Partial<ICreateGuardianUseCaseDto> {
   user?: IUpdateUserRepositoryDto;
   address?: IUpdateAddressUseCaseDto;
 }

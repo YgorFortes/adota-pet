@@ -6,9 +6,12 @@ import { CreateUserUseCase } from './CreateUser.useCase';
 import { RepositoryType } from 'src/common/enum/repositoryType.enum';
 import { Provide } from 'src/common/enum/provider.enum';
 import { ManagePhotoInCloudProvider } from 'src/useCases/common/ManagePhotoInCloud/SavePhotoInCloud.provider';
+import { CreateGuardianModule } from 'src/useCases/guardian/createGuardian/createGuardian.module';
+import { CreateShelterModule } from 'src/useCases/shelter/createShelter/createShelter.module';
+import { CreateAddressModule } from 'src/useCases/address/createAddress/createArdress.module';
 
 @Module({
-  imports: [],
+  imports: [CreateGuardianModule, CreateShelterModule, CreateAddressModule],
   controllers: [CreateUserController],
   providers: [
     HashPasswordPipe,

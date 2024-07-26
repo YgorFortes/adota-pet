@@ -11,6 +11,7 @@ import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { FiltersFindAllSheltersDto } from 'src/useCases/shelter/findAllShelters/dto/FiltersFindAllShelters.controller.dto';
+import { MessageEntity } from 'src/infra/db/entities/Message.entity';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ShelterRepository extends BaseRepository<ShelterEntity> implements IShelterRepository {
@@ -70,7 +71,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
 
     const [shelters, sheltersCount] = await Promise.all([
       queryBuilder.getMany(),
-      this.repository.count(),
+      queryBuilder.getCount(),
     ]);
 
     const shelterFormated = shelters.map(shelter => {
@@ -107,6 +108,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
       relations: ['user', 'address'],
     });
 
+    await this.repository.manager.update(MessageEntity, { shelterId }, { shelterId: null });
     await this.repository.manager.remove(shelter.user);
     await this.repository.manager.remove(shelter);
 

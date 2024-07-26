@@ -5,20 +5,22 @@ import { HashPasswordPipe } from 'src/common/pipes/HashPassword.pipe';
 import { User } from 'src/entities/User.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidator } from 'src/common/pipes/ImageValidator.pipe';
+import { TransactionInterceptor } from 'src/resource/interceptor/transaction.interceptor';
 
 @Controller('user')
 @UseInterceptors(FileInterceptor('photo'))
+@UseInterceptors(TransactionInterceptor)
 export class CreateUserController {
   constructor(private readonly createUserUseCase: CreateUserUseCase) {}
 
   @Post()
   async handle(
-    @Body() userDto: CreateUserControllerDto,
+    @Body() createUserDto: CreateUserControllerDto,
     @Body('password', HashPasswordPipe) hashedPassword: string,
     @UploadedFile(new ImageValidator(true)) photo: Express.Multer.File,
   ): Promise<{ message: string; user: User; token: string }> {
     const { token, user } = await this.createUserUseCase.execute({
-      ...userDto,
+      ...createUserDto,
       password: hashedPassword,
       photo,
     });

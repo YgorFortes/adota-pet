@@ -9,6 +9,7 @@ import { Request } from 'express';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { PetStatus } from 'src/common/enum/petStatus.enum';
 import { IFilterPetsUseCaseDto } from 'src/useCases/pet/findAllPets/dto/IFilterPets.useCase.dto';
+import { MessageEntity } from 'src/infra/db/entities/Message.entity';
 
 export class PetRepository extends BaseRepository<PetEntity> implements IPetRepository {
   constructor(dataSource: DataSource, @Inject(REQUEST) request: Request) {
@@ -78,7 +79,7 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
 
   async deletePet(petId: string): Promise<boolean> {
     const petDeleted = await this.repository.delete(petId);
-
+    await this.repository.manager.update(MessageEntity, { petId }, { petId: null });
     if (petDeleted.affected > 0) {
       return true;
     }

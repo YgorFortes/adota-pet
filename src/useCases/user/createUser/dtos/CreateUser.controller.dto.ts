@@ -1,4 +1,4 @@
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsDefined,
   IsEmail,
@@ -10,13 +10,18 @@ import {
   Matches,
   MaxLength,
   MinLength,
+  ValidateIf,
+  ValidateNested,
 } from 'class-validator';
 import { MatchPassword } from 'src/common/helpers/decoratorsValidators/passwordConfirm.decorator';
 import { PasswordIsTyped } from 'src/common/helpers/decoratorsValidators/passwordIsTyped.decorator';
-import { trimString } from 'src/common/helpers/validation.helpers';
+import { roleIsOneOf, trimString } from 'src/common/helpers/validation.helpers';
 
 import { UserRole } from 'src/common/enum/roleUser.enum';
 import { ValidateEmail } from 'src/common/helpers/decoratorsValidators/validateEmailDomains.decorator';
+import { CreateShelterControllerDto } from 'src/useCases/shelter/createShelter/dtos/CreateShelter.controller.dto';
+import { CreateGuardianCrontollerDto } from 'src/useCases/guardian/createGuardian/dtos/CreateGuardian.controller.dto';
+import { CreateAddressControllerDto } from 'src/useCases/address/createAddress/dtos/CreateAddress.controller.dto';
 
 export class CreateUserControllerDto {
   @Transform(trimString)
@@ -64,4 +69,21 @@ export class CreateUserControllerDto {
     message: 'telephone deve ser um número de telefone válido do Brasil.',
   })
   readonly telephone: string;
+
+  @ValidateIf(roleIsOneOf([UserRole.SHELTER]))
+  @IsNotEmpty({ message: 'shelter não pode ser vazio.' })
+  @ValidateNested({ message: 'Os campos about, webSite, workingHours e address são obrigatórios.' })
+  @Type(() => CreateShelterControllerDto)
+  readonly shelter: CreateShelterControllerDto;
+
+  @ValidateIf(roleIsOneOf([UserRole.GUARDIAN]))
+  @IsNotEmpty({ message: 'guardian não pode ser vazio.' })
+  @ValidateNested({ message: 'Os campos about, birthDate e address são obrigatórios.' })
+  @Type(() => CreateGuardianCrontollerDto)
+  readonly guardian: CreateGuardianCrontollerDto;
+
+  @IsNotEmpty({ message: 'address não pode ser vazio.' })
+  @ValidateNested()
+  @Type(() => CreateAddressControllerDto)
+  address: CreateAddressControllerDto;
 }
