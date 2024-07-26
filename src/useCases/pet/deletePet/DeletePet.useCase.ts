@@ -25,13 +25,13 @@ export class DeletePetUseCase {
       throw new NotFoundException('O pet não existe ou não está associado ao abrigo.');
     }
 
-    await this.managePhotoInCloud.deletePhoto(pet.photo);
-
     const result = await this.petRepository.deletePet(petId);
 
     if (!result) {
       throw new InternalServerErrorException(`Não foi possível deletar o pet. id: ${petId}`);
     }
+
+    await this.managePhotoInCloud.deletePhoto(pet.photo);
 
     return true;
   }
