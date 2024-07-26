@@ -1,7 +1,6 @@
-import { Transform, Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsUrl, Matches, MaxLength, ValidateNested } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsString, IsUrl, Matches, MaxLength } from 'class-validator';
 import { trimString } from 'src/common/helpers/validation.helpers';
-import { CreateAddressControllerDto } from 'src/useCases/address/createAddress/dtos/CreateAddress.controller.dto';
 
 export class CreateShelterControllerDto {
   @Transform(trimString)
@@ -20,9 +19,4 @@ export class CreateShelterControllerDto {
   @Transform(trimString)
   @IsNotEmpty({ message: 'workingHours não pode ser vazio.' })
   readonly workingHours: string;
-
-  @IsNotEmpty({ message: 'address não pode ser vazio.' })
-  @ValidateNested()
-  @Type(() => CreateAddressControllerDto)
-  readonly address: CreateAddressControllerDto;
 }
