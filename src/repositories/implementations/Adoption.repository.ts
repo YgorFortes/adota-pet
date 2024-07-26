@@ -9,6 +9,8 @@ import { DataSource } from 'typeorm';
 import { REQUEST } from '@nestjs/core';
 import { BaseRepository } from './BaseRepository';
 import { Request } from 'express';
+import { IPagination } from 'src/common/interfaces/IPagination.interface';
+import { IFilterFindAllAdoptionUseCaseDto } from 'src/useCases/adoption/findAllAdoption/dto/FiltersFindAllAdoption.useCase.dto';
 
 @Injectable()
 export class AdoptionRepository
@@ -17,6 +19,44 @@ export class AdoptionRepository
 {
   constructor(dataSource: DataSource, @Inject(REQUEST) request: Request) {
     super(AdoptionEntity, dataSource, request);
+  }
+
+  async findAllAdoption(
+    filters: IFilterFindAllAdoptionUseCaseDto,
+    shelterId: string,
+  ): Promise<IPagination<Adoption>> {
+    const queryBuilder = this.repository.createQueryBuilder('adoption');
+
+    queryBuilder.skip((filters.page - 1) * filters.limit).take(filters.limit);
+
+    queryBuilder
+      .leftJoin('adoption.pet', 'pet')
+      .leftJoin('pet.shelter', 'shelter')
+      .andWhere('shelter.id =:shelterId', { shelterId });
+
+    if (filters.startDate && filters.endDate) {
+      queryBuilder.andWhere('adoption.adoption_date BETWEEN :startDate AND :endDate', {
+        startDate: filters.startDate,
+        endDate: filters.endDate,
+      });
+    } else if (filters.startDate) {
+      queryBuilder.andWhere('adoption.adoption_date >= :startDate', {
+        startDate: filters.startDate,
+      });
+    } else if (filters.endDate) {
+      queryBuilder.andWhere('adoption.adoption_date <= :endDate', {
+        endDate: filters.endDate,
+      });
+    }
+
+    const [adoptions, adoptionsCount] = await Promise.all([
+      queryBuilder.getMany(),
+      queryBuilder.getCount(),
+    ]);
+
+    const counterPage = Math.ceil(adoptionsCount / filters.limit);
+
+    return { items: adoptions, meta: { counterPage, totalCount: adoptionsCount } };
   }
 
   async findAdoptionById(adoptionId: string, userId?: string): Promise<Adoption> {

@@ -8,7 +8,7 @@ import { IUpdateAddressUseCaseDto } from 'src/useCases/address/updateAddress/dto
 
 export interface IShelterRepository {
   save(shelterdto: Shelter, transaction?: EntityManager): Promise<Shelter>;
-  findAllShelters(pagination: IFindAllPaginationUseCaseDto): Promise<IPagination<Shelter>>;
+  findAllShelters(filters: IFindAllPaginationUseCaseDto): Promise<IPagination<Shelter>>;
   findShelterById(shelterId: string): Promise<Shelter>;
   updateShelter(shelterId: string, updateShelterDto: IUpdateShelterRepositoryDto): Promise<Shelter>;
   deleteShelter(shelterId: string): Promise<boolean>;

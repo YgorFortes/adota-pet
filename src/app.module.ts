@@ -121,6 +121,7 @@ export class AppModule implements NestModule {
         { path: 'pet/:id', method: RequestMethod.PUT },
         { path: 'pet/:id', method: RequestMethod.DELETE },
         { path: 'adoption', method: RequestMethod.POST },
+        { path: 'adoption', method: RequestMethod.GET },
         { path: 'adoption/:id', method: RequestMethod.DELETE },
         { path: 'guardian', method: RequestMethod.GET },
         { path: 'guardian/:id', method: RequestMethod.GET },

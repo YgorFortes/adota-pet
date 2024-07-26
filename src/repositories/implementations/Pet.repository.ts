@@ -6,9 +6,9 @@ import { DataSource } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
-import { IFindAllPaginationUseCaseDto } from 'src/common/dtos/IFindAllPagination.useCase.dto';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { PetStatus } from 'src/common/enum/petStatus.enum';
+import { IFilterPetsUseCaseDto } from 'src/useCases/pet/findAllPets/dto/IFilterPets.useCase.dto';
 
 export class PetRepository extends BaseRepository<PetEntity> implements IPetRepository {
   constructor(dataSource: DataSource, @Inject(REQUEST) request: Request) {
@@ -32,10 +32,7 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
     return pet;
   }
 
-  async findAllPets(
-    pagination: IFindAllPaginationUseCaseDto,
-    shelterId?: string,
-  ): Promise<IPagination<Pet>> {
+  async findAllPets(filters: IFilterPetsUseCaseDto, shelterId?: string): Promise<IPagination<Pet>> {
     const queryBuilder = this.repository.createQueryBuilder('pet');
 
     queryBuilder.where('pet.status = :petStatus', { petStatus: PetStatus.NÃO_ADOTADO });
@@ -44,11 +41,19 @@ export class PetRepository extends BaseRepository<PetEntity> implements IPetRepo
       queryBuilder.andWhere('pet.shelter_id = :shelterId', { shelterId });
     }
 
-    queryBuilder.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
+    if (filters.size) {
+      queryBuilder.andWhere('pet.size::text ILIKE :size', { size: `%${filters.size}%` });
+    }
+
+    if (filters.specie) {
+      queryBuilder.andWhere('pet.specie::text ILIKE :specie', { specie: `%${filters.specie}%` });
+    }
+
+    queryBuilder.skip((filters.page - 1) * filters.limit).take(filters.limit);
 
     const [pets, petsCount] = await Promise.all([queryBuilder.getMany(), queryBuilder.getCount()]);
 
-    const counterPage = Math.ceil(petsCount / pagination.limit);
+    const counterPage = Math.ceil(petsCount / filters.limit);
 
     return { items: pets, meta: { counterPage, totalCount: petsCount } };
   }
