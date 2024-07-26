@@ -42,15 +42,6 @@ export class MessageRepository extends BaseRepository<MessageEntity> implements 
     return { items: messages, meta: { counterPage, totalCount: messagesCount } };
   }
 
-  findAllMessagesByPet(
-    shelterId: string,
-    guardianId: string,
-    petId: string,
-  ): Promise<Array<Message>> {
-    console.log(shelterId, guardianId, petId);
-    throw new Error('Method not implemented.');
-  }
-
   async saveMessage(message: Message): Promise<Message> {
     const messageCreated = await this.repository.save(message);
 
@@ -62,10 +53,5 @@ export class MessageRepository extends BaseRepository<MessageEntity> implements 
     });
 
     return message;
-  }
-
-  findMessagesByGuardian(guardianId: string): Promise<Array<Message>> {
-    console.log(guardianId);
-    throw new Error('Method not implemented.');
   }
 }
