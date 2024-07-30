@@ -19,6 +19,6 @@ import { ManagePhotoInCloudProvider } from 'src/useCases/common/ManagePhotoInClo
       useClass: ManagePhotoInCloudProvider,
     },
   ],
-  exports: [],
+  exports: [DeleteShelterUseCase],
 })
 export class DeleteShelterModule {}
