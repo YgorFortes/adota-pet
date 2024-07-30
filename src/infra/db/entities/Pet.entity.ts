@@ -63,10 +63,10 @@ export class PetEntity {
   @Index()
   specie: PetSpecie;
 
-  @Column({ name: 'shelter_id', nullable: false })
+  @Column({ name: 'shelter_id', nullable: true })
   shelterId: string;
   @ManyToOne(() => ShelterEntity, shelter => shelter.pets, {
-    onDelete: 'CASCADE',
+    onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'shelter_id' })
