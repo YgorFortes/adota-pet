@@ -45,7 +45,6 @@ export class CreateMessageUseCase {
     const { shelter } = user;
 
     const guardian = await this.findGuardianByIdUseCase.execute(recipientId);
-
     const pet = await this.findPetByIdUseCase.execute(petId, shelter.id);
 
     const message = new Message({
