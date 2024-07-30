@@ -1,5 +1,5 @@
 import { Message } from 'src/entities/Message.entity';
-import { IMessageRepository } from '../interfaces/IMessageRepository.interface';
+import { IMessageRepository, IReferenceIds } from '../interfaces/IMessageRepository.interface';
 import { BaseRepository } from './BaseRepository';
 import { MessageEntity } from 'src/infra/db/entities/Message.entity';
 import { DataSource } from 'typeorm';
@@ -15,12 +15,22 @@ export class MessageRepository extends BaseRepository<MessageEntity> implements 
     super(MessageEntity, dataSource, request);
   }
 
+  async findMessageById(messageId: string, shelterId: string): Promise<Message> {
+    const message = await this.repository.findOne({
+      where: { id: messageId, shelter: { id: shelterId } },
+    });
+
+    return message;
+  }
+
   async findMessagesByUserRole(
     pagination: IFindAllPaginationUseCaseDto,
     userRoleId: string,
     userRole: UserRole,
   ): Promise<IPagination<Message>> {
-    const queryBuilder = this.repository.createQueryBuilder('message');
+    const queryBuilder = this.repository
+      .createQueryBuilder('message')
+      .where('message.deleted_at IS NULL');
 
     if (userRole === UserRole.SHELTER) {
       queryBuilder.where('message.shelter_id = :shelterId', { shelterId: userRoleId });
@@ -47,11 +57,18 @@ export class MessageRepository extends BaseRepository<MessageEntity> implements 
 
     return messageCreated;
   }
-  async findMessageById(messageId: string, shelterId: string): Promise<Message> {
-    const message = await this.repository.findOne({
-      where: { id: messageId, shelter: { id: shelterId } },
-    });
 
-    return message;
+  async updateMessage(referenceIds: IReferenceIds, updateShelterDto: unknown): Promise<boolean> {
+    const messageUpdated = await this.repository.update({ ...referenceIds }, updateShelterDto);
+
+    if (messageUpdated.affected > 0) {
+      return true;
+    }
+  }
+
+  async softDeleteMessage(messageId: string): Promise<boolean> {
+    const result = await this.repository.softDelete({ id: messageId });
+
+    return result.affected >= 0;
   }
 }
