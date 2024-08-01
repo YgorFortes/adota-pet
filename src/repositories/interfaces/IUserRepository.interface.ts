@@ -8,6 +8,7 @@ export interface IUserRepository {
   findById(userId: string, associantion?: UserRole): Promise<User>;
   verifyIfEmailIsUnique(email: string): Promise<boolean>;
   updateUser(userId: string, updateUserDto: IUpdateUserRepositoryDto): Promise<User>;
+  deleteUser(userId: string): Promise<boolean>;
 }
 
 type OmitProperties = 'role' | 'photo';
