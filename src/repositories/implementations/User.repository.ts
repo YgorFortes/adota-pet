@@ -67,4 +67,10 @@ export class UserRepository extends BaseRepository<UserEntity> implements IUserR
       return user;
     }
   }
+
+  async deleteUser(userId: string): Promise<boolean> {
+    const result = await this.repository.delete(userId);
+
+    return result.affected > 0;
+  }
 }

@@ -7,9 +7,10 @@ import { DeleteShelterUseCase } from './DeleteShelter.useCase';
 import { LogoutUserModule } from 'src/useCases/user/logoutUser/logoutUser.module';
 import { Provide } from 'src/common/enum/provider.enum';
 import { ManagePhotoInCloudProvider } from 'src/useCases/common/ManagePhotoInCloud/SavePhotoInCloud.provider';
+import { DeleteUserModule } from 'src/useCases/user/deleteUser/deleteUser.module';
 
 @Module({
-  imports: [FindUserByIdModule, LogoutUserModule],
+  imports: [FindUserByIdModule, LogoutUserModule, DeleteUserModule],
   controllers: [DeleteShelterController],
   providers: [
     DeleteShelterUseCase,

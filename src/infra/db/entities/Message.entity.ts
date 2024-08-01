@@ -24,7 +24,7 @@ export class MessageEntity {
   @Column({ name: 'guardian_id', nullable: true })
   guardianId: string;
 
-  @ManyToOne(() => GuardianEntity, guardian => guardian.messages, {})
+  @ManyToOne(() => GuardianEntity, guardian => guardian.messages, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'guardian_id' })
   @Index()
   guardian: GuardianEntity;
@@ -32,7 +32,7 @@ export class MessageEntity {
   @Column({ name: 'shelter_id', nullable: true })
   shelterId: string;
 
-  @ManyToOne(() => ShelterEntity, shelter => shelter.address, {})
+  @ManyToOne(() => ShelterEntity, shelter => shelter.messages, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'shelter_id' })
   @Index()
   shelter: ShelterEntity;
@@ -40,7 +40,7 @@ export class MessageEntity {
   @Column({ name: 'pet_id', nullable: true })
   petId: string;
 
-  @ManyToOne(() => PetEntity, pet => pet.messages, {})
+  @ManyToOne(() => PetEntity, pet => pet.messages, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'pet_id' })
   @Index()
   pet: PetEntity;

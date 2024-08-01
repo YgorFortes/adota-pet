@@ -88,15 +88,7 @@ export class GuardianRepository
   }
 
   async deleteGuardian(guardianId: string): Promise<boolean> {
-    const guardian = await this.repository.findOne({
-      where: { id: guardianId },
-      relations: ['user', 'address'],
-    });
-
-    await this.repository.manager.update(MessageEntity, { guardianId }, { guardianId: null });
-
-    await this.repository.manager.remove(guardian.user);
-    await this.repository.manager.remove(guardian);
+    await this.repository.delete(guardianId);
 
     const guadianDeleted = await this.repository.findOne({ where: { id: guardianId } });
 
