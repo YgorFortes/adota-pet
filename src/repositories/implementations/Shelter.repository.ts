@@ -11,7 +11,6 @@ import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { IPagination } from 'src/common/interfaces/IPagination.interface';
 import { FiltersFindAllSheltersDto } from 'src/useCases/shelter/findAllShelters/dto/FiltersFindAllShelters.controller.dto';
-import { MessageEntity } from 'src/infra/db/entities/Message.entity';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ShelterRepository extends BaseRepository<ShelterEntity> implements IShelterRepository {
@@ -103,14 +102,7 @@ export class ShelterRepository extends BaseRepository<ShelterEntity> implements 
   }
 
   async deleteShelter(shelterId: string): Promise<boolean> {
-    const shelter = await this.repository.findOne({
-      where: { id: shelterId },
-      relations: ['user', 'address'],
-    });
-
-    await this.repository.manager.update(MessageEntity, { shelterId }, { shelterId: null });
-    await this.repository.manager.remove(shelter.user);
-    await this.repository.manager.remove(shelter);
+    await this.repository.delete(shelterId);
 
     const shelterDeleted = await this.repository.findOne({ where: { id: shelterId } });
 
